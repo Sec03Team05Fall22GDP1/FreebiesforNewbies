@@ -3,7 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_newbie">Hello Newbie!!!</string>
     <!-- Strings related to login -->
-    <string name="label_username">Username</string>
+    <string name="First_Name">Firstname</string>
+    <string name="Last_Name">Lastname</string>
     <string name="label_password">Password</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="forgot_username">Forgot Username</string>

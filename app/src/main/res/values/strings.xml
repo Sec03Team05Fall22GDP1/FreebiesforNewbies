@@ -10,6 +10,7 @@
     <string name="label_registration">Registration</string>
     <string name="btn_register">Register</string>
     <string name="signInHint">Already have an account? Sign in here</string>
+    <string name="label_username">Username</string>
 
     <!-- Strings related to login -->
 

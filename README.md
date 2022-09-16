@@ -1,4 +1,12 @@
 <a name="readme-top"></a>
+
+<!-- PROJECT SHIELDS -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Supervisors][supervisors-shield]][supervisors-url]
+[![Issues][issues-shield]][issues-url]
+[![PullRequest][pullrequest-shield]][pullrequest-url]
+[![ProjectBoardView][projectboardview-shield]][projectboardview-url]
+
 # Freebies for Newbies
 
 ### Sprint 4 update 09/12 -09/16
@@ -35,3 +43,17 @@ Supervisor:
 * [kevin harris](https://github.com/kcharris)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[contributors-shield]: https://img.shields.io/badge/Contributors-5-brightgreen
+[contributors-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/graphs/contributors
+[supervisors-shield]: https://img.shields.io/badge/Supervisors-2-yellowgreen
+[supervisors-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/collaborators
+[issues-shield]: https://img.shields.io/badge/Issues-0-red
+[issues-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/issues
+[pullrequest-shield]: https://img.shields.io/badge/Pull%20Requests-0-orange
+[pullrequest-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/pulls
+[projectboardview-shield]: https://img.shields.io/badge/Project%20BoardView-green
+[projectboardview-url]: https://github.com/orgs/Sec03Team05Fall22GDP1/projects/1/views/2

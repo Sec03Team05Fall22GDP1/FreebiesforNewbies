@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "727002844064",
+    "firebase_url": "https://freebiesfornewbies-gdp1-default-rtdb.firebaseio.com",
+    "project_id": "freebiesfornewbies-gdp1",
+    "storage_bucket": "freebiesfornewbies-gdp1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727002844064:android:3f1c35efc0c1e93b5ef2c5",
+        "android_client_info": {
+          "package_name": "sec03team05fall22gdp.org.freebiesfornewbies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727002844064-vi0pgq7nkq3gbvifo1fvnflpcgb649di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4EKDx-iBv0TwcaiQU3y-GWAnN5FCqnCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727002844064-vi0pgq7nkq3gbvifo1fvnflpcgb649di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

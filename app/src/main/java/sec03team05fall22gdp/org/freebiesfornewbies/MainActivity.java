@@ -34,42 +34,43 @@ public class MainActivity extends AppCompatActivity {
         btn_Register = findViewById(R.id.btnRegister);
         tv_SignIn = findViewById(R.id.tvRedirect);
 
-        btn_Register.setOnClickListener(v -> {
-            String email = et_EmailId.getText().toString();
-            String pwd = et_Password.getText().toString();
-            if(email.isEmpty() && pwd.isEmpty()){
-                Toast.makeText(MainActivity.this,"Fields Are Empty!",Toast.LENGTH_SHORT).show();
-            }
-            else if(email.isEmpty()){
-                et_EmailId.setError("Please enter email id");
-                et_EmailId.requestFocus();
-            }
-            else  if(pwd.isEmpty()){
-                et_Password.setError("Please enter your et_Password");
-                et_Password.requestFocus();
-            }
-            else  if(!(email.isEmpty() && pwd.isEmpty())){
-                mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(MainActivity.this,"SignUp Unsuccessful, Please Try Again",Toast.LENGTH_SHORT).show();
+        btn_Register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = et_EmailId.getText().toString();
+                String pwd = et_Password.getText().toString();
+                if (email.isEmpty() && pwd.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Fields Are Empty!", Toast.LENGTH_SHORT).show();
+                } else if (email.isEmpty()) {
+                    et_EmailId.setError("Please enter email id");
+                    et_EmailId.requestFocus();
+                } else if (pwd.isEmpty()) {
+                    et_Password.setError("Please enter your et_Password");
+                    et_Password.requestFocus();
+                } else if (!(email.isEmpty() && pwd.isEmpty())) {
+                    mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(MainActivity.this, "SignUp Unsuccessful, Please Try Again", Toast.LENGTH_SHORT).show();
+                            } else {
+                                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                            }
                         }
-                        else {
-                            startActivity(new Intent(MainActivity.this,HomeActivity.class));
-                        }
-                    }
-                });
-            }
-            else{
-                Toast.makeText(MainActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    Toast.makeText(MainActivity.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
 
+                }
             }
         });
 
-        tv_SignIn.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this,LoginActivity.class);
-            startActivity(i);
+        tv_SignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                MainActivity.this.startActivity(i);
+            }
         });
     }
 }

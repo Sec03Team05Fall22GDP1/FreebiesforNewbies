@@ -9,9 +9,13 @@
 
 # Freebies for Newbies
 
-### Sprint 4 update 09/12 -09/16
-* Adithya and Manoj working on UI design for Home page & fix login and registration pages if any issue.
-* Jaichand, Saibabu and Harish are working on the Backend to give functionalities to the components used in the UI design
+### Sprint 5 update 09/19 -09/23
+* Team working on finalizing the Schema diagram (Entity Relationship Diagram).
+* Leaning new concepts in Android studio:
+    * Intents 
+    * Recyclerview
+    * Adaptors
+* Learning about Firebase database setup and installation and how to add related dependencies in the gradle file.
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -21,12 +25,42 @@ Helps users to find below in their locality.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 Software requirements: 
 * Android Studio
 * Java
 * xml
 * Database(Firebase for Authentication and user information storage) 
+
+<!-- ABOUT THE DEPENDENCIES -->
+
+## Dependencies in our android applicaton
+
+In your `app/build.gradle` file add a dependency on one of the Firebase libraries.
+
+```groovy
+dependencies {
+
+	// Add the dependency for the Google services Gradle plugin
+	// The google-services plugin is required to parse the google-services.json file
+	classpath 'com.google.gms:google-services:4.3.13'
+	
+	//SDK used for firebase 
+	implementation 'com.google.firebase:firebase-auth:21.0.8'
+	// Firebase UI Library this can be also used instead of above code "implementation 'com.firebaseui:firebase-ui-auth:8.0.1'"
+	
+	// TODO: Add the dependencies for Firebase products you want to use
+	// Import the Firebase BoM
+	implementation platform('com.google.firebase:firebase-bom:30.4.1')
+	
+	// When using the BoM, don't specify versions in Firebase dependencie. Contains public API classes for Firebase Analytics.
+	implementation 'com.google.firebase:firebase-analytics'
+
+}
+```
+Useful Links:
+* [Firebase Auth SDK Reference](https://firebase.google.com/docs/reference/android/com/google/firebase/auth/package-summary?authuser=0&hl=en)
+* [Authenticate with Firebase using Password-Based Accounts on Android](https://firebase.google.com/docs/auth/android/password-auth?hl=en&authuser=0)
+
 
 <!-- CONTACT INFO -->
 ## Contact Info of Collaborators

@@ -1,0 +1,6 @@
+Adding Date and time attribute in the user login.
+Remove login entity and admin entity in database schema.
+Rearrange database Schema.
+Adding Key Functionality to the Home page UI.
+Update sample data to the database.
+Retriving data from the database.

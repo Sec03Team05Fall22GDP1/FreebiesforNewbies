@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Freebies for Newbies</string>
     <!-- Back4App Database -->
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <!-- Change BOTH strings as required -->
+    <string name="back4app_app_id">vrkzGhdVFXtkwZ1cx2Org5pm8GDqotJCQ5YLQGmw</string>
+    <string name="back4app_client_key">3FYhx341xEuHr22aO04bY72qPTaFHNgjuVtATHyA</string>
 
     <string name="btn_logout">Logout</string>
     <!-- Strings related to Registration -->

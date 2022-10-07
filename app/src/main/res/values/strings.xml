@@ -1,24 +1,35 @@
 <resources>
     <string name="app_name">Freebies for Newbies</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Back4App Database -->
+
+    <string name="btn_logout">Logout</string>
     <!-- Strings related to Registration -->
-    <string name="first_name">Enter Firstname</string>
-    <string name="last_name">Enter Lastname</string>
-    <string name="label_password">Enter Password</string>
-    <string name="label_confirm_password">Re-Enter Password</string>
-    <string name="label_email">Enter Email</string>
+
+    <string name="first_name">Enter FirstName</string>
+    <string name="last_name">Enter LastName</string>
+    <string name="label_password">Password</string>
+    <string name="label_username">Username</string>
+    <string name="label_DOB">Date of Birth</string>
+    <string name="label_email">Email ID</string>
     <string name="label_registration">Registration</string>
+    <string name="label_confirm_password">Confirm Password</string>
     <string name="btn_register">Register</string>
     <string name="signInHint">Already have an account? Sign in here</string>
-    <string name="label_username">Username</string>
+    <string name="enter_phone_number">Phone Number</string>
+    <string name="label_address">Address Line</string>
+    <string name="label_city">City</string>
+    <string name="label_state">State</string>
+    <string name="label_country">Country</string>
+    <string name="label_zipcode">Zipcode</string>
 
     <!-- Strings related to login -->
 
     <string name="hello_newbie">Hello Newbie!!!</string>
-    <string name="enter_email">Email ID</string>
+    <string name="enter_username">Username</string>
     <string name="enter_password">Password</string>
     <string name="label_sign_in">Sign In</string>
     <string name="forgot_username">forgot Username</string>
     <string name="forgot_password">forgot Password</string>
     <string name="registerHint">Not Registered? Sign up here</string>
+
 </resources>

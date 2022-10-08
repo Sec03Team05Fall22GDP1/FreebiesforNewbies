@@ -9,13 +9,14 @@
 
 # Freebies for Newbies
 
-### Sprint 5 update 09/19 -09/23
-* Team working on finalizing the Schema diagram (Entity Relationship Diagram).
-* Leaning new concepts in Android studio:
-    * Intents 
-    * Recyclerview
-    * Adaptors
-* Learning about Firebase database setup and installation and how to add related dependencies in the gradle file.
+### Sprint 7 update 10/03 -10/07
+* Detect and decode the bugs.
+* Changed the database to back4app from firebase
+* Preparing ppt about:
+    * UI
+    * Backend functionality
+    * Database
+* Created authetication rin login page and connected with database.
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project

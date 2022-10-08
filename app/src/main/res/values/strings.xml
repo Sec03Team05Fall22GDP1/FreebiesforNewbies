@@ -25,6 +25,7 @@
     <string name="label_state">State</string>
     <string name="label_country">Country</string>
     <string name="label_zipcode">Zipcode</string>
+    <string name="Create_Event">CreateEvent</string>
 
     <!-- Strings related to login -->
 

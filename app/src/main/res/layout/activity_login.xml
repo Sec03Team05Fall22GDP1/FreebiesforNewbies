@@ -7,7 +7,7 @@
     tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/welcome"
+        android:id="@+id/loginwelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -25,13 +25,13 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <EditText
-        android:id="@+id/enter_username"
+        android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:autofillHints="username"
-        android:hint="@string/enter_email"
+        android:hint="@string/enter_username"
         android:inputType="text"
         android:minHeight="36dp"
         android:layout_marginTop="30dp"
@@ -39,10 +39,10 @@
         android:background="@color/sblue2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome" />
+        app:layout_constraintTop_toBottomOf="@+id/loginwelcome" />
 
     <EditText
-        android:id="@+id/enter_password"
+        android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -65,6 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="@string/label_sign_in"
+        android:backgroundTint="@color/darkblue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forgot_username"
@@ -92,18 +93,8 @@
         android:text="@string/forgot_username"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="35dp"
-        app:layout_constraintTop_toBottomOf="@+id/enter_username"
+        app:layout_constraintTop_toBottomOf="@+id/login_username"
         tools:ignore="UsingOnClickInXml" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="30dp"
-        android:textSize="22sp"
-        android:text="This is a popup window."
-        tools:ignore="MissingConstraints" />
-
 
     <TextView
         android:id="@+id/forgot_username"
@@ -113,7 +104,7 @@
         android:text="@string/forgot_password"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="35dp"
-        app:layout_constraintTop_toBottomOf="@+id/enter_password"
+        app:layout_constraintTop_toBottomOf="@+id/login_password"
         tools:ignore="UsingOnClickInXml" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

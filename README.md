@@ -9,14 +9,10 @@
 
 # Freebies for Newbies
 
-### Sprint 7 update 10/03 -10/07
-* Detect and decode the bugs.
-* Changed the database to back4app from firebase
-* Preparing ppt about:
-    * UI
-    * Backend functionality
-    * Database
-* Created authetication rin login page and connected with database.
+### Sprint 8 update 10/10 -10/14
+* Event Home & EventCreate pages Desgin Layouts in android studio
+* Database Events object Creation in back4App
+* Home & Event pages java Backend code 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project

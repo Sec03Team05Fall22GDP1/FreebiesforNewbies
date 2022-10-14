@@ -63,7 +63,7 @@ Useful Links:
 ## Contact Info of Collaborators
 
 Collaborators:
-* [Jaichand Mulakalapalli(Team Leader)](https://github.com/jaichandm)
+* [Jaichand Mulakalapalli (Team Leader)](https://github.com/jaichandm)
 * [Adithya Krishna Raavi](https://github.com/Adithyakrishna9)
 * [Saibabu Devarapalli](https://github.com/saibabu369)
 * [Manoj Kumar Gude](https://github.com/manoj2205)
@@ -79,7 +79,7 @@ Supervisor:
 
 [contributors-shield]: https://img.shields.io/badge/Contributors-5-brightgreen
 [contributors-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/graphs/contributors
-[supervisors-shield]: https://img.shields.io/badge/Supervisors-2-yellowgreen
+[supervisors-shield]: https://img.shields.io/badge/Supervisors-1-yellowgreen
 [supervisors-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/collaborators
 [issues-shield]: https://img.shields.io/badge/Issues-0-red
 [issues-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/issues

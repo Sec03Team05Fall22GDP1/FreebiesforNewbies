@@ -63,15 +63,14 @@ Useful Links:
 ## Contact Info of Collaborators
 
 Collaborators:
-* [Jaichand Mulakalapalli](https://github.com/jaichandm)
+* [Jaichand Mulakalapalli(Team Leader)](https://github.com/jaichandm)
 * [Adithya Krishna Raavi](https://github.com/Adithyakrishna9)
 * [Saibabu Devarapalli](https://github.com/saibabu369)
 * [Manoj Kumar Gude](https://github.com/manoj2205)
 * [Harish Chowdary Bala](https://github.com/Harish6600)
 
 Supervisor:
-* [Chandra Mouli](https://github.com/cm2kotteti)
-* [kevin harris](https://github.com/kcharris)
+* [Dr. Chandra Mouli](https://github.com/cm2kotteti)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -9,14 +9,10 @@
 
 # Freebies for Newbies
 
-### Sprint 7 update 10/03 -10/07
-* Detect and decode the bugs.
-* Changed the database to back4app from firebase
-* Preparing ppt about:
-    * UI
-    * Backend functionality
-    * Database
-* Created authetication rin login page and connected with database.
+### Sprint 8 update 10/10 -10/14
+* Event Home & EventCreate pages Desgin Layouts in android studio
+* Database Events object Creation in back4App
+* Home & Event pages java Backend code 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -67,15 +63,14 @@ Useful Links:
 ## Contact Info of Collaborators
 
 Collaborators:
-* [Jaichand Mulakalapalli](https://github.com/jaichandm)
+* [Jaichand Mulakalapalli (Team Leader)](https://github.com/jaichandm)
 * [Adithya Krishna Raavi](https://github.com/Adithyakrishna9)
 * [Saibabu Devarapalli](https://github.com/saibabu369)
 * [Manoj Kumar Gude](https://github.com/manoj2205)
 * [Harish Chowdary Bala](https://github.com/Harish6600)
 
 Supervisor:
-* [Chandra Mouli](https://github.com/cm2kotteti)
-* [kevin harris](https://github.com/kcharris)
+* [Dr. Chandra Mouli](https://github.com/cm2kotteti)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -84,7 +79,7 @@ Supervisor:
 
 [contributors-shield]: https://img.shields.io/badge/Contributors-5-brightgreen
 [contributors-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/graphs/contributors
-[supervisors-shield]: https://img.shields.io/badge/Supervisors-2-yellowgreen
+[supervisors-shield]: https://img.shields.io/badge/Supervisors-1-yellowgreen
 [supervisors-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/collaborators
 [issues-shield]: https://img.shields.io/badge/Issues-0-red
 [issues-url]: https://github.com/Sec03Team05Fall22GDP1/FreebiesforNewbies/issues

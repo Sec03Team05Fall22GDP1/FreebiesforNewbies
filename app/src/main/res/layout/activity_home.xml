@@ -54,12 +54,78 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="Logout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/homeToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="54dp"
+        android:background="@color/purple_500"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleMarginStart="40dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/etSearchtext"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="61dp"
+            android:autofillHints="Event Name"
+            android:hint="Search Event"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:inputType="text"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/ivSearch"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="61dp"
+            android:src="@drawable/ic_baseline_search_24"
+            app:layout_constraintStart_toEndOf="@id/etSearchtext"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="Logout" />
+        <Button
+            android:id="@+id/datePickerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="JAN 01 2020"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            style="?android:spinnerStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivSearch"
+            android:layout_marginTop="61dp"
+            android:onClick="openDatePicker"/>
+        <ImageView
+            android:id="@+id/ivDateSearch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="61dp"
+            android:layout_marginStart="7dp"
+            android:src="@drawable/ic_baseline_arrow_forward_24"
+            app:layout_constraintStart_toEndOf="@id/datePickerButton"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="Logout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/eventRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="112dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

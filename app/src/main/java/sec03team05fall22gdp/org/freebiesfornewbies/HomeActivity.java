@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -50,7 +51,11 @@ public class HomeActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(HomeActivity.this);
         logoutBtn = findViewById(R.id.ivlogout);
         createEventBtn = findViewById(R.id.ivCreateEvent);
-        setUpEventModels();
+        try {
+            setUpEventModels();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
 
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
@@ -70,15 +75,22 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpEventModels(){
+    private void setUpEventModels() throws java.text.ParseException {
         // Read Parse Objects
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
         Calendar calendar = Calendar.getInstance();
-        Log.v("today's Date", String.valueOf(calendar.YEAR)+String.valueOf(calendar.MONTH)+String.valueOf(calendar.DAY_OF_MONTH));
-        calendar.set(calendar.YEAR,calendar.MONTH,calendar.DAY_OF_MONTH,00,00,00);
         Date date = calendar.getTime();
-        calendar.set(calendar.YEAR,calendar.MONTH,calendar.DAY_OF_MONTH+1,00,00,00);
-        Date date1 = calendar.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+
+        Date dateToday =new SimpleDateFormat("MM-dd-yyyy").parse(formattedDate);
+        Log.v("today's Date: ", dateToday.toString());
+        calendar.setTime(dateToday);
+        calendar.add(Calendar.DATE, 1);
+        Date dateTomorrow = calendar.getTime();
+        Log.v("tomorrow's Date: ", dateTomorrow.toString());
+
+        query.whereGreaterThanOrEqualTo("eventStartDt", date).whereLessThan("eventStartDt",dateTomorrow).addAscendingOrder("eventStartDt");
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -176,29 +188,29 @@ public class HomeActivity extends AppCompatActivity {
     private String getMonthFormat(int month)
     {
         if(month == 1)
-            return "JAN";
+            return "Jan";
         if(month == 2)
-            return "FEB";
+            return "Feb";
         if(month == 3)
-            return "MAR";
+            return "Mar";
         if(month == 4)
-            return "APR";
+            return "Apr";
         if(month == 5)
-            return "MAY";
+            return "May";
         if(month == 6)
-            return "JUN";
+            return "Jun";
         if(month == 7)
-            return "JUL";
+            return "Jul";
         if(month == 8)
-            return "AUG";
+            return "Aug";
         if(month == 9)
-            return "SEP";
+            return "Sep";
         if(month == 10)
-            return "OCT";
+            return "Oct";
         if(month == 11)
-            return "NOV";
+            return "Nov";
         if(month == 12)
-            return "DEC";
+            return "Dec";
 
         //default should never happen
         return "JAN";

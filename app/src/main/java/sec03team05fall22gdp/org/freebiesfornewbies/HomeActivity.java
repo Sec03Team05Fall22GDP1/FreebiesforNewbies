@@ -8,10 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -20,6 +23,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +42,9 @@ public class HomeActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button dateButton;
     private DatePickerDialog datePickerDialog;
+    private GestureDetectorCompat detector = null;
+    private RecyclerView recyclerView=null;
+    private EventRAdapter adapter = null;
 
     ArrayList<EventModel> eModels = new ArrayList<>();
 
@@ -73,6 +80,15 @@ public class HomeActivity extends AppCompatActivity {
                     showAlert("So, you're going...", "Ok...Bye-bye then");
             });
         });
+
+        detector = new GestureDetectorCompat(this, new RecyclerViewOnGestureListener());
+        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return detector.onTouchEvent(e);
+            }
+        });
+
     }
 
     private void setUpEventModels() throws java.text.ParseException {
@@ -118,9 +134,9 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
                 Log.v("eModels", String.valueOf(eModels.size()));
-                RecyclerView recyclerView = findViewById(R.id.eventRecyclerView);
+                recyclerView = findViewById(R.id.eventRecyclerView);
 
-                EventRAdapter adapter = new EventRAdapter(HomeActivity.this, eModels);
+                adapter = new EventRAdapter(HomeActivity.this, eModels);
                 Log.v("adapter", String.valueOf(adapter.getItemCount()));
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
@@ -216,4 +232,26 @@ public class HomeActivity extends AppCompatActivity {
         return "JAN";
     }
 
+    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            if (view != null) {
+                RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
+                if (holder instanceof EventRAdapter.MyViewHolder) {
+                    int position = holder.getAdapterPosition();
+                    // handle single tap
+                    String sEventId= eModels.get(position).getEventID();
+                    Log.d("Selected EventID: ",sEventId);
+
+                    Intent intent = new Intent(HomeActivity.this, UpdateEventActivity.class);
+                    intent.putExtra("eventID",sEventId);
+                    startActivity(intent);
+                    return true; // Use up the tap gesture
+                }
+            }
+            // we didn't handle the gesture so pass it on
+            return false;
+        }
+    }
 }

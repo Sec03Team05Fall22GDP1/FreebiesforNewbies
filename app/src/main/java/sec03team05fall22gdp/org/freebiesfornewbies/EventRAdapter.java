@@ -35,7 +35,10 @@ public class EventRAdapter extends RecyclerView.Adapter<EventRAdapter.MyViewHold
         holder.tvEventName.setText(eventModels.get(position).getEventName());
         holder.tvEventStartDT.setText(eventModels.get(position).getEventStDT());
         holder.tvEventEndDT.setText(eventModels.get(position).getEventEndDt());
-        holder.tvEventLocation.setText(eventModels.get(position).getEventLocation());
+        String eLocation = eventModels.get(position).getEventAddressLine1()
+                +", "+eventModels.get(position).getEventCity()
+                +", "+eventModels.get(position).getEventState();
+        holder.tvEventLocation.setText(eLocation);
         holder.tvEventDesc.setText(eventModels.get(position).getEventDescription());
         holder.tvEventNotes.setText(eventModels.get(position).getEventNotes());
     }

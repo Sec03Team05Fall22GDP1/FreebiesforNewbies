@@ -40,7 +40,6 @@ public class EventRAdapter extends RecyclerView.Adapter<EventRAdapter.MyViewHold
                 +", "+eventModels.get(position).getEventState();
         holder.tvEventLocation.setText(eLocation);
         holder.tvEventDesc.setText(eventModels.get(position).getEventDescription());
-        holder.tvEventNotes.setText(eventModels.get(position).getEventNotes());
     }
 
     @Override
@@ -51,7 +50,7 @@ public class EventRAdapter extends RecyclerView.Adapter<EventRAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvEventName, tvEventStartDT, tvEventEndDT, tvEventLocation, tvEventDesc, tvEventNotes;
+        TextView tvEventName, tvEventStartDT, tvEventEndDT, tvEventLocation, tvEventDesc;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvEventName = itemView.findViewById(R.id.tvEvent);
@@ -59,7 +58,6 @@ public class EventRAdapter extends RecyclerView.Adapter<EventRAdapter.MyViewHold
             tvEventEndDT = itemView.findViewById(R.id.tvEventEndDt);
             tvEventLocation = itemView.findViewById(R.id.tvEventLoc);
             tvEventDesc = itemView.findViewById(R.id.tvEventDesc);
-            tvEventNotes = itemView.findViewById(R.id.tvEventNotes);
         }
     }
 }

@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView=null;
     private EventRAdapter adapter = null;
 
-    ArrayList<EventModel> eModels = new ArrayList<>();
+    private ArrayList<EventModel> eModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
             setUpEventModels();
         } catch (java.text.ParseException e) {
             e.printStackTrace();
+            Log.v("setUp Exception",e.getMessage());
         }
 
         dateButton = findViewById(R.id.datePickerButton);
@@ -81,13 +82,6 @@ public class HomeActivity extends AppCompatActivity {
             });
         });
 
-        detector = new GestureDetectorCompat(this, new RecyclerViewOnGestureListener());
-        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                return detector.onTouchEvent(e);
-            }
-        });
 
     }
 
@@ -106,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         Date dateTomorrow = calendar.getTime();
         Log.v("tomorrow's Date: ", dateTomorrow.toString());
 
-        query.whereGreaterThanOrEqualTo("eventStartDt", date).whereLessThan("eventStartDt",dateTomorrow).addAscendingOrder("eventStartDt");
+        query.whereGreaterThanOrEqualTo("eventStartDt", dateToday);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -134,12 +128,23 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
                 Log.v("eModels", String.valueOf(eModels.size()));
+
                 recyclerView = findViewById(R.id.eventRecyclerView);
 
                 adapter = new EventRAdapter(HomeActivity.this, eModels);
                 Log.v("adapter", String.valueOf(adapter.getItemCount()));
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+
+                detector = new GestureDetectorCompat(HomeActivity.this, new RecyclerViewOnGestureListener());
+                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                    @Override
+                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                        return detector.onTouchEvent(e);
+                    }
+                });
+
+
             }
         });
     }
@@ -242,9 +247,9 @@ public class HomeActivity extends AppCompatActivity {
                     int position = holder.getAdapterPosition();
                     // handle single tap
                     String sEventId= eModels.get(position).getEventID();
-                    Log.d("Selected EventID: ",sEventId);
+                    Log.v("Selected EventID: ",String.valueOf(position));
 
-                    Intent intent = new Intent(HomeActivity.this, UpdateEventActivity.class);
+                    Intent intent = new Intent(HomeActivity.this, DetailedEventActivity.class);
                     intent.putExtra("eventID",sEventId);
                     startActivity(intent);
                     return true; // Use up the tap gesture

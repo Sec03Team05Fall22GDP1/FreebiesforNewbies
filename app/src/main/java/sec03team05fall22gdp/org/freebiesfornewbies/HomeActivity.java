@@ -42,29 +42,26 @@ public class HomeActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private Button dateButton;
     private DatePickerDialog datePickerDialog;
-    private GestureDetectorCompat detector = null;
+
+    private EventModel myEModel ;
     private RecyclerView recyclerView=null;
     private EventRAdapter adapter = null;
-
-    private ArrayList<EventModel> eModels = new ArrayList<>();
+    private GestureDetectorCompat detector = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        boolean setUpIsSuccess = setUpEventModels();
+
         initDatePicker();
 
         progressDialog = new ProgressDialog(HomeActivity.this);
+
         logoutBtn = findViewById(R.id.ivlogout);
         createEventBtn = findViewById(R.id.ivCreateEvent);
-        try {
-            setUpEventModels();
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-            Log.v("setUp Exception",e.getMessage());
-        }
-
+        //date button set up
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
 
@@ -82,10 +79,25 @@ public class HomeActivity extends AppCompatActivity {
             });
         });
 
+        myEModel = EventModel.getSingleton();
+        adapter = new EventRAdapter(HomeActivity.this, myEModel);
+        Log.v("adapter", String.valueOf(adapter.getItemCount()));
 
+        recyclerView = findViewById(R.id.eventRecyclerView);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+
+        detector = new GestureDetectorCompat(HomeActivity.this, new RecyclerViewOnGestureListener());
+        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return detector.onTouchEvent(e);
+            }
+        });
     }
 
-    private void setUpEventModels() throws java.text.ParseException {
+    private boolean setUpEventModels() {
         // Read Parse Objects
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
         Calendar calendar = Calendar.getInstance();
@@ -93,7 +105,12 @@ public class HomeActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
         String formattedDate = df.format(date);
 
-        Date dateToday =new SimpleDateFormat("MM-dd-yyyy").parse(formattedDate);
+        Date dateToday = null;
+        try {
+            dateToday = new SimpleDateFormat("MM-dd-yyyy").parse(formattedDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
         Log.v("today's Date: ", dateToday.toString());
         calendar.setTime(dateToday);
         calendar.add(Calendar.DATE, 1);
@@ -122,33 +139,17 @@ public class HomeActivity extends AppCompatActivity {
                         eventZipcode= event.getString("eventZipcode") ;
                         eventNotes =  event.getString("eventNotes");
 
-                        eModels.add(new EventModel(eventID,eventName,eventStDT,eventEndDt,eventDescription,eventAddressLine1,eventAddressLine2,eventCity,eventState,eventCountry,eventZipcode,eventNotes));
+                        myEModel.eventsList.add(new EventModel.Events(eventID,eventName,eventStDT,eventEndDt,eventDescription,eventAddressLine1,eventAddressLine2,eventCity,eventState,eventCountry,eventZipcode,eventNotes));
+
+                        Log.v("Setup EventList Size:", String.valueOf(myEModel.eventsList.size()));
                     } else {
                         Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
-                Log.v("eModels", String.valueOf(eModels.size()));
-
-                recyclerView = findViewById(R.id.eventRecyclerView);
-
-                adapter = new EventRAdapter(HomeActivity.this, eModels);
-                Log.v("adapter", String.valueOf(adapter.getItemCount()));
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
-
-                detector = new GestureDetectorCompat(HomeActivity.this, new RecyclerViewOnGestureListener());
-                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
-                    @Override
-                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                        return detector.onTouchEvent(e);
-                    }
-                });
-
-
             }
         });
+        return true;
     }
-
 
     private void showAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this)
@@ -168,10 +169,10 @@ public class HomeActivity extends AppCompatActivity {
         ok.show();
     }
 
-    public void openDatePicker(View view)
-    {
+    public void openDatePicker(View view){
         datePickerDialog.show();
     }
+
     private void initDatePicker()    {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
         {
@@ -193,8 +194,8 @@ public class HomeActivity extends AppCompatActivity {
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
     }
-    private String makeDateString(int day, int month, int year)
-    {
+
+    private String makeDateString(int day, int month, int year){
         return getMonthFormat(month) + " " + day + " " + year;
     }
 
@@ -206,8 +207,8 @@ public class HomeActivity extends AppCompatActivity {
         int day = cal.get(Calendar.DAY_OF_MONTH);
         return makeDateString(day, month, year);
     }
-    private String getMonthFormat(int month)
-    {
+
+    private String getMonthFormat(int month){
         if(month == 1)
             return "Jan";
         if(month == 2)
@@ -246,7 +247,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (holder instanceof EventRAdapter.MyViewHolder) {
                     int position = holder.getAdapterPosition();
                     // handle single tap
-                    String sEventId= eModels.get(position).getEventID();
+                    String sEventId= myEModel.eventsList.get(position).eventID;
                     Log.v("Selected EventID: ",String.valueOf(position));
 
                     Intent intent = new Intent(HomeActivity.this, DetailedEventActivity.class);

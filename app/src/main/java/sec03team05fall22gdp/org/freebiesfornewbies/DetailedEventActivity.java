@@ -1,17 +1,23 @@
 package sec03team05fall22gdp.org.freebiesfornewbies;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class DetailedEventActivity extends AppCompatActivity {
 
@@ -46,7 +52,29 @@ public class DetailedEventActivity extends AppCompatActivity {
             startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
         });
         deleteBtn.setOnClickListener(v -> {
-            startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
+            ParseQuery<ParseObject> soccerPlayers = ParseQuery.getQuery("Events");
+            // Query parameters based on the item name
+            soccerPlayers.whereEqualTo("objectId", fetchID);
+            soccerPlayers.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(final List<ParseObject> event, ParseException e) {
+                    if (e == null) {
+                        event.get(0).deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    // Success
+                                    showAlert("Delete Status:", "Object has been deleted Successfully");
+                                } else {
+                                    Log.v("Delete Inner Ex:",e.getMessage());
+                                }
+                            }
+                        });
+                    }else {
+                        Log.v("Delete Parse Outer Ex: ",e.getMessage());
+                    }
+                }
+            });
         });
     }
 
@@ -80,7 +108,6 @@ public class DetailedEventActivity extends AppCompatActivity {
                                 eventCity+", "+ eventState+", "+eventCountry+" - "+eventZipcode;
                     }
 
-
                     eventNameTV.setText(eventName);
                     eventSTDTTV.setText(eventStDT);
                     eventENDDTTV.setText(eventEndDt);
@@ -95,5 +122,23 @@ public class DetailedEventActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showAlert(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailedEventActivity.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        // don't forget to change the line below with the names of your Activities
+                        Intent intent = new Intent(DetailedEventActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog ok = builder.create();
+        ok.show();
     }
 }

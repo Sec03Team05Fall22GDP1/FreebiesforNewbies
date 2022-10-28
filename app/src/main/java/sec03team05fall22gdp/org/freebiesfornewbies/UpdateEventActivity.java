@@ -139,7 +139,7 @@ public class UpdateEventActivity extends AppCompatActivity {
                 if (e == null) {
                     String eventID, eventName, eventStDT, eventEndDt, eventDescription,eventAddressLine1,
                             eventAddressLine2, eventCity,eventState, eventCountry, eventZipcode, eventNotes;
-                    eventID= event.getString("objectId");
+                    eventID= event.getObjectId();
                     eventName = event.getString("eventName");
                     eventDescription =  event.getString("eventDescription");
                     eventAddressLine1 =  event.getString("eventAddressLine1") ;

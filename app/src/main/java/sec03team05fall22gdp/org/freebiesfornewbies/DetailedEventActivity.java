@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
@@ -22,7 +23,7 @@ public class DetailedEventActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String fetchID =  intent.getStringExtra("eventID");
 
-        eventNameTV=findViewById(R.id.tvDetailPage);
+        eventNameTV=findViewById(R.id.tvDEvent);
         eventSTDTTV=findViewById(R.id.tvDEventStDt);
         eventENDDTTV=findViewById(R.id.tvDEventEndDt);
         eventLocationTV=findViewById(R.id.tvDEventLoc);
@@ -30,7 +31,25 @@ public class DetailedEventActivity extends AppCompatActivity {
         eventNotesTV=findViewById(R.id.tvDEventNotes);
 
         fetchEvent(fetchID);
+
+        Button updateBtn, deleteBtn, homeBtn;
+        updateBtn = findViewById(R.id.btnDetailUpdate);
+        deleteBtn = findViewById(R.id.btnDetailDelete);
+        homeBtn = findViewById(R.id.btnDetailHome);
+
+        updateBtn.setOnClickListener(v -> {
+            Intent intent1 = new Intent(DetailedEventActivity.this, UpdateEventActivity.class);
+            intent1.putExtra("eventID",fetchID);
+            startActivity(intent1);
+        });
+        homeBtn.setOnClickListener(v -> {
+            startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
+        });
+        deleteBtn.setOnClickListener(v -> {
+            startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
+        });
     }
+
 
     private void fetchEvent(String eventID){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
@@ -40,7 +59,7 @@ public class DetailedEventActivity extends AppCompatActivity {
                 if (e == null) {
                     String eventID, eventName, eventStDT, eventEndDt, eventDescription,eventAddressLine1,
                             eventAddressLine2, eventCity,eventState, eventCountry, eventZipcode, eventNotes;
-                    eventID= event.getString("objectId");
+                    eventID= event.getObjectId();
                     eventName = event.getString("eventName");
                     eventStDT = String.valueOf(event.getDate("eventStartDt"));
                     eventEndDt =  String.valueOf(event.getDate("eventEndDt"));

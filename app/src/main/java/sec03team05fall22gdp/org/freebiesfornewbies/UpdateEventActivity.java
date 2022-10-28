@@ -26,6 +26,7 @@ public class UpdateEventActivity extends AppCompatActivity {
 
     private Button updateBtn, cancelBtn;
     private ProgressDialog progressDialog;
+    private String fetchID;
     private EditText eNameET, eDescET, eNotesET, eStDtET, eEndDtET, eAddLine1ET,eAddLine2ET, eCityET, eStateET,eCountryET,eZipET;
 
     @Override
@@ -33,7 +34,7 @@ public class UpdateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_event);
         Intent intent = getIntent();
-        String fetchID =  intent.getStringExtra("eventID");
+        fetchID =  intent.getStringExtra("eventID");
 
         progressDialog = new ProgressDialog(UpdateEventActivity.this);
 
@@ -55,7 +56,9 @@ public class UpdateEventActivity extends AppCompatActivity {
         fetchEvent(fetchID);
 
         cancelBtn.setOnClickListener( v -> {
-            startActivity(new Intent(this,HomeActivity.class));
+            Intent intent1 = new Intent(UpdateEventActivity.this, DetailedEventActivity.class);
+            intent1.putExtra("eventID",fetchID);
+            startActivity(intent1);
         });
 
         updateBtn.setOnClickListener( v -> {
@@ -183,8 +186,9 @@ public class UpdateEventActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         // don't forget to change the line below with the names of your Activities
-                        Intent intent = new Intent(UpdateEventActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(UpdateEventActivity.this, DetailedEventActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("eventID",fetchID);
                         startActivity(intent);
                     }
                 });

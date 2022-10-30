@@ -2,12 +2,17 @@ package sec03team05fall22gdp.org.freebiesfornewbies;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,27 +22,46 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private ImageView logoutBtn, createEventBtn;
+    private ImageView logoutBtn, createEventBtn, ivNameSearch, ivDateSearch;
     private ProgressDialog progressDialog;
-    ArrayList<EventModel> eModels = new ArrayList<>();
+    private Button dateButton;
+    private DatePickerDialog datePickerDialog;
+
+    private EventModel myEModel ;
+    private RecyclerView recyclerView=null;
+    private EventRAdapter adapter = null;
+    private GestureDetectorCompat detector = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        myEModel = EventModel.getSingleton();
+
+        initDatePicker();
+
+        boolean setUpIsSuccess = setUpEventModels();
+
         progressDialog = new ProgressDialog(HomeActivity.this);
+
         logoutBtn = findViewById(R.id.ivlogout);
         createEventBtn = findViewById(R.id.ivCreateEvent);
-        setUpEventModels();
+        //date button set up
+        dateButton = findViewById(R.id.datePickerButton);
+        dateButton.setText(getTodaysDate());
 
         createEventBtn.setOnClickListener(v -> {
             startActivity(new Intent(HomeActivity.this, CreateEventActivity.class));
@@ -52,45 +76,81 @@ public class HomeActivity extends AppCompatActivity {
                     showAlert("So, you're going...", "Ok...Bye-bye then");
             });
         });
+
+
     }
 
-    private void setUpEventModels(){
+    private boolean setUpEventModels() {
         // Read Parse Objects
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        String formattedDate = df.format(date);
+
+        Date dateToday = null;
+        try {
+            dateToday = new SimpleDateFormat("MM-dd-yyyy").parse(formattedDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        Log.v("today's Date: ", dateToday.toString());
+        calendar.setTime(dateToday);
+        calendar.add(Calendar.DATE, 1);
+        Date dateTomorrow = calendar.getTime();
+        Log.v("tomorrow's Date: ", dateTomorrow.toString());
+
+        query.whereGreaterThanOrEqualTo("eventStartDt", dateToday);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
-                for (ParseObject event : results) {
+                for (ParseObject eventObj : results) {
                     if (e == null) {
-                        String eName = event.getString("eventName");
-                        Log.v("eStartDT", String.valueOf(event.getDate("eventStartDt")));
-                        String eStartDate = String.valueOf(event.getDate("eventStartDt"));
-                        String eEndDate =  String.valueOf(event.getDate("eventEndDt"));
-                        String eDescription =  event.getString("eventDescription");
-                        String eLocation =  event.getString("eventAddressLine1") +", "+
-                                event.getString("eventCity") +", "+
-                                event.getString("eventState") +", "+
-                                event.getString("eventCountry") +", "+
-                                event.getString("eventZipcode") ;
-                        String eNotes =  event.getString("eventNotes");
-                        eModels.add(new EventModel(eName, eStartDate, eEndDate, eLocation, eDescription, eNotes));
+                        String eventID, eventName, eventStDT, eventEndDt, eventDescription,eventAddressLine1,
+                                eventAddressLine2, eventCity,eventState, eventCountry, eventZipcode, eventNotes;
+                        eventID= eventObj.getObjectId();
+                        eventName = eventObj.getString("eventName");
+                        eventStDT = String.valueOf(eventObj.getDate("eventStartDt"));
+                        eventEndDt =  String.valueOf(eventObj.getDate("eventEndDt"));
+                        eventDescription =  eventObj.getString("eventDescription");
+                        eventAddressLine1 =  eventObj.getString("eventAddressLine1") ;
+                        eventAddressLine2 =  eventObj.getString("eventAddressLine2");
+                        eventCity= eventObj.getString("eventCity") ;
+                        eventState= eventObj.getString("eventState") ;
+                        eventCountry= eventObj.getString("eventCountry");
+                        eventZipcode= eventObj.getString("eventZipcode") ;
+                        eventNotes =  eventObj.getString("eventNotes");
+                        Log.v("ObjectID",String.valueOf(eventID));
+
+                        myEModel.eventsList.add(new EventModel.Events(eventID,eventName,eventStDT,eventEndDt,eventDescription,eventAddressLine1,eventAddressLine2,eventCity,eventState,eventCountry,eventZipcode,eventNotes));
+
+                        Log.v("Setup EventList Size:", String.valueOf(myEModel.eventsList.size()));
+                        adapter = new EventRAdapter(HomeActivity.this, myEModel);
+                        Log.v("adapter", String.valueOf(adapter.getItemCount()));
+
+                        recyclerView = findViewById(R.id.eventRecyclerView);
+                        recyclerView.setAdapter(adapter);
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+
+                        detector = new GestureDetectorCompat(HomeActivity.this, new RecyclerViewOnGestureListener());
+                        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                            @Override
+                            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                                return detector.onTouchEvent(e);
+                            }
+                        });
                     } else {
                         Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
-                Log.v("eModels", String.valueOf(eModels.size()));
-                RecyclerView recyclerView = findViewById(R.id.eventRecyclerView);
-
-                EventRAdapter adapter = new EventRAdapter(HomeActivity.this, eModels);
-                Log.v("adapter", String.valueOf(adapter.getItemCount()));
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
             }
         });
 
-    }
 
+        return true;
+    }
 
     private void showAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this)
@@ -108,5 +168,97 @@ public class HomeActivity extends AppCompatActivity {
                 });
         AlertDialog ok = builder.create();
         ok.show();
+    }
+
+    public void openDatePicker(View view){
+        datePickerDialog.show();
+    }
+
+    private void initDatePicker()    {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day)
+            {
+                month = month + 1;
+                String date = makeDateString(day, month, year);
+                dateButton.setText(date);
+            }
+        };
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        datePickerDialog = new DatePickerDialog(this, android.R.style.Holo_Light_ButtonBar_AlertDialog, dateSetListener, year, month, day);
+        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+    }
+
+    private String makeDateString(int day, int month, int year){
+        return getMonthFormat(month) + " " + day + " " + year;
+    }
+
+    private String getTodaysDate()    {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        month = month + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return makeDateString(day, month, year);
+    }
+
+    private String getMonthFormat(int month){
+        if(month == 1)
+            return "Jan";
+        if(month == 2)
+            return "Feb";
+        if(month == 3)
+            return "Mar";
+        if(month == 4)
+            return "Apr";
+        if(month == 5)
+            return "May";
+        if(month == 6)
+            return "Jun";
+        if(month == 7)
+            return "Jul";
+        if(month == 8)
+            return "Aug";
+        if(month == 9)
+            return "Sep";
+        if(month == 10)
+            return "Oct";
+        if(month == 11)
+            return "Nov";
+        if(month == 12)
+            return "Dec";
+
+        //default should never happen
+        return "JAN";
+    }
+
+    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            if (view != null) {
+                RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
+                if (holder instanceof EventRAdapter.MyViewHolder) {
+                    int position = holder.getAdapterPosition();
+                    // handle single tap
+                    String sEventId= myEModel.eventsList.get(position).eventID;
+                    Log.v("Selected EventID: ",sEventId);
+
+                    Intent intent = new Intent(HomeActivity.this, DetailedEventActivity.class);
+                    intent.putExtra("eventID",sEventId);
+                    startActivity(intent);
+                    return true; // Use up the tap gesture
+                }
+            }
+            // we didn't handle the gesture so pass it on
+            return false;
+        }
     }
 }

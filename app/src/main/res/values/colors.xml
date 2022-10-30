@@ -13,4 +13,15 @@
     <color name="sblue">#461981</color>
     <color name="sdarkblue">#34126C</color>
     <color name="colorAccent">#000</color>
+    <color name="yellow"></color>
+
+    <color name="forestGreen">#0B6623</color>
+
+    <color name="Info">#17A2B8</color>
+    <color name="Success">#28A745</color>
+    <color name="Warning">#FFC107</color>
+    <color name="Primary">#007BFF</color>
+    <color name="Danger">#DC3545</color>
+    <color name="Secondary">#6C757D</color>
+
 </resources>

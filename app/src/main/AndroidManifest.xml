@@ -18,6 +18,12 @@
         android:theme="@style/Theme.FreebiesforNewbies"
         tools:targetApi="31">
         <activity
+            android:name=".DetailedEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateEventActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateEventActivity"
             android:exported="false" />
         <activity

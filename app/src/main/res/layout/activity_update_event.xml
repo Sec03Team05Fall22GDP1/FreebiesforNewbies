@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateEventActivity"
+    tools:context=".UpdateEventActivity"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvCreateEvent"
+        android:id="@+id/tvUpdateEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Event"
+        android:text="Update Event"
         android:textColor="#9C27B0"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/etEventName"
+                android:id="@+id/etUEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -43,36 +43,36 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/tvEventStartDate"
+                android:id="@+id/tvUEventStartDate"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
-                app:layout_constraintTop_toBottomOf="@+id/etEventName"
+                app:layout_constraintTop_toBottomOf="@+id/etUEventName"
                 android:text="Start Date and Time"/>
 
             <EditText
-                android:id="@+id/etEventStartDate"
+                android:id="@+id/etUEventStartDate"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
-                android:hint="MM/dd/yyyy HH:mm:ss"
+                android:hint="MM/dd/yyyy HH:mm"
                 android:inputType="datetime"
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvEventStartDate"
+                app:layout_constraintTop_toBottomOf="@+id/tvUEventStartDate"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
             <TextView
-                android:id="@+id/tvEventEndDate"
+                android:id="@+id/tvUEventEndDate"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
-                app:layout_constraintTop_toBottomOf="@+id/etEventStartDate"
+                app:layout_constraintTop_toBottomOf="@+id/etUEventStartDate"
                 android:text="End Date and Time"/>
             <EditText
-                android:id="@+id/etEventEndDate"
+                android:id="@+id/etUEventEndDate"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="MM/dd/yyyy HH:mm:ss"
@@ -80,9 +80,9 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvEventEndDate"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvUEventEndDate"/>
             <EditText
-                android:id="@+id/etEventDescription"
+                android:id="@+id/etUEventDescription"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Event Description"
@@ -90,21 +90,21 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEventEndDate"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventEndDate"/>
 
 
             <EditText
-                android:id="@+id/etEventNotes"
+                android:id="@+id/etUEventNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/etEventDescription"
+                app:layout_constraintTop_toBottomOf="@+id/etUEventDescription"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Event Notes"
                 android:inputType="text"
                 android:textSize="20sp" />
             <EditText
-                android:id="@+id/etEventAddressLine1"
+                android:id="@+id/etUEventAddressLine1"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="AddressLine1"
@@ -112,10 +112,10 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEventNotes"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventNotes"/>
 
             <EditText
-                android:id="@+id/etEventAddressLine2"
+                android:id="@+id/etUEventAddressLine2"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="AddressLine2"
@@ -123,9 +123,9 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEventAddressLine1"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventAddressLine1"/>
             <EditText
-                android:id="@+id/etEventCity"
+                android:id="@+id/etUEventCity"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="City"
@@ -133,11 +133,11 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEventAddressLine2"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventAddressLine2"/>
 
 
             <EditText
-                android:id="@+id/etEventState"
+                android:id="@+id/etUEventState"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="State"
@@ -145,10 +145,10 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEventCity"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventCity"/>
 
             <EditText
-                android:id="@+id/etEventCountry"
+                android:id="@+id/etUEventCountry"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Country"
@@ -156,9 +156,9 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEventState"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventState"/>
             <EditText
-                android:id="@+id/etEventZipcode"
+                android:id="@+id/etUEventZipcode"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Zipcode"
@@ -166,7 +166,7 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etEventCountry"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventCountry"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -177,25 +177,25 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btnCreateEvent"
+            android:id="@+id/btnUpdateEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#9C27B0"
-            android:text="Create Event"
+            android:text="Update Event"
             app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnCancelCreateEvent"
+            app:layout_constraintStart_toEndOf="@id/btnCancelUpdateEvent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
-            android:id="@+id/btnCancelCreateEvent"
+            android:id="@+id/btnCancelUpdateEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/Secondary"
             android:text="Cancel"
             app:cornerRadius="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnCreateEvent"
+            app:layout_constraintEnd_toStartOf="@id/btnUpdateEvent"
             app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

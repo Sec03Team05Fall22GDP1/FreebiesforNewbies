@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -28,9 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -53,9 +49,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        boolean setUpIsSuccess = setUpEventModels();
+        myEModel = EventModel.getSingleton();
 
         initDatePicker();
+
+        boolean setUpIsSuccess = setUpEventModels();
 
         progressDialog = new ProgressDialog(HomeActivity.this);
 
@@ -79,22 +77,7 @@ public class HomeActivity extends AppCompatActivity {
             });
         });
 
-        myEModel = EventModel.getSingleton();
-        adapter = new EventRAdapter(HomeActivity.this, myEModel);
-        Log.v("adapter", String.valueOf(adapter.getItemCount()));
 
-        recyclerView = findViewById(R.id.eventRecyclerView);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
-
-        detector = new GestureDetectorCompat(HomeActivity.this, new RecyclerViewOnGestureListener());
-        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                return detector.onTouchEvent(e);
-            }
-        });
     }
 
     private boolean setUpEventModels() {
@@ -122,32 +105,50 @@ public class HomeActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
-                for (ParseObject event : results) {
+                for (ParseObject eventObj : results) {
                     if (e == null) {
                         String eventID, eventName, eventStDT, eventEndDt, eventDescription,eventAddressLine1,
                                 eventAddressLine2, eventCity,eventState, eventCountry, eventZipcode, eventNotes;
-                        eventID= event.getString("objectId");
-                        eventName = event.getString("eventName");
-                        eventStDT = String.valueOf(event.getDate("eventStartDt"));
-                        eventEndDt =  String.valueOf(event.getDate("eventEndDt"));
-                        eventDescription =  event.getString("eventDescription");
-                        eventAddressLine1 =  event.getString("eventAddressLine1") ;
-                        eventAddressLine2 =  event.getString("eventAddressLine2");
-                        eventCity= event.getString("eventCity") ;
-                        eventState= event.getString("eventState") ;
-                        eventCountry= event.getString("eventCountry");
-                        eventZipcode= event.getString("eventZipcode") ;
-                        eventNotes =  event.getString("eventNotes");
+                        eventID= eventObj.getObjectId();
+                        eventName = eventObj.getString("eventName");
+                        eventStDT = String.valueOf(eventObj.getDate("eventStartDt"));
+                        eventEndDt =  String.valueOf(eventObj.getDate("eventEndDt"));
+                        eventDescription =  eventObj.getString("eventDescription");
+                        eventAddressLine1 =  eventObj.getString("eventAddressLine1") ;
+                        eventAddressLine2 =  eventObj.getString("eventAddressLine2");
+                        eventCity= eventObj.getString("eventCity") ;
+                        eventState= eventObj.getString("eventState") ;
+                        eventCountry= eventObj.getString("eventCountry");
+                        eventZipcode= eventObj.getString("eventZipcode") ;
+                        eventNotes =  eventObj.getString("eventNotes");
+                        Log.v("ObjectID",String.valueOf(eventID));
 
                         myEModel.eventsList.add(new EventModel.Events(eventID,eventName,eventStDT,eventEndDt,eventDescription,eventAddressLine1,eventAddressLine2,eventCity,eventState,eventCountry,eventZipcode,eventNotes));
 
                         Log.v("Setup EventList Size:", String.valueOf(myEModel.eventsList.size()));
+                        adapter = new EventRAdapter(HomeActivity.this, myEModel);
+                        Log.v("adapter", String.valueOf(adapter.getItemCount()));
+
+                        recyclerView = findViewById(R.id.eventRecyclerView);
+                        recyclerView.setAdapter(adapter);
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+
+                        detector = new GestureDetectorCompat(HomeActivity.this, new RecyclerViewOnGestureListener());
+                        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                            @Override
+                            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                                return detector.onTouchEvent(e);
+                            }
+                        });
                     } else {
                         Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
         });
+
+
         return true;
     }
 
@@ -248,7 +249,7 @@ public class HomeActivity extends AppCompatActivity {
                     int position = holder.getAdapterPosition();
                     // handle single tap
                     String sEventId= myEModel.eventsList.get(position).eventID;
-                    Log.v("Selected EventID: ",String.valueOf(position));
+                    Log.v("Selected EventID: ",sEventId);
 
                     Intent intent = new Intent(HomeActivity.this, DetailedEventActivity.class);
                     intent.putExtra("eventID",sEventId);

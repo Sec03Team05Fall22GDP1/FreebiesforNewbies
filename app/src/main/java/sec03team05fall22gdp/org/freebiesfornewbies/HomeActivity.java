@@ -1,5 +1,6 @@
 package sec03team05fall22gdp.org.freebiesfornewbies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -23,6 +26,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GestureDetectorCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +39,7 @@ import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private ImageView logoutBtn, createEventBtn, ivNameSearch, ivDateSearch;
+    private ImageView logoutBtn, createEventBtn, ivNameSearch, ivDateSearch, ivMenu;
     private ProgressDialog progressDialog;
     private Button dateButton;
     private DatePickerDialog datePickerDialog;
@@ -77,6 +82,40 @@ public class HomeActivity extends AppCompatActivity {
             });
         });
 
+        ivMenu = findViewById(R.id.ivMenuIcon);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+
+        ivMenu.setOnClickListener(v -> {
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                switch (id){
+                    case R.id.nav_event_home:
+                        Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.nav_add_event:
+                        Toast.makeText(HomeActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.nav_items_home:
+                        Toast.makeText(HomeActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.nav_add_items:
+                        Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.nav_login:
+                        Toast.makeText(HomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.nav_share:
+                        Toast.makeText(HomeActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.nav_contact:
+                        Toast.makeText(HomeActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
+                    default: break;
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
 
     }
 

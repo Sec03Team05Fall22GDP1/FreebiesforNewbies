@@ -23,5 +23,7 @@
     <color name="Primary">#007BFF</color>
     <color name="Danger">#DC3545</color>
     <color name="Secondary">#6C757D</color>
+    <color name="lighgrey">#989797</color>
+    <color name="underline">#D8D6D6</color>
 
 </resources>

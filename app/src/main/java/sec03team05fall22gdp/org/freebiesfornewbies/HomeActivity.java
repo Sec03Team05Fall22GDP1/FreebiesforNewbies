@@ -89,30 +89,41 @@ public class HomeActivity extends AppCompatActivity {
         ivMenu.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);
         });
+        navigationView.bringToFront();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
                 int id = item.getItemId();
 
+                Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_event_home:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_add_event:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_items_home:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_add_items:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_login:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_share:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.nav_contact:
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
-                    default: break;
+                    default:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
                 }
-                drawerLayout.closeDrawer(GravityCompat.START);
+
                 return true;
             }
         });
@@ -138,9 +149,7 @@ public class HomeActivity extends AppCompatActivity {
         calendar.add(Calendar.DATE, 1);
         Date dateTomorrow = calendar.getTime();
         Log.v("tomorrow's Date: ", dateTomorrow.toString());
-
         query.whereGreaterThanOrEqualTo("eventStartDt", dateToday);
-
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
@@ -295,8 +304,7 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
                     return true; // Use up the tap gesture
                 }
-            }
-            // we didn't handle the gesture so pass it on
+            }            // we didn't handle the gesture so pass it on
             return false;
         }
     }

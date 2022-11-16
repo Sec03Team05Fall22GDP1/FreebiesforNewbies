@@ -3,39 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-    <item
+    <item android:title="Event Home"
         android:id="@+id/nav_event_home"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="Event Home" />
-    <item
+        android:icon="@drawable/ic_baseline_home_24" />
+    <item android:title="Add new Events"
         android:id="@+id/nav_add_event"
-        android:icon="@drawable/ic_baseline_library_add_24"
-        android:title="Add new Events" />
-    <item
+        android:icon="@drawable/ic_baseline_library_add_24" />
+    <item android:title="Free Items"
         android:id="@+id/nav_items_home"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="Free Items" />
-    <item
+        android:icon="@drawable/ic_baseline_home_24" />
+    <item android:title="Add Free Items"
         android:id="@+id/nav_add_items"
-        android:icon="@drawable/ic_baseline_library_add_24"
-        android:title="Add Free Items" />
-    </group>
+        android:icon="@drawable/ic_baseline_library_add_24" />
 
     <item android:title="Profile">
         <menu>
-            <group android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_login"
                 android:icon="@drawable/ic_baseline_logout_black_24"
-                android:title="Login" />
-            </group>
+                android:title="Logout" />
         </menu>
     </item>
-
     <item android:title="Communicate">
         <menu>
-            <group android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_baseline_share_24"
@@ -44,7 +34,6 @@
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_baseline_contact_support_24"
                 android:title="Contact us" />
-            </group>
         </menu>
     </item>
 </menu>

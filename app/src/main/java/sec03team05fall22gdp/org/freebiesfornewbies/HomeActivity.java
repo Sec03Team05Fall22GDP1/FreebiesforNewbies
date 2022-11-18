@@ -134,7 +134,6 @@ public class HomeActivity extends AppCompatActivity {
         ivDateSearch = findViewById(R.id.ivDateSearch);
 
         ivNameSearch.setOnClickListener(v ->{
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
             searchNameET = findViewById(R.id.etSearchtext);
             String searchText = searchNameET.getText().toString();
             if(!searchText.matches("")){
@@ -183,6 +182,73 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         }
 
+                    }
+                });
+            }else{
+                Toast.makeText(HomeActivity.this, "Search text is empty.\nProvide input and try again", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        ivDateSearch.setOnClickListener(v ->{
+            String searchDate = dateButton.getText().toString();
+            if(!searchDate.matches("")){
+                Calendar calendar = Calendar.getInstance();
+                Date dateINst = calendar.getTime();
+                try {
+                    dateINst = new SimpleDateFormat("MMM dd yyyy").parse(searchDate);
+                } catch (java.text.ParseException e) {
+                    Log.v("ParseException Date: ", e.getMessage());
+                }
+                Log.v("Input Date start: ", dateINst.toString());
+                calendar.setTime(dateINst);
+                calendar.add(Calendar.DATE, 1);
+                Date dateINend = calendar.getTime();
+                Log.v("Input Date end: ", dateINend.toString());
+
+                ParseQuery<ParseObject> queryDate = ParseQuery.getQuery("Events");
+                myEModel.eventsList.clear();
+                queryDate.whereGreaterThanOrEqualTo("eventStartDt", dateINst).whereLessThan("eventStartDt", dateINend);
+                queryDate.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> results, ParseException e) {
+                        for (ParseObject eventObj : results) {
+                            if (e == null) {
+                                String eventID, eventName, eventStDT, eventEndDt, eventDescription,eventAddressLine1,
+                                        eventAddressLine2, eventCity,eventState, eventCountry, eventZipcode, eventNotes;
+                                eventID= eventObj.getObjectId();
+                                eventName = eventObj.getString("eventName");
+                                eventStDT = String.valueOf(eventObj.getDate("eventStartDt"));
+                                eventEndDt =  String.valueOf(eventObj.getDate("eventEndDt"));
+                                eventDescription =  eventObj.getString("eventDescription");
+                                eventAddressLine1 =  eventObj.getString("eventAddressLine1") ;
+                                eventAddressLine2 =  eventObj.getString("eventAddressLine2");
+                                eventCity= eventObj.getString("eventCity") ;
+                                eventState= eventObj.getString("eventState") ;
+                                eventCountry= eventObj.getString("eventCountry");
+                                eventZipcode= eventObj.getString("eventZipcode") ;
+                                eventNotes =  eventObj.getString("eventNotes");
+                                Log.v("ObjectID",String.valueOf(eventID));
+                                myEModel.eventsList.add(new EventModel.Events(eventID,eventName,eventStDT,eventEndDt,eventDescription,eventAddressLine1,eventAddressLine2,eventCity,eventState,eventCountry,eventZipcode,eventNotes));
+                                Log.v("Setup EventList Size:", String.valueOf(myEModel.eventsList.size()));
+                                adapter = new EventRAdapter(HomeActivity.this, myEModel);
+                                Log.v("adapter", String.valueOf(adapter.getItemCount()));
+
+                                recyclerView = findViewById(R.id.eventRecyclerView);
+                                recyclerView.setAdapter(adapter);
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+
+                                detector = new GestureDetectorCompat(HomeActivity.this, new RecyclerViewOnGestureListener());
+                                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                                    @Override
+                                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                                        return detector.onTouchEvent(e);
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
                     }
                 });
             }else{

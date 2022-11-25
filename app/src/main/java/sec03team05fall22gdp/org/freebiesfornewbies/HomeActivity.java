@@ -124,9 +124,7 @@ public class HomeActivity extends AppCompatActivity {
                     default:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
-                }
-
-                return true;
+                }return true;
             }
         });
 

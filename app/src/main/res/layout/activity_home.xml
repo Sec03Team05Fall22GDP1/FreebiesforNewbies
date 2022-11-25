@@ -22,8 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:titleMarginStart="40dp"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp" />
-
+            tools:layout_editor_absoluteX="0dp" >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -36,7 +35,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="Menu" />
-
             <TextView
                 android:id="@+id/tvHomePage"
                 android:layout_width="wrap_content"
@@ -50,7 +48,6 @@
                 app:layout_constraintStart_toEndOf="@+id/ivMenuIcon"
                 app:layout_constraintTop_toTopOf="parent"
                 />
-
             <ImageView
                 android:id="@+id/ivlogout"
                 android:layout_width="40dp"
@@ -61,6 +58,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="Logout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/homeToolbar"
             android:layout_width="match_parent"
@@ -71,7 +69,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:titleMarginStart="40dp"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -83,7 +81,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="7dp"
                 android:layout_marginEnd="2dp"
-                android:layout_marginTop="61dp"
+                android:layout_marginTop="7dp"
                 android:autofillHints="Event Name"
                 android:hint="Search Event"
                 android:padding="5dp"
@@ -98,7 +96,7 @@
                 android:id="@+id/ivSearch"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="61dp"
+                android:layout_marginTop="7dp"
                 android:src="@drawable/ic_baseline_search_24"
                 app:layout_constraintStart_toEndOf="@id/etSearchtext"
                 app:layout_constraintTop_toTopOf="parent"
@@ -113,13 +111,13 @@
                 style="?android:spinnerStyle"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivSearch"
-                android:layout_marginTop="61dp"
+                android:layout_marginTop="7dp"
                 android:onClick="openDatePicker"/>
             <ImageView
                 android:id="@+id/ivDateSearch"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="61dp"
+                android:layout_marginTop="7dp"
                 android:layout_marginStart="7dp"
                 android:src="@drawable/ic_baseline_arrow_forward_24"
                 app:layout_constraintStart_toEndOf="@id/datePickerButton"
@@ -127,7 +125,7 @@
                 android:contentDescription="Logout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.appcompat.widget.Toolbar>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/eventRecyclerView"
             android:layout_width="match_parent"
@@ -138,16 +136,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </RelativeLayout>
-
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_marginTop="54dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        app:menu="@menu/freebies_nav_bar"
-        android:visibility="visible"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -173,5 +161,13 @@
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_marginTop="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        app:menu="@menu/freebies_nav_bar"
+        android:visibility="visible"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

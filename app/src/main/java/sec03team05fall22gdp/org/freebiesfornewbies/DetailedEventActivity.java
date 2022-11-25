@@ -38,24 +38,20 @@ public class DetailedEventActivity extends AppCompatActivity {
 
         fetchEvent(fetchID);
 
-        Button updateBtn, deleteBtn, homeBtn;
+        Button updateBtn, deleteBtn;
         updateBtn = findViewById(R.id.btnDetailUpdate);
         deleteBtn = findViewById(R.id.btnDetailDelete);
-        homeBtn = findViewById(R.id.btnDetailHome);
 
         updateBtn.setOnClickListener(v -> {
             Intent intent1 = new Intent(DetailedEventActivity.this, UpdateEventActivity.class);
             intent1.putExtra("eventID",fetchID);
             startActivity(intent1);
         });
-        homeBtn.setOnClickListener(v -> {
-            startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
-        });
         deleteBtn.setOnClickListener(v -> {
-            ParseQuery<ParseObject> soccerPlayers = ParseQuery.getQuery("Events");
+            ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
             // Query parameters based on the item name
-            soccerPlayers.whereEqualTo("objectId", fetchID);
-            soccerPlayers.findInBackground(new FindCallback<ParseObject>() {
+            queryEvents.whereEqualTo("objectId", fetchID);
+            queryEvents.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(final List<ParseObject> event, ParseException e) {
                     if (e == null) {

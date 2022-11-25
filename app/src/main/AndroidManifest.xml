@@ -18,6 +18,9 @@
         android:theme="@style/Theme.FreebiesforNewbies"
         tools:targetApi="31">
         <activity
+            android:name=".ItemHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailedEventActivity"
             android:exported="false" />
         <activity

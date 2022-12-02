@@ -1,26 +1,36 @@
 package sec03team05fall22gdp.org.freebiesfornewbies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 public class DetailedEventActivity extends AppCompatActivity {
-
+    private ImageView logoutBtn, ivMenu;
+    private ProgressDialog progressDialog;
     private TextView eventNameTV, eventSTDTTV, eventENDDTTV, eventLocationTV, eventDescTV, eventNotesTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,7 @@ public class DetailedEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_event);
         Intent intent = getIntent();
         String fetchID =  intent.getStringExtra("eventID");
+        progressDialog = new ProgressDialog(DetailedEventActivity.this);
 
         eventNameTV=findViewById(R.id.tvDEvent);
         eventSTDTTV=findViewById(R.id.tvDEventStDt);
@@ -35,7 +46,7 @@ public class DetailedEventActivity extends AppCompatActivity {
         eventLocationTV=findViewById(R.id.tvDEventLoc);
         eventDescTV=findViewById(R.id.tvDEventDesc);
         eventNotesTV=findViewById(R.id.tvDEventNotes);
-
+        logoutBtn = findViewById(R.id.ivEDlogout);
         fetchEvent(fetchID);
 
         Button updateBtn, deleteBtn;
@@ -71,6 +82,66 @@ public class DetailedEventActivity extends AppCompatActivity {
                     }
                 }
             });
+        });
+
+        ivMenu = findViewById(R.id.ivEDMenuIcon);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+
+        ivMenu.setOnClickListener(v -> {
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+        navigationView.bringToFront();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
+                int id = item.getItemId();
+
+                Log.v("Inside:","onNavigationItemSelected");
+                switch (id){
+                    case R.id.nav_event_home:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
+                        break;
+                    case R.id.nav_add_event:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DetailedEventActivity.this, CreateEventActivity.class));
+                        break;
+                    case R.id.nav_items_home:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
+                        break;
+                    case R.id.nav_add_items:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DetailedEventActivity.this, CreateEventActivity.class));
+                        break;
+                    case R.id.nav_login:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
+                        progressDialog.show();
+                        // logging out of Parse
+                        ParseUser.logOutInBackground(e -> {
+                            progressDialog.dismiss();
+                            if (e == null)
+                                showAlert("So, you're going...", "Ok...Bye-bye then");
+                        });
+                        break;
+                    case R.id.nav_share:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
+                    case R.id.nav_contact:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
+                    default:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                }return true;
+            }
         });
     }
 

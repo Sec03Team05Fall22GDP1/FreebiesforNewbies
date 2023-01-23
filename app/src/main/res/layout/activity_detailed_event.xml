@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:id="@+id/ivMenuIcon"
+                    android:id="@+id/ivEDMenuIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="7dp"
@@ -36,7 +36,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:contentDescription="Menu" />
                 <TextView
-                    android:id="@+id/tvHomePage"
+                    android:id="@+id/tvEDHomePage"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:text="Event Details"
@@ -45,11 +45,11 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginStart="15dp"
                     android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/ivMenuIcon"
+                    app:layout_constraintStart_toEndOf="@+id/ivEDMenuIcon"
                     app:layout_constraintTop_toTopOf="parent"
                     />
                 <ImageView
-                    android:id="@+id/ivlogout"
+                    android:id="@+id/ivEDlogout"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="7dp"
@@ -208,7 +208,7 @@
                 android:id="@+id/btnDetailDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remove"
+                android:text="Delete Request"
                 android:backgroundTint="@color/Danger"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -217,7 +217,7 @@
                 android:id="@+id/btnDetailUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="Update Request"
                 android:backgroundTint="@color/Warning"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnDetailDelete"

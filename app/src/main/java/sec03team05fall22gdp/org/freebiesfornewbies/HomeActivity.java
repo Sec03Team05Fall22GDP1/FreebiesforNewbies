@@ -102,19 +102,35 @@ public class HomeActivity extends AppCompatActivity {
                 switch (id){
                     case R.id.nav_event_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                        break;
                     case R.id.nav_add_event:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(HomeActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(HomeActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(HomeActivity.this, CreateEventActivity.class));
+                        break;
                     case R.id.nav_items_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(HomeActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(HomeActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                        break;
                     case R.id.nav_add_items:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(HomeActivity.this, CreateEventActivity.class));
+                        break;
                     case R.id.nav_login:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(HomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(HomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
+                        progressDialog.show();
+                        // logging out of Parse
+                        ParseUser.logOutInBackground(e -> {
+                            progressDialog.dismiss();
+                            if (e == null)
+                                showAlert("So, you're going...", "Ok...Bye-bye then");
+                        });
+                        break;
                     case R.id.nav_share:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;

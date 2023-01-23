@@ -88,7 +88,8 @@ public class UpdateEventActivity extends AppCompatActivity {
 
         updateBtn.setOnClickListener( v -> {
             try{
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+                /*
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("EventUpdateRequest");
 
                 // Retrieve the object by id
                 query.getInBackground(fetchID, new GetCallback<ParseObject>() {
@@ -145,6 +146,54 @@ public class UpdateEventActivity extends AppCompatActivity {
 
                         } else {
                             // Failed
+                        }
+                    }
+                });
+                */
+                ParseObject eventObject = new ParseObject("EventUpdateRequests");
+                eventObject.put("eventName",eNameET.getText().toString());
+                eventObject.put("eventDescription",eDescET.getText().toString());
+                eventObject.put("eventNotes",eNotesET.getText().toString());
+                eventObject.put("eventAddressLine1",eAddLine1ET.getText().toString());
+                eventObject.put("eventAddressLine2",eAddLine2ET.getText().toString());
+                eventObject.put("eventCity",eCityET.getText().toString());
+                eventObject.put("eventState",eStateET.getText().toString());
+                eventObject.put("eventCountry",eCountryET.getText().toString());
+                eventObject.put("eventZipcode",eZipET.getText().toString());
+
+                String stDateTime=eStDtET.getText().toString();
+                String endDateTime=eEndDtET.getText().toString();
+
+                DateFormat formatter=new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
+                Date stdate= null;
+                try {
+                    stdate = formatter.parse(stDateTime);
+                } catch (java.text.ParseException ex) {
+                    Log.v("StartDate Ex:", ex.getMessage());
+                }
+                Date etdate= null;
+                try {
+                    etdate = formatter.parse(endDateTime);
+                } catch (java.text.ParseException ex) {
+                    Log.v("endDate Ex:", ex.getMessage());
+                }
+
+
+                eventObject.put("eventStartDt",stdate);
+                eventObject.put("eventEndDt", etdate);
+                // Saving object
+                eventObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        progressDialog.dismiss();
+                        if (e == null) {
+                            // Success
+                            showAlert("Request Successful!\n", "Your request is now under review");
+                        } else {
+                            // Error
+                            Toast.makeText(UpdateEventActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+
                         }
                     }
                 });

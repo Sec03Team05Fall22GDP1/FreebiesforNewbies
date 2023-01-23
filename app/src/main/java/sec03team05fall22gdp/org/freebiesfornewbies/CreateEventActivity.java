@@ -97,7 +97,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String stDateTime=eStDtET.getText().toString();
                 String endDateTime=eEndDtET.getText().toString();
 
-                DateFormat formatter=new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                DateFormat formatter=new SimpleDateFormat("MM-dd-yyyy HH:mm");
 
                 Date stdate=formatter.parse(stDateTime);
                 Date etdate=formatter.parse(endDateTime);

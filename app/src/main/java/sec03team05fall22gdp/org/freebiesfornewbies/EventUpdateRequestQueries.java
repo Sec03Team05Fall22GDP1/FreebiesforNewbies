@@ -37,7 +37,7 @@ public class EventUpdateRequestQueries {
             try{
                 ParseObject eventObject = new ParseObject("Events");
                 // Store an object
-
+///
                 eventObject.put("eventName","eNameET.getText().toString()");
                 eventObject.put("eventDescription","eDescET.getText().toString()");
                 eventObject.put("eventNotes","eNotesET.getText().toString()");

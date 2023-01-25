@@ -120,7 +120,7 @@ public class DetailedEventActivity extends AppCompatActivity {
                         Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DetailedEventActivity.this, CreateEventActivity.class));
                         break;
-                    case R.id.nav_login:
+                    case R.id.nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();

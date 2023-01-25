@@ -3,23 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <item android:title="Admin Home Page"
+        android:id="@+id/nav_admin_home"
+        android:icon="@drawable/ic_baseline_home_24" />
     <item android:title="Event Home"
-        android:id="@+id/nav_event_home"
+        android:id="@+id/admin_nav_event_home"
         android:icon="@drawable/ic_baseline_home_24" />
     <item android:title="Add new Events"
-        android:id="@+id/nav_add_event"
+        android:id="@+id/admin_nav_add_event"
         android:icon="@drawable/ic_baseline_library_add_24" />
     <item android:title="Free Items"
-        android:id="@+id/nav_items_home"
+        android:id="@+id/admin_nav_items_home"
         android:icon="@drawable/ic_baseline_home_24" />
     <item android:title="Add Free Items"
-        android:id="@+id/nav_add_items"
+        android:id="@+id/admin_nav_add_items"
         android:icon="@drawable/ic_baseline_library_add_24" />
 
     <item android:title="Profile">
         <menu>
             <item
-                android:id="@+id/nav_logout"
+                android:id="@+id/admin_nav_logout"
                 android:icon="@drawable/ic_baseline_logout_black_24"
                 android:title="Logout" />
         </menu>
@@ -27,11 +30,11 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/admin_nav_share"
                 android:icon="@drawable/ic_baseline_share_24"
                 android:title="Share" />
             <item
-                android:id="@+id/nav_contact"
+                android:id="@+id/admin_nav_contact"
                 android:icon="@drawable/ic_baseline_contact_support_24"
                 android:title="Contact us" />
         </menu>

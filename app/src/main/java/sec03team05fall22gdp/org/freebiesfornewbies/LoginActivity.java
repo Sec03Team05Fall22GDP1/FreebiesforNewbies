@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvRegisterLink;
     private EditText loginUser, loginPassword;
     private ProgressDialog progressDialog;
+    private Boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -32,6 +32,7 @@ public class DetailedEventActivity extends AppCompatActivity {
     private ImageView logoutBtn, ivMenu;
     private ProgressDialog progressDialog;
     private TextView eventNameTV, eventSTDTTV, eventENDDTTV, eventLocationTV, eventDescTV, eventNotesTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

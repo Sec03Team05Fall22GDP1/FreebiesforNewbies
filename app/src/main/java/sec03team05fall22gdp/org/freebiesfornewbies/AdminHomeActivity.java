@@ -72,7 +72,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                         Toast.makeText(AdminHomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(AdminHomeActivity.this, AdminHomeActivity.class));
                         break;
-                    case R.id.nav_logout:
+                    case R.id.admin_nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(AdminHomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -83,10 +83,10 @@ public class AdminHomeActivity extends AppCompatActivity {
                                 showAlert("So, you're going...", "Ok...Bye-bye then");
                         });
                         break;
-                    case R.id.nav_share:
+                    case R.id.admin_nav_share:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(AdminHomeActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
-                    case R.id.nav_contact:
+                    case R.id.admin_nav_contact:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(AdminHomeActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
                     default:

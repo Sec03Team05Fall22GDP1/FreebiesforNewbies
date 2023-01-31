@@ -6,66 +6,18 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-     >
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:background="@color/purple_700"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:titleMarginStart="40dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp" >
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/ivEDMenuIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="7dp"
-                    android:src="@drawable/ic_baseline_menu_open_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="Menu" />
-                <TextView
-                    android:id="@+id/EVdeleteHomePage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="Event Deletion"
-                    android:textSize="32sp"
-                    android:fontFamily="cursive"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginStart="15dp"
-                    android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/ivEDMenuIcon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-                <ImageView
-                    android:id="@+id/ivEDlogout"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="7dp"
-                    android:src="@drawable/ic_baseline_logout_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="Logout" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
         <ScrollView
             android:id="@+id/scrollEventDetails"
             android:layout_width="match_parent"
             android:layout_height="360dp"
             android:scrollbars="vertical"
-            android:layout_below="@id/toolbar"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="25dp">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -79,7 +31,7 @@
                     android:fontFamily="cursive"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:textSize="28sp"
+                    android:textSize="32sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -98,66 +50,65 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvDeleteEvent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
-                <EditText
-                    android:id="@+id/tvDEventStDt"
+                <TextView
+                    android:id="@+id/tvDEventID"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
                     android:text="Event ID"
                     android:textSize="18sp"
                     app:layout_constraintTop_toBottomOf="@+id/tvDeleteEvent"
                     app:layout_constraintStart_toEndOf="@+id/textEventId"/>
 
                 <TextView
-                    android:id="@+id/textDEventEndDt"
+                    android:id="@+id/textDEventName"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:text="Event Name "
-                    android:layout_marginTop="15dp"
                     android:textColor="@color/Info"
                     android:textSize="18sp"
+                    android:layout_marginTop="15dp"
                     android:textStyle="bold"
                     android:paddingStart="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDEventStDt"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventID"
                     app:layout_constraintStart_toStartOf="parent"/>
-
-                <EditText
-                    android:id="@+id/tvDEventEndDt"
+                <TextView
+                    android:id="@+id/tvDEventName"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:text="Event Name"
                     android:textSize="18sp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDEventStDt"
-                    app:layout_constraintStart_toEndOf="@+id/textDEventEndDt"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/tvDEventEndDt"
-    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventID"
+                    app:layout_constraintStart_toEndOf="@+id/textDEventName"/>
+
                 <TextView
-                    android:id="@+id/textDEventLoc"
+                    android:id="@+id/textDeleteReason"
                     android:layout_width="160dp"
+                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
                     android:text="Delete Reason "
                     android:textColor="@color/Info"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:paddingStart="10dp"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventName"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <EditText
                     android:id="@+id/textDReason"
                     android:layout_width="200dp"
                     android:layout_height="80dp"
                     android:padding="10dip"
-                    android:background="@drawable/rounded_edittext"
-                    android:text="Enter Reason"
+                    android:text="Reason here..."
                     android:textSize="18sp"
-                    app:layout_constraintTop_toBottomOf="@id/textDEventLoc"
-                    app:layout_constraintStart_toStartOf="@+id/tvDEventEndDt"/>
-</LinearLayout>
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventName"
+                    app:layout_constraintStart_toEndOf="@id/textDeleteReason"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -165,7 +116,7 @@
             android:layout_marginTop="5dp">
 
             <Button
-                android:id="@+id/btnDetailDelete"
+                android:id="@+id/btnDeleteRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Delete Request"
@@ -180,7 +131,7 @@
                 android:text="CANCEL"
                 android:backgroundTint="@color/Warning"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnDetailDelete"
+                app:layout_constraintStart_toEndOf="@+id/btnDeleteRequest"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

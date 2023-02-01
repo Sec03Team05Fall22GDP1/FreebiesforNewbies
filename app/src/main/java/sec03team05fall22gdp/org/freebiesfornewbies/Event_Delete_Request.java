@@ -50,7 +50,7 @@ public class Event_Delete_Request extends AppCompatActivity {
         deleteReqBtn.setOnClickListener( v -> {
             try{
                 ParseObject eventObject = new ParseObject("EventDeleteRequest");
-                eventObject.put("updateEventId",fetchID);
+                eventObject.put("DeleteEventID",fetchID);
                 eventObject.put("eventName",eNameET.getText().toString());
                 eventObject.put("DeleteReason",eDeleteReason.getText().toString());
                 // Saving object

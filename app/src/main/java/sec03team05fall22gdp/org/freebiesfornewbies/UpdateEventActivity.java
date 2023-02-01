@@ -164,6 +164,7 @@ public class UpdateEventActivity extends AppCompatActivity {
                 eventObject.put("eventZipcode",eZipET.getText().toString());
                 eventObject.put("eventZipcode",eZipET.getText().toString());
                 eventObject.put("updateReason",eUpdateReason.getText().toString());
+                eventObject.put("isApproved",Boolean.FALSE);
 
                 String stDateTime=eStDtET.getText().toString();
                 String endDateTime=eEndDtET.getText().toString();

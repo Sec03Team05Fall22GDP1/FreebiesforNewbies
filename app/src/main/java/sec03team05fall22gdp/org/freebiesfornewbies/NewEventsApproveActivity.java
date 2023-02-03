@@ -3,24 +3,44 @@ package sec03team05fall22gdp.org.freebiesfornewbies;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.List;
 
 public class NewEventsApproveActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ImageView logoutBtn, ivMenu;
+
+    private EventModel myEModel ;
+    private RecyclerView recyclerView=null;
+    private EventRAdapter adapter = null;
+    private GestureDetectorCompat detector = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +48,10 @@ public class NewEventsApproveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_events_approve);
 
         progressDialog = new ProgressDialog(NewEventsApproveActivity.this);
+
+        myEModel = EventModel.getSingleton();
+
+        setUpEventModels();
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -105,6 +129,58 @@ public class NewEventsApproveActivity extends AppCompatActivity {
         });
     }
 
+    private void setUpEventModels() {
+        // Read Parse Objects
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+        query.whereEqualTo("isApproved", Boolean.FALSE);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> results, ParseException e) {
+                for (ParseObject eventObj : results) {
+                    if (e == null) {
+                        String eventID, eventName, eventStDT, eventEndDt, eventDescription,eventAddressLine1,
+                                eventAddressLine2, eventCity,eventState, eventCountry, eventZipcode, eventNotes;
+                        eventID= eventObj.getObjectId();
+                        eventName = eventObj.getString("eventName");
+                        eventStDT = String.valueOf(eventObj.getDate("eventStartDt"));
+                        eventEndDt =  String.valueOf(eventObj.getDate("eventEndDt"));
+                        eventDescription =  eventObj.getString("eventDescription");
+                        eventAddressLine1 =  eventObj.getString("eventAddressLine1") ;
+                        eventAddressLine2 =  eventObj.getString("eventAddressLine2");
+                        eventCity= eventObj.getString("eventCity") ;
+                        eventState= eventObj.getString("eventState") ;
+                        eventCountry= eventObj.getString("eventCountry");
+                        eventZipcode= eventObj.getString("eventZipcode") ;
+                        eventNotes =  eventObj.getString("eventNotes");
+                        Log.v("ObjectID",String.valueOf(eventID));
+
+                        myEModel.eventsList.add(new EventModel.Events(eventID,eventName,eventStDT,eventEndDt,eventDescription,eventAddressLine1,eventAddressLine2,eventCity,eventState,eventCountry,eventZipcode,eventNotes));
+
+                        Log.v("Setup EventList Size:", String.valueOf(myEModel.eventsList.size()));
+                        adapter = new EventRAdapter(NewEventsApproveActivity.this, myEModel);
+                        Log.v("adapter", String.valueOf(adapter.getItemCount()));
+
+                        recyclerView = findViewById(R.id.eventRecyclerView);
+                        recyclerView.setAdapter(adapter);
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(NewEventsApproveActivity.this));
+
+                        detector = new GestureDetectorCompat(NewEventsApproveActivity.this, new RecyclerViewOnGestureListener());
+                        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                            @Override
+                            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                                return detector.onTouchEvent(e);
+                            }
+                        });
+                    } else {
+                        Toast.makeText(NewEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
+    }
+
     private void showAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(NewEventsApproveActivity.this)
                 .setTitle(title)
@@ -121,5 +197,114 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                 });
         AlertDialog ok = builder.create();
         ok.show();
+    }
+
+    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            if (view != null) {
+                RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
+                if (holder instanceof EventRAdapter.MyViewHolder) {
+                    int position = holder.getAdapterPosition();
+                    // handle single tap
+                    String sEventId= myEModel.eventsList.get(position).eventID;
+                    String sEventName= myEModel.eventsList.get(position).eventName;
+                    Log.v("Selected EventID: ",sEventId);
+
+                    Toast.makeText(NewEventsApproveActivity.this, "Selected EventID: "+sEventId, Toast.LENGTH_SHORT).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NewEventsApproveActivity.this)
+                            .setTitle("Approve Request")
+                            .setMessage("Do you want to approve below event? \nEvent ID: "+sEventId+"\nEvent Name: "+sEventName)
+                            .setPositiveButton("Approve", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    Log.v("Button Selected: ","Approve");
+
+                                    Toast.makeText(NewEventsApproveActivity.this, "Event is approved!", Toast.LENGTH_SHORT).show();
+
+                                    try{
+                                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+
+                                        // Retrieve the object by id
+                                        query.getInBackground(sEventId, new GetCallback<ParseObject>() {
+                                            public void done(ParseObject eventObject, ParseException e) {
+                                                if (e == null) {
+                                                    eventObject.put("isApproved",Boolean.TRUE );
+                                                    // Saving object
+                                                    progressDialog.show();
+                                                    eventObject.saveInBackground(new SaveCallback() {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            progressDialog.dismiss();
+                                                            if (e == null) {
+                                                                // Success
+                                                                Toast.makeText(NewEventsApproveActivity.this, "Event updated in database...!", Toast.LENGTH_LONG).show();
+
+                                                                // don't forget to change the line below with the names of your Activities
+                                                                Intent intent = new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class);
+                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                startActivity(intent);
+                                                            } else {
+                                                                // Error
+                                                                Toast.makeText(NewEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    }catch (Exception e){
+                                        Toast.makeText(NewEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }).setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    // don't forget to change the line below with the names of your Activities
+                                    Log.v("Button Selected: ","Approve");
+                                    Toast.makeText(NewEventsApproveActivity.this, "Event is rejected.", Toast.LENGTH_SHORT).show();
+                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
+                                    // Query parameters based on the item name
+                                    queryEvents.whereEqualTo("objectId", sEventId);
+                                    queryEvents.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(final List<ParseObject> event, ParseException e) {
+                                            if (e == null) {
+                                                event.get(0).deleteInBackground(new DeleteCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {
+                                                            // Success
+                                                            Toast.makeText(NewEventsApproveActivity.this, "Event Removed in database...!", Toast.LENGTH_LONG).show();
+
+                                                            // don't forget to change the line below with the names of your Activities
+                                                            Intent intent = new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Log.v("Delete Inner Ex:",e.getMessage());
+                                                        }
+                                                    }
+                                                });
+                                            }else {
+                                                Log.v("Delete Parse Outer Ex: ",e.getMessage());
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                    AlertDialog ok = builder.create();
+                    ok.show();
+
+
+                    return true; // Use up the tap gesture
+                }
+            }            // we didn't handle the gesture so pass it on
+            return false;
+        }
     }
 }

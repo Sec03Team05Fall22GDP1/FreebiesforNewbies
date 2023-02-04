@@ -32,6 +32,7 @@ public class DetailedEventActivity extends AppCompatActivity {
     private ImageView logoutBtn, ivMenu;
     private ProgressDialog progressDialog;
     private TextView eventNameTV, eventSTDTTV, eventENDDTTV, eventLocationTV, eventDescTV, eventNotesTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,29 +60,9 @@ public class DetailedEventActivity extends AppCompatActivity {
             startActivity(intent1);
         });
         deleteBtn.setOnClickListener(v -> {
-            ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
-            // Query parameters based on the item name
-            queryEvents.whereEqualTo("objectId", fetchID);
-            queryEvents.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(final List<ParseObject> event, ParseException e) {
-                    if (e == null) {
-                        event.get(0).deleteInBackground(new DeleteCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    // Success
-                                    showAlert("Delete Status:", "Object has been deleted Successfully");
-                                } else {
-                                    Log.v("Delete Inner Ex:",e.getMessage());
-                                }
-                            }
-                        });
-                    }else {
-                        Log.v("Delete Parse Outer Ex: ",e.getMessage());
-                    }
-                }
-            });
+            Intent intent1 = new Intent(DetailedEventActivity.this, Event_Delete_Request.class);
+            intent1.putExtra("eventID",fetchID);
+            startActivity(intent1);
         });
 
         ivMenu = findViewById(R.id.ivEDMenuIcon);

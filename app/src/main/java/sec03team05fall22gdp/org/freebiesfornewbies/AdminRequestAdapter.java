@@ -30,7 +30,7 @@ public class AdminRequestAdapter extends RecyclerView.Adapter<AdminRequestAdapte
     @Override
     public void onBindViewHolder(@NonNull RequestHolder holder, int position) {
         holder.reqTypeTV.setText(reqModel.reqList.get(position).requestType);
-        holder.reqCountTV.setText(reqModel.reqList.get(position).requestCount);
+        holder.reqCountTV.setText(String.valueOf(reqModel.reqList.get(position).requestCount));
         Log.v("position", String.valueOf(position));
 
     }

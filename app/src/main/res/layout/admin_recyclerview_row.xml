@@ -26,14 +26,14 @@
 
             <TextView
                 android:id="@+id/tvRequestType"
-                android:layout_width="160dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="RequestType"
                 android:fontFamily="cursive"
                 android:textStyle="bold"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textColor="@color/white"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,7 +46,7 @@
                 android:text="No. of Requests :"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvRequestType"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -58,7 +58,7 @@
                 android:textStyle="bold"
                 android:textSize="22sp"
                 android:textColor="@color/Warning"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvRequestType"
                 app:layout_constraintEnd_toEndOf="parent"/>
 

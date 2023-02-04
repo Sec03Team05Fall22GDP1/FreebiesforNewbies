@@ -37,7 +37,7 @@ public class UpdateEventActivity extends AppCompatActivity {
     private Button updateBtn, cancelBtn;
     private ProgressDialog progressDialog;
     private String fetchID;
-    private EditText eNameET, eDescET, eNotesET, eStDtET, eEndDtET, eAddLine1ET,eAddLine2ET, eCityET, eStateET,eCountryET,eZipET;
+    private EditText eNameET, eDescET, eNotesET, eStDtET, eEndDtET, eAddLine1ET,eAddLine2ET, eCityET, eStateET,eCountryET,eZipET, eUpdateReason;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class UpdateEventActivity extends AppCompatActivity {
         eStateET=findViewById(R.id.etUEventState);
         eCountryET=findViewById(R.id.etUEventCountry);
         eZipET=findViewById(R.id.etUEventZipcode);
+        eUpdateReason=findViewById(R.id.etUpdateReason);
 
         updateBtn=findViewById(R.id.btnUpdateEvent);
         cancelBtn=findViewById(R.id.btnCancelUpdateEvent);
@@ -150,7 +151,8 @@ public class UpdateEventActivity extends AppCompatActivity {
                     }
                 });
                 */
-                ParseObject eventObject = new ParseObject("EventUpdateRequests");
+                ParseObject eventObject = new ParseObject("EventUpdateRequest");
+                eventObject.put("updateEventId",fetchID);
                 eventObject.put("eventName",eNameET.getText().toString());
                 eventObject.put("eventDescription",eDescET.getText().toString());
                 eventObject.put("eventNotes",eNotesET.getText().toString());
@@ -160,6 +162,9 @@ public class UpdateEventActivity extends AppCompatActivity {
                 eventObject.put("eventState",eStateET.getText().toString());
                 eventObject.put("eventCountry",eCountryET.getText().toString());
                 eventObject.put("eventZipcode",eZipET.getText().toString());
+                eventObject.put("eventZipcode",eZipET.getText().toString());
+                eventObject.put("updateReason",eUpdateReason.getText().toString());
+                eventObject.put("isApproved",Boolean.FALSE);
 
                 String stDateTime=eStDtET.getText().toString();
                 String endDateTime=eEndDtET.getText().toString();

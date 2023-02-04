@@ -153,7 +153,7 @@ public class HomeActivity extends AppCompatActivity {
             if(!searchText.matches("")){
                 ParseQuery<ParseObject> queryName = ParseQuery.getQuery("Events");
                 myEModel.eventsList.clear();
-                queryName.whereContains("eventName",searchText);
+                queryName.whereContains("eventName",searchText).whereEqualTo("isApproved", Boolean.TRUE);
                 queryName.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> results, ParseException e) {
@@ -221,7 +221,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 ParseQuery<ParseObject> queryDate = ParseQuery.getQuery("Events");
                 myEModel.eventsList.clear();
-                queryDate.whereGreaterThanOrEqualTo("eventStartDt", dateINst).whereLessThan("eventStartDt", dateINend);
+                queryDate.whereGreaterThanOrEqualTo("eventStartDt", dateINst).whereLessThan("eventStartDt", dateINend).whereEqualTo("isApproved", Boolean.TRUE);
                 queryDate.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> results, ParseException e) {
@@ -291,7 +291,7 @@ public class HomeActivity extends AppCompatActivity {
         calendar.add(Calendar.DATE, 1);
         Date dateTomorrow = calendar.getTime();
         Log.v("tomorrow's Date: ", dateTomorrow.toString());
-        query.whereGreaterThanOrEqualTo("eventStartDt", dateToday).whereLessThan("eventStartDt", dateTomorrow);
+        query.whereGreaterThanOrEqualTo("eventStartDt", dateToday).whereLessThan("eventStartDt", dateTomorrow).whereEqualTo("isApproved", Boolean.TRUE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {

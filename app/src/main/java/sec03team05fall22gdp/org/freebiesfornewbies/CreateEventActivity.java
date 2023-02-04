@@ -127,7 +127,7 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
     }
-
+    // For the Alert messages we use the showAlert.
     private void showAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this)
                 .setTitle(title)
@@ -145,6 +145,8 @@ public class CreateEventActivity extends AppCompatActivity {
         AlertDialog ok = builder.create();
         ok.show();
     }
+
+    // For date enabling we use showDateLog.
     private void showDateTimeDialog(EditText date_time_in){
         Calendar calendar=Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {

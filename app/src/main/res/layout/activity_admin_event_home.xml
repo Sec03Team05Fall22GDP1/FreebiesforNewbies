@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".AdminEventHomeActivity" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@color/purple_700"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleMarginStart="40dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/ivMenuIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/ic_baseline_menu_open_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Menu" />
+                <TextView
+                    android:id="@+id/tvHomePage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Freebies Home"
+                    android:textSize="32sp"
+                    android:fontFamily="cursive"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@+id/ivMenuIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <ImageView
+                    android:id="@+id/ivlogout"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/ic_baseline_logout_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Logout" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/homeToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="54dp"
+            android:background="@color/purple_500"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleMarginStart="40dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/etSearchtext"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginTop="7dp"
+                    android:autofillHints="Event Name"
+                    android:hint="Search Event"
+                    android:padding="5dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:inputType="text"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/ivSearch"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <ImageView
+                    android:id="@+id/ivSearch"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_baseline_search_24"
+                    app:layout_constraintStart_toEndOf="@id/etSearchtext"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Logout" />
+                <Button
+                    android:id="@+id/datePickerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="JAN 01 2020"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    style="?android:spinnerStyle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivSearch"
+                    android:layout_marginTop="7dp"
+                    android:onClick="openDatePicker"/>
+                <ImageView
+                    android:id="@+id/ivDateSearch"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginStart="7dp"
+                    android:src="@drawable/ic_baseline_arrow_forward_24"
+                    app:layout_constraintStart_toEndOf="@id/datePickerButton"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Logout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="112dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="20dp"
+            android:layout_margin="25dp"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <ImageView
+                android:id="@+id/ivCreateEvent"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="25dp"
+                android:src="@drawable/ic_baseline_add_circle_outline_24"
+                android:background="@color/darkblue"
+                android:scaleType="centerCrop"
+                android:contentDescription="Logout" />
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_marginTop="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        app:menu="@menu/freebies_nav_bar"
+        android:visibility="visible"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

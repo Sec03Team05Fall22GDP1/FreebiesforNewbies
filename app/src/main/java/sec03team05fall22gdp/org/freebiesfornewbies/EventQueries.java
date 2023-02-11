@@ -1,7 +1,6 @@
 package sec03team05fall22gdp.org.freebiesfornewbies;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -60,6 +59,7 @@ public class EventQueries {
         }
     }
 
+    // Getting the Events
     public void readEventObject(String eventID) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
         query.whereEqualTo("objectId", eventID);
@@ -95,6 +95,8 @@ public class EventQueries {
             }
         });
     }
+
+    // Deleting the particular event.
     public void deleteEventObject(String fetchID){
         ParseQuery<ParseObject> soccerPlayers = ParseQuery.getQuery("Events");
         // Query parameters based on the item name

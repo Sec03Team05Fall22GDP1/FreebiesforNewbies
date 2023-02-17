@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarItem"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:background="@color/purple_700"
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:id="@+id/ivMenuIconItem"
+                    android:id="@+id/ivMenuIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_margin="7dp"
@@ -36,7 +36,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:contentDescription="Menu" />
                 <TextView
-                    android:id="@+id/tvItemHomePage"
+                    android:id="@+id/tvHomePage"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:text="Free Items Home"
@@ -45,7 +45,7 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginStart="15dp"
                     android:textColor="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/ivMenuIconItem"
+                    app:layout_constraintStart_toEndOf="@+id/ivMenuIcon"
                     app:layout_constraintTop_toTopOf="parent"
                     />
                 <ImageView
@@ -60,7 +60,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/homeItemToolbar"
+            android:id="@+id/homeToolbar"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="54dp"
@@ -76,35 +76,37 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/etItemSearchtext"
+                    android:id="@+id/etSearchtext"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="7dp"
                     android:layout_marginEnd="2dp"
                     android:layout_marginTop="7dp"
                     android:autofillHints="Event Name"
-                    android:hint="Search Items"
+                    android:hint="Search Item"
                     android:padding="5dp"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
                     android:inputType="text"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/ivItemSearch"
+                    app:layout_constraintEnd_toStartOf="@+id/ivSearch"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
                 <ImageView
-                    android:id="@+id/ivItemSearch"
+                    android:id="@+id/ivSearch"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="7dp"
                     android:src="@drawable/ic_baseline_search_24"
-                    app:layout_constraintStart_toEndOf="@id/etItemSearchtext"
+                    app:layout_constraintStart_toEndOf="@id/etSearchtext"
                     app:layout_constraintTop_toTopOf="parent"
                     android:contentDescription="Logout" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemsRecyclerView"
+            android:id="@+id/eventRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="112dp"
@@ -126,7 +128,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
             <ImageView
-                android:id="@+id/ivCreateItem"
+                android:id="@+id/ivCreateEvent"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="25dp"
@@ -139,7 +141,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/item_navigation_view"
+        android:id="@+id/navigation_view"
         android:layout_marginTop="54dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

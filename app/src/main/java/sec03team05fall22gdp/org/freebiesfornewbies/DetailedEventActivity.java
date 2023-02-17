@@ -94,12 +94,12 @@ public class DetailedEventActivity extends AppCompatActivity {
                     case R.id.nav_items_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
+                        startActivity(new Intent(DetailedEventActivity.this, ItemHomeActivity.class));
                         break;
                     case R.id.nav_add_items:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DetailedEventActivity.this, CreateEventActivity.class));
+                        startActivity(new Intent(DetailedEventActivity.this, CreateFreeitemActivity.class));
                         break;
                     case R.id.nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);

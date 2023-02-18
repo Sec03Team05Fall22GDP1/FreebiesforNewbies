@@ -113,12 +113,12 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.nav_items_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                        startActivity(new Intent(HomeActivity.this, ItemHomeActivity.class));
                         break;
                     case R.id.nav_add_items:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(HomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(HomeActivity.this, CreateEventActivity.class));
+                        startActivity(new Intent(HomeActivity.this, CreateFreeitemActivity.class));
                         break;
                     case R.id.nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);

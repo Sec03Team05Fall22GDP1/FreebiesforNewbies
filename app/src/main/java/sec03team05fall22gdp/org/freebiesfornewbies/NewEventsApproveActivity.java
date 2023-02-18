@@ -296,6 +296,14 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                                         }
                                     });
                                 }
+                            }).setNeutralButton("Ignore", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    // don't forget to change the line below with the names of your Activities
+                                    Log.v("Button Selected: ","Ignore");
+                                    Toast.makeText(NewEventsApproveActivity.this, "Event is Ignored.", Toast.LENGTH_SHORT).show();
+                                }
                             });
                     AlertDialog ok = builder.create();
                     ok.show();

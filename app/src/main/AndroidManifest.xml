@@ -18,6 +18,13 @@
         android:theme="@style/Theme.FreebiesforNewbies"
         tools:targetApi="31">
         <activity
+            android:name=".activity_update_item"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".FreeItemDetailedActivity"
             android:exported="false">
             <meta-data

@@ -236,11 +236,95 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
 
                     Toast.makeText(DeleteEventsApproveActivity.this, "Selected EventID: " + objId, Toast.LENGTH_SHORT).show();
 
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DeleteEventsApproveActivity.this)
+                            .setTitle("Approve Delete Request")
+                            .setMessage("Do you want to approve below event? \nEvent ID: " + delId + "\nEvent Name: " + objName)
+                            .setPositiveButton("Approve", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    Log.v("Button Selected: ", "Approve");
+
+                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
+                                    // Query parameters based on the item name
+                                    queryEvents.whereEqualTo("objectId", delId);
+                                    queryEvents.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(final List<ParseObject> event, ParseException e) {
+                                            if (e == null) {
+                                                event.get(0).deleteInBackground(new DeleteCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {
+                                                            // Success
+                                                            Toast.makeText(DeleteEventsApproveActivity.this, "Event delete request is rejected...!", Toast.LENGTH_LONG).show();
+
+                                                            // don't forget to change the line below with the names of your Activities
+                                                            Intent intent = new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Log.v("Delete Inner Ex:", e.getMessage());
+                                                        }
+                                                    }
+                                                });
+                                                Toast.makeText(DeleteEventsApproveActivity.this, "Event is Deleted!", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Log.v("Delete Parse Outer Ex: ", e.getMessage());
+                                            }
+                                        }
+                                    });
+
+                                }
+                            })
+                            .setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("EventDeleteRequest");
+                                    // Query parameters based on the item name
+                                    queryEvents.whereEqualTo("objectId", objId);
+                                    queryEvents.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(final List<ParseObject> event, ParseException e) {
+                                            if (e == null) {
+                                                event.get(0).deleteInBackground(new DeleteCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {
+                                                            // Success
+                                                            Toast.makeText(DeleteEventsApproveActivity.this, "Event delete request is rejected...!", Toast.LENGTH_LONG).show();
+
+                                                            // don't forget to change the line below with the names of your Activities
+                                                            Intent intent = new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            Log.v("Delete Inner Ex:", e.getMessage());
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                Log.v("Delete Parse Outer Ex: ", e.getMessage());
+                                            }
+                                        }
+                                    });
+                                }
+                            })
+                            .setNeutralButton("Ignore", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    // don't forget to change the line below with the names of your Activities
+                                    Log.v("Button Selected: ", "Ignore");
+                                    Toast.makeText(DeleteEventsApproveActivity.this, "Event is Ignored.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                 }
                 return true;
             }
             return false;
-
         }
     }
 }

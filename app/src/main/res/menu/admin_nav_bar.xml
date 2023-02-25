@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_baseline_library_add_24" />
     <item android:title="Free Items"
         android:id="@+id/admin_nav_items_home"
-        android:icon="@drawable/ic_baseline_home_24" />
+        android:icon="@drawable/ic_baseline_freeitem_24" />
     <item android:title="Add Free Items"
         android:id="@+id/admin_nav_add_items"
         android:icon="@drawable/ic_baseline_library_add_24" />

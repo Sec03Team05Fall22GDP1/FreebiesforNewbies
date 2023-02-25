@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateFreeitemActivity"
+    tools:context=".UpdateEventActivity"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvCreateFreeItem"
+        android:id="@+id/tvUpdateEvent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create Free Item"
+        android:text="Update Item"
         android:textColor="#9C27B0"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -20,13 +20,16 @@
         android:layout_marginTop="10dp"/>
 
     <ScrollView
-        android:layout_width="match_parent"        android:layout_height="360dp"
-        android:scrollbars="vertical"        android:layout_marginTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:scrollbars="vertical"
+        android:layout_marginTop="10dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
-                android:id="@+id/etItemName"
+                android:id="@+id/etUEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
@@ -39,19 +42,17 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-
-            <EditText
-                android:id="@+id/etItemuploadedDate"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="MM/dd/yyyy HH:mm"
-                android:inputType="datetime"
-                android:textSize="20sp"
+            <TextView
+                android:id="@+id/tvUEventStartDate"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemName"/>
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintTop_toBottomOf="@+id/etUEventName"
+                android:text="Enter Item URL"/>
+
             <EditText
-                android:id="@+id/etItemURL"
+                android:id="@+id/etUEventStartDate"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Enter URL"
@@ -59,30 +60,51 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemuploadedDate"/>
-
-            <EditText
-                android:id="@+id/etEventDescription"
+                app:layout_constraintTop_toBottomOf="@+id/tvUEventStartDate"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+            <TextView
+                android:id="@+id/tvUEventEndDate"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
-                android:hint="Item Description "
+                app:layout_constraintTop_toBottomOf="@+id/etUEventStartDate"
+                android:text="End Date and Time"/>
+            <EditText
+                android:id="@+id/etUEventEndDate"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="MM/dd/yyyy HH:mm:ss"
+                android:inputType="datetime"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUEventEndDate"/>
+            <EditText
+                android:id="@+id/etUEventDescription"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Item Description"
                 android:inputType="text"
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemURL"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventEndDate"/>
+
+
             <EditText
-                android:id="@+id/etItemNotes"
+                android:id="@+id/etUEventNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/etEventDescription"
+                app:layout_constraintTop_toBottomOf="@+id/etUEventDescription"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Item Notes"
                 android:inputType="text"
                 android:textSize="20sp" />
             <EditText
-                android:id="@+id/etItemAddressLine1"
+                android:id="@+id/etUEventAddressLine1"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="AddressLine1"
@@ -90,9 +112,10 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemNotes"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventNotes"/>
+
             <EditText
-                android:id="@+id/etItemAddressLine2"
+                android:id="@+id/etUEventAddressLine2"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="AddressLine2"
@@ -100,9 +123,9 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemAddressLine1"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventAddressLine1"/>
             <EditText
-                android:id="@+id/etItemCity"
+                android:id="@+id/etUEventCity"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="City"
@@ -110,9 +133,11 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemAddressLine2"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventAddressLine2"/>
+
+
             <EditText
-                android:id="@+id/etItemState"
+                android:id="@+id/etUEventState"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="State"
@@ -120,9 +145,10 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemCity"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventCity"/>
+
             <EditText
-                android:id="@+id/etItemCountry"
+                android:id="@+id/etUEventCountry"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Country"
@@ -130,9 +156,9 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemState"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventState"/>
             <EditText
-                android:id="@+id/etItemZipcode"
+                android:id="@+id/etUEventZipcode"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Zipcode"
@@ -140,7 +166,19 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemCountry"/>
+                app:layout_constraintTop_toBottomOf="@+id/etUEventCountry"/>
+
+            <EditText
+                android:id="@+id/etUpdateReason"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:hint="Update Reason"
+                android:inputType="text"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/etUEventZipcode"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
@@ -149,27 +187,26 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btnCreateItem"
+            android:id="@+id/btnUpdateEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#9C27B0"
-            android:text="Create FreeItem"
+            android:text="Update Event"
             app:cornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnCancelCreateItem"
+            app:layout_constraintStart_toEndOf="@id/btnCancelUpdateEvent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
-            android:id="@+id/btnCancelCreateItem"
+            android:id="@+id/btnCancelUpdateEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/Secondary"
             android:text="Cancel"
             app:cornerRadius="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnCreateItem"
+            app:layout_constraintEnd_toStartOf="@id/btnUpdateEvent"
             app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </LinearLayout>

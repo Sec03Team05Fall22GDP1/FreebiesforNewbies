@@ -177,7 +177,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
 
     private void setUpEventModels() {
         // Read Parse Objects
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("EventUpdateRequest");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("EventDeleteRequest");
         query.whereEqualTo("isApproved", Boolean.FALSE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -320,6 +320,8 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                     Toast.makeText(DeleteEventsApproveActivity.this, "Event is Ignored.", Toast.LENGTH_SHORT).show();
                                 }
                             });
+                    AlertDialog ok = builder.create();
+                    ok.show();
 
                 }
                 return true;

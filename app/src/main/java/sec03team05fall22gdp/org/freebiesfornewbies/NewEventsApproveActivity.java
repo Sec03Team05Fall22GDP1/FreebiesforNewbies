@@ -215,7 +215,7 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                     Toast.makeText(NewEventsApproveActivity.this, "Selected EventID: "+sEventId, Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(NewEventsApproveActivity.this)
-                            .setTitle("Approve Request")
+                            .setTitle("Approve New Request")
                             .setMessage("Do you want to approve below event? \nEvent ID: "+sEventId+"\nEvent Name: "+sEventName)
                             .setPositiveButton("Approve", new DialogInterface.OnClickListener() {
                                 @Override

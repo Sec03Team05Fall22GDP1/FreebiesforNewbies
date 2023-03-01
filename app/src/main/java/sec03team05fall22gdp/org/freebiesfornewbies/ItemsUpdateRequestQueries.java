@@ -1,40 +1,10 @@
 package sec03team05fall22gdp.org.freebiesfornewbies;
 
-import android.widget.Toast;
 import java.util.Date;
-import javax.json.JSONArray;
-import javax.json.JSONObject;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseRelation;
-import java.util.Date;
-import javax.json.*;
-import com.parse.*;
-import com.parse.*;
-import com.parse.ParseQuery;
-import com.parse.*;
-import com.parse.ParseException;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import javax.json.JSONArray;
-import javax.json.JSONObject;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseRelation;
-import com.parse.SaveCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
+
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import com.parse.SaveCallback;
 
 public class ItemsUpdateRequestQueries {
 
@@ -110,7 +80,6 @@ public class ItemsUpdateRequestQueries {
 
             } else {
                 // something went wrong
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,15 +96,12 @@ public class ItemsUpdateRequestQueries {
                 //Deletes the fetched ParseObject from the database
                 object.deleteInBackground(e2 -> {
                     if(e2==null){
-                        Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
                     }else{
                         //Something went wrong while deleting the Object
-                        Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }else{
                 //Something went wrong
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

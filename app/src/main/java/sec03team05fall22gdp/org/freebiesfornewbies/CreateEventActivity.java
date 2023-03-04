@@ -3,12 +3,18 @@ package sec03team05fall22gdp.org.freebiesfornewbies;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -17,9 +23,13 @@ import com.parse.SaveCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CreateEventActivity extends AppCompatActivity {
+    private EditText date_time_st;
+    private EditText date_time_end;
+    private DatePickerDialog datePickerDialog;
 
     private Button createBtn, cancelBtn;
     private ProgressDialog progressDialog;
@@ -44,6 +54,22 @@ public class CreateEventActivity extends AppCompatActivity {
         eStateET=findViewById(R.id.etEventState);
         eCountryET=findViewById(R.id.etEventCountry);
         eZipET=findViewById(R.id.etEventZipcode);
+
+        //datatime picker
+        initDatePicker();
+
+        date_time_st =findViewById(R.id.etEventStartDate);
+        date_time_end =findViewById(R.id.etEventEndDate);
+
+        date_time_st.setInputType(InputType.TYPE_NULL);
+        date_time_end.setInputType(InputType.TYPE_NULL);
+
+        date_time_st.setOnClickListener(v ->{
+            showDateTimeDialog(date_time_st);
+        });
+        date_time_end.setOnClickListener(v ->{
+            showDateTimeDialog(date_time_end);
+        });
 
         createBtn=findViewById(R.id.btnCreateEvent);
         cancelBtn=findViewById(R.id.btnCancelCreateEvent);
@@ -71,7 +97,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String stDateTime=eStDtET.getText().toString();
                 String endDateTime=eEndDtET.getText().toString();
 
-                DateFormat formatter=new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                DateFormat formatter=new SimpleDateFormat("MM-dd-yyyy HH:mm");
 
                 Date stdate=formatter.parse(stDateTime);
                 Date etdate=formatter.parse(endDateTime);
@@ -101,7 +127,7 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
     }
-
+    // For the Alert messages we use the showAlert.
     private void showAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this)
                 .setTitle(title)
@@ -118,5 +144,93 @@ public class CreateEventActivity extends AppCompatActivity {
                 });
         AlertDialog ok = builder.create();
         ok.show();
+    }
+
+    // For date enabling we use showDateLog.
+    private void showDateTimeDialog(EditText date_time_in){
+        Calendar calendar=Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.MONTH,month);
+                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                TimePickerDialog.OnTimeSetListener timeSetListener= new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+
+                        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                        calendar.set(Calendar.MINUTE,minute);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm");
+                        date_time_in.setText(simpleDateFormat.format(calendar.getTime()));
+                    }
+                };
+                new TimePickerDialog(CreateEventActivity.this,timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
+            }
+        };
+        new DatePickerDialog(CreateEventActivity.this,dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+    public void openDatePicker(View view)
+    {
+        datePickerDialog.show();
+    }
+    private void initDatePicker()    {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
+        {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day)
+            {
+                month = month + 1;
+                String date = makeDateString(day, month, year);
+            }
+        };
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(this, android.R.style.Holo_Light_ButtonBar_AlertDialog, dateSetListener, year, month, day);
+        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+    }
+    private String makeDateString(int day, int month, int year)
+    {
+        return getMonthFormat(month) + " " + day + " " + year;
+    }
+    private String getTodaysDate()    {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        month = month + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return makeDateString(day, month, year);
+    }
+    private String getMonthFormat(int month)
+    {
+        if(month == 1)
+            return "Jan";
+        if(month == 2)
+            return "Feb";
+        if(month == 3)
+            return "Mar";
+        if(month == 4)
+            return "Apr";
+        if(month == 5)
+            return "May";
+        if(month == 6)
+            return "Jun";
+        if(month == 7)
+            return "Jul";
+        if(month == 8)
+            return "Aug";
+        if(month == 9)
+            return "Sep";
+        if(month == 10)
+            return "Oct";
+        if(month == 11)
+            return "Nov";
+        if(month == 12)
+            return "Dec";
+        //default should never happen
+        return "JAN";
     }
 }

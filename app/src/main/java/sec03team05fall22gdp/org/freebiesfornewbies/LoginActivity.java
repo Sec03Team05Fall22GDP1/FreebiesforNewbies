@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvRegisterLink;
     private EditText loginUser, loginPassword;
     private ProgressDialog progressDialog;
+    private Boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,12 @@ public class LoginActivity extends AppCompatActivity {
         ParseUser.logInInBackground(username, password, (parseUser, e) -> {
             progressDialog.dismiss();
             if (parseUser != null) {
-                showAlert("Successful Login", "Welcome back " + username + " !");
+                Boolean isAdmin =parseUser.getBoolean("isAdmin");
+                if(isAdmin){
+                    showAdminAlert("LoggedIn as Admin", "Welcome back " + username + " !");
+                }else{
+                    showAlert("Successful Login", "Welcome back " + username + " !");
+                }
             } else {
                 ParseUser.logOut();
                 Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -61,7 +67,25 @@ public class LoginActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         // don't forget to change the line below with the names of your Activities
+
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog ok = builder.create();
+        ok.show();
+    }
+    private void showAdminAlert(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        // don't forget to change the line below with the names of your Activities
+                        Intent intent = new Intent(LoginActivity.this, AdminHomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }

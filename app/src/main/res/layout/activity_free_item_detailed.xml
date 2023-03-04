@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".FreeItemDetailedActivity">
+
+    <include
+        android:id="@+id/toolbar1"
+        layout="@layout/activity_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
+
+
+        <ScrollView
+            android:id="@+id/scrollEventDetails"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:layout_marginTop="5dp"
+            android:padding="20dp"
+            android:scrollbars="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvDEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="cursive"
+                    android:gravity="center"
+                    android:text="Event"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textDEventStDt"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:text="Start Date: "
+                    android:textColor="@color/Info"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEvent" />
+
+                <TextView
+                    android:id="@+id/tvDEventStDt"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:text="Event StartDate"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/textDEventStDt"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEvent" />
+
+                <TextView
+                    android:id="@+id/textDEventEndDt"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:text="End Date: "
+                    android:textColor="@color/Info"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventStDt" />
+
+                <TextView
+                    android:id="@+id/tvDEventEndDt"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:text="Event EndDate"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toEndOf="@+id/textDEventEndDt"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventStDt" />
+
+                <TextView
+                    android:id="@+id/textDEventLoc"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:text="Location: "
+                    android:textColor="@color/Info"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventEndDt" />
+
+                <TextView
+                    android:id="@+id/tvDEventLoc"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="30dp"
+                    android:text="Event Location"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textDEventLoc" />
+
+                <TextView
+                    android:id="@+id/textDEventDesc"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:text="Description: "
+                    android:textColor="@color/Info"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventLoc" />
+
+                <TextView
+                    android:id="@+id/tvDEventDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="25dp"
+                    android:text="Event Description"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textDEventDesc" />
+
+                <TextView
+                    android:id="@+id/textDEventNotes"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:text="Notes: "
+                    android:textColor="@color/Info"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDEventDesc" />
+
+                <TextView
+                    android:id="@+id/tvDEventNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="30dp"
+                    android:text="Event Notes"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textDEventNotes" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scrollEventDetails"
+            android:layout_marginTop="5dp">
+
+            <Button
+                android:id="@+id/btnDetailDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/Danger"
+                android:text="Delete Request"
+                app:layout_constraintEnd_toStartOf="@+id/btnDetailUpdate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnDetailUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/Warning"
+                android:text="Update Request"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnDetailDelete"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="54dp"
+        android:visibility="visible"
+        app:menu="@menu/freebies_nav_bar" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

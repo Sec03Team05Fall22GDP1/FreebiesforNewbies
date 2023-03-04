@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".DetailedEventActivity" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@color/purple_700"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleMarginStart="40dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp" >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/ivEDMenuIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/ic_baseline_menu_open_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Menu" />
+                <TextView
+                    android:id="@+id/tvEDHomePage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Event Details"
+                    android:textSize="32sp"
+                    android:fontFamily="cursive"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@+id/ivEDMenuIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <ImageView
+                    android:id="@+id/ivEDlogout"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="7dp"
+                    android:src="@drawable/ic_baseline_logout_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Logout" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

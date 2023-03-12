@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
@@ -14,14 +15,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class ItemHomeActivity extends AppCompatActivity {
 
@@ -31,8 +41,9 @@ public class ItemHomeActivity extends AppCompatActivity {
     private Button dateButton;
     private DatePickerDialog datePickerDialog;
 
+    private ItemModel freeItemModel ;
     private RecyclerView recyclerView=null;
-    private EventRAdapter adapter = null;
+    private ItemAdapter adapter = null;
     private GestureDetectorCompat detector = null;
 
     @Override
@@ -41,6 +52,9 @@ public class ItemHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_home);
 
         progressDialog = new ProgressDialog(ItemHomeActivity.this);
+
+        freeItemModel=ItemModel.getSingleton();
+        setUpEventModels();
 
         logoutBtn = findViewById(R.id.ivlogout);
         createItemBtn = findViewById(R.id.ivCreateEvent);
@@ -120,6 +134,56 @@ public class ItemHomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setUpEventModels() {
+        // Read Parse Objects
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
+        query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> results, ParseException e) {
+                for (ParseObject itemObj : results) {
+                    if (e == null) {
+                        String itemID, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity, itemState, itemCountry, itemZipcode,itemDescription;
+                        itemID=itemObj.getObjectId();
+                        itemName=itemObj.getString("itemName");
+                        itemURL=itemObj.getString("itemURL");
+                        itemAddressLine1=itemObj.getString("itemAddressLine1");
+                        itemCity=itemObj.getString("itemCity");
+                        itemState=itemObj.getString("itemState");
+                        itemCountry=itemObj.getString("itemCountry");
+                        itemZipcode=itemObj.getString("itemZipcode");
+                        itemAddressLine2=itemObj.getString("itemAddressLine2");
+                        itemDescription= itemObj.getString("itemDescription");
+
+                        Log.v("ObjectID",String.valueOf(itemID));
+
+                        freeItemModel.itemsList.add(new ItemModel.Items(itemID, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity, itemState, itemCountry, itemZipcode,itemDescription));
+
+                        Log.v("Setup EventList Size:", String.valueOf(freeItemModel.itemsList.size()));
+                        adapter = new ItemAdapter(ItemHomeActivity.this, freeItemModel);
+                        Log.v("adapter", String.valueOf(adapter.getItemCount()));
+
+                        recyclerView = findViewById(R.id.itemRecyclerView);
+                        recyclerView.setAdapter(adapter);
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(ItemHomeActivity.this));
+
+                        detector = new GestureDetectorCompat(ItemHomeActivity.this, new ItemHomeActivity.RecyclerViewOnGestureListener());
+                        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                            @Override
+                            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                                return detector.onTouchEvent(e);
+                            }
+                        });
+                    } else {
+                        Toast.makeText(ItemHomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+    }
+
     private void showAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ItemHomeActivity.this)
                 .setTitle(title)
@@ -136,5 +200,27 @@ public class ItemHomeActivity extends AppCompatActivity {
                 });
         AlertDialog ok = builder.create();
         ok.show();
+    }
+
+    private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
+            if (view != null) {
+                RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
+                if (holder instanceof ItemAdapter.MyViewHolder) {
+                    int position = holder.getAdapterPosition();
+                    // handle single tap
+                    String sItemId= freeItemModel.itemsList.get(position).itemID;
+                    Log.v("Selected EventID: ",sItemId);
+
+                    Intent intent = new Intent(ItemHomeActivity.this, FreeItemDetailedActivity.class);
+                    intent.putExtra("eventID",sItemId);
+                    startActivity(intent);
+                    return true; // Use up the tap gesture
+                }
+            }            // we didn't handle the gesture so pass it on
+            return false;
+        }
     }
 }

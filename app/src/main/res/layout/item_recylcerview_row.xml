@@ -25,13 +25,13 @@
 
             <TextView
                 android:id="@+id/tvItem"
-                android:layout_width="160dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Item1"
                 android:fontFamily="cursive"
                 android:textStyle="bold"
                 android:textSize="32sp"
-                android:textColor="@color/white"
+                android:textColor="@color/Warning"
                 android:padding="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,6 +59,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
+            <TextView
+                android:id="@+id/tvItemDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Item1 Desc"
+                android:textSize="22sp"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvItemURL"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

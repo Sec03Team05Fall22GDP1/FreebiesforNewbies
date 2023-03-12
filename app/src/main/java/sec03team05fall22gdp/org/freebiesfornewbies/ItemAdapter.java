@@ -36,6 +36,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                 +", "+myModel.itemsList.get(position).itemState+" "+myModel.itemsList.get(position).itemZipcode;
         holder.tvItemLocation.setText(eLocation);
         holder.tvItemURL.setText(myModel.itemsList.get(position).itemURL);
+        holder.tvItemDescription.setText(myModel.itemsList.get(position).itemDescription);
+
         Log.v("position", String.valueOf(position));
     }
 
@@ -46,12 +48,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvItemName, tvItemStartDT, tvItemEndDT, tvItemLocation, tvItemURL;
+        TextView tvItemName, tvItemDescription, tvItemLocation, tvItemURL;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tvItemName = itemView.findViewById(R.id.tvItem);
             tvItemLocation = itemView.findViewById(R.id.tvItemLoc);
             tvItemURL = itemView.findViewById(R.id.tvItemURL);
+            tvItemDescription= itemView.findViewById(R.id.tvItemDesc);
         }
     }
 }

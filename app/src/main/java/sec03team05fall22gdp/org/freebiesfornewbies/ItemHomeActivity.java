@@ -32,6 +32,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ItemHomeActivity extends AppCompatActivity {
 
@@ -133,6 +134,65 @@ public class ItemHomeActivity extends AppCompatActivity {
                 }return true;
             }
         });
+
+        ivNameSearch = findViewById(R.id.ivSearch);
+        ivNameSearch.setOnClickListener(v ->{
+            searchNameET = findViewById(R.id.etSearchtext);
+            String searchText = searchNameET.getText().toString();
+            if(!searchText.matches("")){
+                freeItemModel.itemsList.clear();
+                // Read Parse Objects
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
+                query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE).whereContains("eventName".toLowerCase(Locale.ROOT),searchText.toLowerCase(Locale.ROOT));
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> results, ParseException e) {
+                        for (ParseObject itemObj : results) {
+                            if (e == null) {
+                                String itemID, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity, itemState, itemCountry, itemZipcode,itemDescription;
+                                itemID=itemObj.getObjectId();
+                                itemName=itemObj.getString("itemName");
+                                itemURL=itemObj.getString("itemURL");
+                                itemAddressLine1=itemObj.getString("itemAddressLine1");
+                                itemCity=itemObj.getString("itemCity");
+                                itemState=itemObj.getString("itemState");
+                                itemCountry=itemObj.getString("itemCountry");
+                                itemZipcode=itemObj.getString("itemZipcode");
+                                itemAddressLine2=itemObj.getString("itemAddressLine2");
+                                itemDescription= itemObj.getString("itemDescription");
+
+                                Log.v("ObjectID",String.valueOf(itemID));
+
+                                freeItemModel.itemsList.add(new ItemModel.Items(itemID, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity, itemState, itemCountry, itemZipcode,itemDescription));
+
+                                Log.v("Setup EventList Size:", String.valueOf(freeItemModel.itemsList.size()));
+                                adapter = new ItemAdapter(ItemHomeActivity.this, freeItemModel);
+                                Log.v("adapter", String.valueOf(adapter.getItemCount()));
+
+                                recyclerView = findViewById(R.id.itemRecyclerView);
+                                recyclerView.setAdapter(adapter);
+
+                                recyclerView.setLayoutManager(new LinearLayoutManager(ItemHomeActivity.this));
+
+                                detector = new GestureDetectorCompat(ItemHomeActivity.this, new ItemHomeActivity.RecyclerViewOnGestureListener());
+                                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                                    @Override
+                                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                                        return detector.onTouchEvent(e);
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(ItemHomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                });
+            }else{
+                Toast.makeText(ItemHomeActivity.this, "Search text is empty.\nProvide input and try again", Toast.LENGTH_LONG).show();
+                searchNameET.setError("Search text is empty");
+            }
+        });
+
     }
 
     private void setUpEventModels() {

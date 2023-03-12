@@ -272,10 +272,10 @@ public class ItemHomeActivity extends AppCompatActivity {
                     int position = holder.getAdapterPosition();
                     // handle single tap
                     String sItemId= freeItemModel.itemsList.get(position).itemID;
-                    Log.v("Selected EventID: ",sItemId);
+                    Log.v("Selected ItemID: ",sItemId);
 
                     Intent intent = new Intent(ItemHomeActivity.this, FreeItemDetailedActivity.class);
-                    intent.putExtra("eventID",sItemId);
+                    intent.putExtra("itemID",sItemId);
                     startActivity(intent);
                     return true; // Use up the tap gesture
                 }

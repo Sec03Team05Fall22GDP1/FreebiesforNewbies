@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tvDEvent"
+                    android:id="@+id/tvDItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -47,25 +47,26 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/textDEventEndDt"
+                    android:id="@+id/textDItemURL"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:text="End Date: "
+                    android:text="URL: "
                     android:textColor="@color/Info"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDEventStDt" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDItem" />
 
                 <TextView
-                    android:id="@+id/tvDEventEndDt"
-                    android:layout_width="160dp"
+                    android:id="@+id/tvDItemURL"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Event EndDate"
+                    android:text="Item URL"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@+id/textDEventEndDt"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDEventStDt" />
+                    android:paddingStart="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textDItemURL" />
 
                 <TextView
                     android:id="@+id/textDEventLoc"
@@ -77,20 +78,20 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDEventEndDt" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDItemURL" />
 
                 <TextView
-                    android:id="@+id/tvDEventLoc"
-                    android:layout_width="160dp"
+                    android:id="@+id/tvDItemLoc"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="30dp"
-                    android:text="Event Location"
+                    android:text="Item Location"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textDEventLoc" />
 
                 <TextView
-                    android:id="@+id/textDEventDesc"
+                    android:id="@+id/textDItemDesc"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
@@ -99,42 +100,17 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDEventLoc" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDItemLoc" />
 
                 <TextView
-                    android:id="@+id/tvDEventDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="25dp"
-                    android:text="Event Description"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textDEventDesc" />
-
-                <TextView
-                    android:id="@+id/textDEventNotes"
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="10dp"
-                    android:text="Notes: "
-                    android:textColor="@color/Info"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDEventDesc" />
-
-                <TextView
-                    android:id="@+id/tvDEventNotes"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvDItemDesc"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="30dp"
-                    android:text="Event Notes"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="Item Description"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textDEventNotes" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/textDItemDesc" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

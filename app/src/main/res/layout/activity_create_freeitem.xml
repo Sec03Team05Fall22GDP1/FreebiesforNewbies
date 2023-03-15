@@ -39,17 +39,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-
-            <EditText
-                android:id="@+id/etItemuploadedDate"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="MM/dd/yyyy HH:mm"
-                android:inputType="datetime"
-                android:textSize="20sp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemName"/>
             <EditText
                 android:id="@+id/etItemURL"
                 android:layout_marginStart="25dp"
@@ -59,10 +48,10 @@
                 android:textSize="20sp"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemuploadedDate"/>
+                app:layout_constraintTop_toBottomOf="@+id/etItemName"/>
 
             <EditText
-                android:id="@+id/etEventDescription"
+                android:id="@+id/etItemDescription"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:hint="Item Description "
@@ -71,26 +60,19 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/etItemURL"/>
-            <EditText
-                android:id="@+id/etItemNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/etEventDescription"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:hint="Item Notes"
-                android:inputType="text"
-                android:textSize="20sp" />
+
             <EditText
                 android:id="@+id/etItemAddressLine1"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="AddressLine1"
                 android:inputType="text"
                 android:textSize="20sp"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/etItemNotes"/>
+                app:layout_constraintTop_toBottomOf="@+id/etItemDescription"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                 />
+
             <EditText
                 android:id="@+id/etItemAddressLine2"
                 android:layout_marginStart="25dp"

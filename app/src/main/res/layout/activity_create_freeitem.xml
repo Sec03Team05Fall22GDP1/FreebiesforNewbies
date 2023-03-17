@@ -20,8 +20,10 @@
         android:layout_marginTop="10dp"/>
 
     <ScrollView
-        android:layout_width="match_parent"        android:layout_height="360dp"
-        android:scrollbars="vertical"        android:layout_marginTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:scrollbars="vertical"
+        android:layout_marginTop="10dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

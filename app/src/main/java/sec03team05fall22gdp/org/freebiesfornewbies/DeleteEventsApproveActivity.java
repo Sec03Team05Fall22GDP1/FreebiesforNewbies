@@ -52,33 +52,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
 
         setUpEventModels();
 
-        /*
-        deleteBtn.setOnClickListener(v -> {
-            ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
-            // Query parameters based on the item name
-            queryEvents.whereEqualTo("objectId", fetchID);
-            queryEvents.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(final List<ParseObject> event, ParseException e) {
-                    if (e == null) {
-                        event.get(0).deleteInBackground(new DeleteCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    // Success
-                                    showAlert("Delete Status:", "Object has been deleted Successfully");
-                                } else {
-                                    Log.v("Delete Inner Ex:",e.getMessage());
-                                }
-                            }
-                        });
-                    }else {
-                        Log.v("Delete Parse Outer Ex: ",e.getMessage());
-                    }
-                }
-            });
-        });
-         */
+
         progressDialog = new ProgressDialog(DeleteEventsApproveActivity.this);
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);

@@ -84,25 +84,30 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                         Toast.makeText(NewEventsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(NewEventsApproveActivity.this, AdminHomeActivity.class));
                         break;
-                    case R.id.admin_nav_event_home:
+//                    case R.id.admin_nav_event_home:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(NewEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
+//                        break;
+//                    case R.id.admin_nav_add_event:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(NewEventsApproveActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
+//                        break;
+//                    case R.id.admin_nav_items_home:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(NewEventsApproveActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
+//                        break;
+//                    case R.id.admin_nav_add_items:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(NewEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
+//                        break;
+                    case R.id.admin_nav_switch_user:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
-                        break;
-                    case R.id.admin_nav_add_event:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
-                        break;
-                    case R.id.admin_nav_items_home:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
-                        break;
-                    case R.id.admin_nav_add_items:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
+                        Toast.makeText(NewEventsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NewEventsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);

@@ -27,6 +27,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DetailedEventActivity extends AppCompatActivity {
     private ImageView logoutBtn, ivMenu;
@@ -108,8 +110,10 @@ public class DetailedEventActivity extends AppCompatActivity {
                         // logging out of Parse
                         ParseUser.logOutInBackground(e -> {
                             progressDialog.dismiss();
-                            if (e == null)
-                                showAlert("So, you're going...", "Ok...Bye-bye then");
+                            if (e == null) {
+                                Intent intent = new Intent(DetailedEventActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            }
                         });
                         break;
                     case R.id.nav_share:
@@ -188,5 +192,54 @@ public class DetailedEventActivity extends AppCompatActivity {
                 });
         AlertDialog ok = builder.create();
         ok.show();
+    }
+    private Timer inactivityTimer;
+    private boolean isUserActive = true;
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        resetInactivityTimer();
+        isUserActive = true;
+    }
+
+    private void resetInactivityTimer() {
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        inactivityTimer = new Timer();
+        inactivityTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                logoutUserAndReturnToLogin();
+            }
+        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    }
+
+    private void logoutUserAndReturnToLogin() {
+        // logging out of Parse
+        ParseUser.logOutInBackground(e -> {
+            if (e == null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isUserActive) {
+            resetInactivityTimer();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        isUserActive = false;
     }
 }

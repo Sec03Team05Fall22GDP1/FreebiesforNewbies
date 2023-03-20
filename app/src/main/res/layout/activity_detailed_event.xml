@@ -234,6 +234,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         app:menu="@menu/freebies_nav_bar"
+        app:headerLayout="@layout/header"
         android:visibility="visible"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

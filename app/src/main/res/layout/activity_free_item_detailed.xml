@@ -159,6 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="54dp"
+        app:headerLayout="@layout/header"
         android:visibility="visible"
         app:menu="@menu/freebies_nav_bar" />
 

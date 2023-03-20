@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -70,6 +71,27 @@ public class DetailedEventActivity extends AppCompatActivity {
         ivMenu = findViewById(R.id.ivEDMenuIcon);
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            TextView userTV= navigationView.getHeaderView(0).findViewById(R.id.profile_user);
+            TextView emailTV= navigationView.getHeaderView(0).findViewById(R.id.profile_email);
+            Log.v("currentUser",currentUser.getUsername());
+            Log.v("email",currentUser.getEmail());
+            userTV.setText(currentUser.getUsername());
+            emailTV.setText(currentUser.getEmail());
+            if(currentUser.getBoolean("isAdmin")==Boolean.TRUE){
+                Menu menu = navigationView.getMenu();
+                MenuItem sItem= menu.findItem(R.id.nav_switch_admin);
+                sItem.setVisible(true);
+                this.invalidateOptionsMenu();
+            } else{
+                Menu menu = navigationView.getMenu();
+                MenuItem sItem= menu.findItem(R.id.nav_switch_admin);
+                sItem.setVisible(false);
+                this.invalidateOptionsMenu();
+            }
+        }
 
         ivMenu.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);

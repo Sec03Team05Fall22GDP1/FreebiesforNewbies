@@ -15,10 +15,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -65,6 +67,15 @@ public class AdminHomeActivity extends AppCompatActivity {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            TextView userTV= navigationView.getHeaderView(0).findViewById(R.id.profile_user);
+            TextView emailTV= navigationView.getHeaderView(0).findViewById(R.id.profile_email);
+            Log.v("currentUser",currentUser.getUsername());
+            Log.v("email",currentUser.getEmail());
+            userTV.setText(currentUser.getUsername());
+            emailTV.setText(currentUser.getEmail());
+        }
         ivMenu.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);
         });

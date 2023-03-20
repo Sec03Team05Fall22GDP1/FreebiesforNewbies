@@ -105,6 +105,11 @@ public class DetailedEventActivity extends AppCompatActivity {
 
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
+                    case R.id.nav_switch_admin:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Switching to Admin...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DetailedEventActivity.this, AdminHomeActivity.class));
+                        break;
                     case R.id.nav_event_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();

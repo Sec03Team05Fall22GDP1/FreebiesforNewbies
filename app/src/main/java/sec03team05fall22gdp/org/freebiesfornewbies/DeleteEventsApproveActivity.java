@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -33,6 +34,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DeleteEventsApproveActivity extends AppCompatActivity {
 
@@ -52,37 +55,20 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
 
         setUpEventModels();
 
-        /*
-        deleteBtn.setOnClickListener(v -> {
-            ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
-            // Query parameters based on the item name
-            queryEvents.whereEqualTo("objectId", fetchID);
-            queryEvents.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(final List<ParseObject> event, ParseException e) {
-                    if (e == null) {
-                        event.get(0).deleteInBackground(new DeleteCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    // Success
-                                    showAlert("Delete Status:", "Object has been deleted Successfully");
-                                } else {
-                                    Log.v("Delete Inner Ex:",e.getMessage());
-                                }
-                            }
-                        });
-                    }else {
-                        Log.v("Delete Parse Outer Ex: ",e.getMessage());
-                    }
-                }
-            });
-        });
-         */
         progressDialog = new ProgressDialog(DeleteEventsApproveActivity.this);
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            TextView userTV= navigationView.getHeaderView(0).findViewById(R.id.profile_user);
+            TextView emailTV= navigationView.getHeaderView(0).findViewById(R.id.profile_email);
+            Log.v("currentUser",currentUser.getUsername());
+            Log.v("email",currentUser.getEmail());
+            userTV.setText(currentUser.getUsername());
+            emailTV.setText(currentUser.getEmail());
+        }
 
         logoutBtn= findViewById(R.id.ivlogout);
 
@@ -112,25 +98,30 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                         Toast.makeText(DeleteEventsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DeleteEventsApproveActivity.this, AdminHomeActivity.class));
                         break;
-                    case R.id.admin_nav_event_home:
+//                    case R.id.admin_nav_event_home:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(DeleteEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
+//                        break;
+//                    case R.id.admin_nav_add_event:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(DeleteEventsApproveActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
+//                        break;
+//                    case R.id.admin_nav_items_home:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(DeleteEventsApproveActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
+//                        break;
+//                    case R.id.admin_nav_add_items:
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        Toast.makeText(DeleteEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
+//                        break;
+                    case R.id.admin_nav_switch_user:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
-                        break;
-                    case R.id.admin_nav_add_event:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
-                        break;
-                    case R.id.admin_nav_items_home:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
-                        break;
-                    case R.id.admin_nav_add_items:
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
+                        Toast.makeText(DeleteEventsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DeleteEventsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);
@@ -328,5 +319,55 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
             }
             return false;
         }
+    }
+
+    private Timer inactivityTimer;
+    private boolean isUserActive = true;
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        resetInactivityTimer();
+        isUserActive = true;
+    }
+
+    private void resetInactivityTimer() {
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        inactivityTimer = new Timer();
+        inactivityTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                logoutUserAndReturnToLogin();
+            }
+        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    }
+
+    private void logoutUserAndReturnToLogin() {
+        // logging out of Parse
+        ParseUser.logOutInBackground(e -> {
+            if (e == null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isUserActive) {
+            resetInactivityTimer();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        isUserActive = false;
     }
 }

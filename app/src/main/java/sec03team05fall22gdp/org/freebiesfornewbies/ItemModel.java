@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class ItemModel {
 
     public static class Items{
-        public String itemID, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity,itemState, itemCountry, itemZipcode;
+        public String itemID, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity,itemState, itemCountry, itemZipcode, itemDescription;
 
-        public Items(String itemID, String itemName, String itemURL, String itemAddressLine1, String itemAddressLine2, String itemCity, String itemState, String itemCountry, String itemZipcode) {
+        public Items(String itemID, String itemName, String itemURL, String itemAddressLine1, String itemAddressLine2, String itemCity, String itemState, String itemCountry, String itemZipcode, String itemDescription) {
             this.itemID = itemID;
             this.itemName = itemName;
             this.itemURL = itemURL;
@@ -17,6 +17,7 @@ public class ItemModel {
             this.itemState = itemState;
             this.itemCountry = itemCountry;
             this.itemZipcode = itemZipcode;
+            this.itemDescription= itemDescription;
         }
 
     }

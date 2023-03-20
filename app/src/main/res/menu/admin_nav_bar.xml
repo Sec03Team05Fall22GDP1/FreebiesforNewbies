@@ -6,18 +6,9 @@
     <item android:title="Admin Home Page"
         android:id="@+id/nav_admin_home"
         android:icon="@drawable/ic_baseline_home_24" />
-    <item android:title="Event Home"
-        android:id="@+id/admin_nav_event_home"
-        android:icon="@drawable/ic_baseline_home_24" />
-    <item android:title="Add new Events"
-        android:id="@+id/admin_nav_add_event"
-        android:icon="@drawable/ic_baseline_library_add_24" />
-    <item android:title="Free Items"
-        android:id="@+id/admin_nav_items_home"
-        android:icon="@drawable/ic_baseline_freeitem_24" />
-    <item android:title="Add Free Items"
-        android:id="@+id/admin_nav_add_items"
-        android:icon="@drawable/ic_baseline_library_add_24" />
+    <item android:title="Switch to User"
+        android:id="@+id/admin_nav_switch_user"
+        android:icon="@drawable/ic_baseline_switch_account_24" />
 
     <item android:title="Profile">
         <menu>

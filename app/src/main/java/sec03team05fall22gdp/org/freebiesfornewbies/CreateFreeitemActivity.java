@@ -14,18 +14,21 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CreateFreeitemActivity extends AppCompatActivity {
 
 
     private Button createBtn, cancelBtn;
     private ProgressDialog progressDialog;
-    //private EditText eNameET, eDescET, eNotesET, eStDtET, eEndDtET, eAddLine1ET,eAddLine2ET, eCityET, eStateET,eCountryET,eZipET;
+    private EditText iNameET, iDescET, iURLET, iAddLine1ET,iAddLine2ET, iCityET, iStateET,iCountryET,iZipET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,18 @@ public class CreateFreeitemActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(CreateFreeitemActivity.this);
 
-        createBtn=findViewById(R.id.btnCreateEvent);
-        cancelBtn=findViewById(R.id.btnCancelCreateEvent);
+        iNameET= findViewById(R.id.etItemName);
+        iDescET =findViewById(R.id.etItemDescription);
+        iURLET =findViewById(R.id.etItemURL);
+        iAddLine1ET=findViewById(R.id.etItemAddressLine1);
+        iAddLine2ET=findViewById(R.id.etItemAddressLine1);
+        iCityET=findViewById(R.id.etItemCity);
+        iStateET=findViewById(R.id.etItemState);
+        iCountryET=findViewById(R.id.etItemCountry);
+        iZipET=findViewById(R.id.etItemZipcode);
+
+        createBtn=findViewById(R.id.btnCreateItem);
+        cancelBtn=findViewById(R.id.btnCancelCreateItem);
 
         cancelBtn.setOnClickListener( v -> {
             startActivity(new Intent(this,ItemHomeActivity.class));
@@ -44,11 +57,23 @@ public class CreateFreeitemActivity extends AppCompatActivity {
         createBtn.setOnClickListener( v -> {
 
             try{
-                ParseObject eventObject = new ParseObject("Items");
                 // Store an object
 
+                ParseObject itemObject = new ParseObject("Items");
+
+                itemObject.put("itemName", iNameET.getText().toString());
+                itemObject.put("itemURL", iURLET.getText().toString());
+                itemObject.put("isAvailable", true);
+                itemObject.put("isApproved", false);
+                itemObject.put("itemAddressLine1", iAddLine1ET.getText().toString());
+                itemObject.put("itemCity", iCityET.getText().toString());
+                itemObject.put("itemState", iStateET.getText().toString());
+                itemObject.put("itemCountry", iCountryET.getText().toString());
+                itemObject.put("itemZipcode", iZipET.getText().toString());
+                itemObject.put("itemAddressLine2", iAddLine2ET.getText().toString());
+                itemObject.put("itemDescription", iDescET.getText().toString());
                 // Saving object
-                eventObject.saveInBackground(new SaveCallback() {
+                itemObject.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         progressDialog.dismiss();
@@ -67,6 +92,8 @@ public class CreateFreeitemActivity extends AppCompatActivity {
                 Toast.makeText(CreateFreeitemActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+
 
     }
 
@@ -89,4 +116,54 @@ public class CreateFreeitemActivity extends AppCompatActivity {
         ok.show();
     }
 
+
+    private Timer inactivityTimer;
+    private boolean isUserActive = true;
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        resetInactivityTimer();
+        isUserActive = true;
+    }
+
+    private void resetInactivityTimer() {
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        inactivityTimer = new Timer();
+        inactivityTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                logoutUserAndReturnToLogin();
+            }
+        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    }
+
+    private void logoutUserAndReturnToLogin() {
+        // logging out of Parse
+        ParseUser.logOutInBackground(e -> {
+            if (e == null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isUserActive) {
+            resetInactivityTimer();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        isUserActive = false;
+    }
 }

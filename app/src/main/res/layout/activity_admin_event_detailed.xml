@@ -17,6 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="54dp"
+
             android:background="@color/purple_700"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintTop_toTopOf="parent"
@@ -74,6 +75,7 @@
                     android:id="@+id/tvDEvent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="Event"
                     android:layout_marginTop="10dp"
                     android:fontFamily="cursive"
@@ -88,6 +90,7 @@
                 <TextView
                     android:id="@+id/textDEventStDt"
                     android:layout_width="160dp"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:text="Start Date: "
                     android:textColor="@color/Info"
@@ -100,6 +103,7 @@
                 <TextView
                     android:id="@+id/tvDEventStDt"
                     android:layout_width="160dp"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:text="Event StartDate"
                     android:textSize="18sp"
@@ -109,6 +113,7 @@
                 <TextView
                     android:id="@+id/textDEventEndDt"
                     android:layout_width="160dp"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:text="End Date: "
                     android:textColor="@color/Info"
@@ -121,6 +126,7 @@
                 <TextView
                     android:id="@+id/tvDEventEndDt"
                     android:layout_width="160dp"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:text="Event EndDate"
                     android:textSize="18sp"
@@ -130,6 +136,7 @@
                 <TextView
                     android:id="@+id/textDEventLoc"
                     android:layout_width="160dp"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:text="Location: "
                     android:textColor="@color/Info"
@@ -142,6 +149,7 @@
                 <TextView
                     android:id="@+id/tvDEventLoc"
                     android:layout_width="160dp"
+                    android:padding="10dp"
                     android:layout_height="wrap_content"
                     android:text="Event Location"
                     android:textSize="18sp"
@@ -153,6 +161,7 @@
                     android:id="@+id/textDEventDesc"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="Description: "
                     android:textColor="@color/Info"
                     android:textSize="18sp"
@@ -166,6 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Event Description"
+                    android:padding="10dp"
                     android:textSize="20sp"
                     android:paddingStart="25dp"
                     app:layout_constraintTop_toBottomOf="@+id/textDEventDesc"
@@ -177,6 +187,7 @@
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:text="Notes: "
+                    android:padding="10dp"
                     android:textColor="@color/Info"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -188,6 +199,7 @@
                     android:id="@+id/tvDEventNotes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="Event Notes"
                     android:textSize="20sp"
                     android:paddingStart="30dp"
@@ -206,17 +218,18 @@
 
             <Button
                 android:id="@+id/btnDetailDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="105dp"
+                android:layout_height="55dp"
                 android:text="Delete Request"
+
                 android:backgroundTint="@color/Danger"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnDetailUpdate"/>
             <Button
                 android:id="@+id/btnDetailUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="105dp"
+                android:layout_height="55dp"
                 android:text="Update Request"
                 android:backgroundTint="@color/Warning"
                 app:layout_constraintTop_toTopOf="parent"
@@ -233,6 +246,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
+        app:headerLayout="@layout/header"
         app:menu="@menu/freebies_nav_bar"
         android:visibility="visible"/>
 

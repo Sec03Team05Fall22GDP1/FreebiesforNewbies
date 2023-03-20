@@ -18,7 +18,7 @@
         android:theme="@style/Theme.FreebiesforNewbies"
         tools:targetApi="31">
         <activity
-            android:name=".activity_update_item"
+            android:name=".FreeItemDeleteActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -89,6 +89,9 @@
         </activity>
         <activity
             android:name=".ItemHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FreeItemUpdateActivity"
             android:exported="false" />
         <activity
             android:name=".DetailedEventActivity"

@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +28,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DetailedEventActivity extends AppCompatActivity {
     private ImageView logoutBtn, ivMenu;
@@ -69,6 +72,27 @@ public class DetailedEventActivity extends AppCompatActivity {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            TextView userTV= navigationView.getHeaderView(0).findViewById(R.id.profile_user);
+            TextView emailTV= navigationView.getHeaderView(0).findViewById(R.id.profile_email);
+            Log.v("currentUser",currentUser.getUsername());
+            Log.v("email",currentUser.getEmail());
+            userTV.setText(currentUser.getUsername());
+            emailTV.setText(currentUser.getEmail());
+            if(currentUser.getBoolean("isAdmin")==Boolean.TRUE){
+                Menu menu = navigationView.getMenu();
+                MenuItem sItem= menu.findItem(R.id.nav_switch_admin);
+                sItem.setVisible(true);
+                this.invalidateOptionsMenu();
+            } else{
+                Menu menu = navigationView.getMenu();
+                MenuItem sItem= menu.findItem(R.id.nav_switch_admin);
+                sItem.setVisible(false);
+                this.invalidateOptionsMenu();
+            }
+        }
+
         ivMenu.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.START);
         });
@@ -81,6 +105,11 @@ public class DetailedEventActivity extends AppCompatActivity {
 
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
+                    case R.id.nav_switch_admin:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(DetailedEventActivity.this, "Switching to Admin...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DetailedEventActivity.this, AdminHomeActivity.class));
+                        break;
                     case R.id.nav_event_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
@@ -108,8 +137,10 @@ public class DetailedEventActivity extends AppCompatActivity {
                         // logging out of Parse
                         ParseUser.logOutInBackground(e -> {
                             progressDialog.dismiss();
-                            if (e == null)
-                                showAlert("So, you're going...", "Ok...Bye-bye then");
+                            if (e == null) {
+                                Intent intent = new Intent(DetailedEventActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                            }
                         });
                         break;
                     case R.id.nav_share:
@@ -188,5 +219,54 @@ public class DetailedEventActivity extends AppCompatActivity {
                 });
         AlertDialog ok = builder.create();
         ok.show();
+    }
+    private Timer inactivityTimer;
+    private boolean isUserActive = true;
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        resetInactivityTimer();
+        isUserActive = true;
+    }
+
+    private void resetInactivityTimer() {
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        inactivityTimer = new Timer();
+        inactivityTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                logoutUserAndReturnToLogin();
+            }
+        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    }
+
+    private void logoutUserAndReturnToLogin() {
+        // logging out of Parse
+        ParseUser.logOutInBackground(e -> {
+            if (e == null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isUserActive) {
+            resetInactivityTimer();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        isUserActive = false;
     }
 }

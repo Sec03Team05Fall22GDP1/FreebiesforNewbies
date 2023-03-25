@@ -52,7 +52,63 @@ public class ItemsCreateRequestQueries {
             }
         });
     }
+
+    public void updateObject() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+
+        // Retrieve the object by id
+        query.getInBackground("<PARSE_OBJECT_ID>", (object, e) -> {
+            if (e == null) {
+                //Object was successfully retrieved
+                // Update the fields we want to
+                object.put("eventName", "A string");
+                object.put("eventDescription", "A string");
+                object.put("eventNotes", "A string");
+                object.put("eventAddressLine1", "A string");
+                object.put("eventAddressLine2", "A string");
+                object.put("eventCity", "A string");
+                object.put("eventState", "A string");
+                object.put("eventCountry", "A string");
+                object.put("eventZipcode", "A string");
+                object.put("uploadedDate", new Date());
+                object.put("isApproved", true);
+                object.put("eventStartDt", new Date());
+                object.put("eventEndDt", new Date());
+
+                //All other fields will remain the same
+                object.saveInBackground();
+
+            } else {
+                // something went wrong
+            }
+        });
+
+    }
+
+    public void deleteObject() {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+
+        // Retrieve the object by id
+        query.getInBackground("<PARSE_OBJECT_ID>", (object, e) -> {
+            if (e == null) {
+                //Object was fetched
+                //Deletes the fetched ParseObject from the database
+                object.deleteInBackground(e2 -> {
+                    if(e2==null){
+                    }else{
+                        //Something went wrong while deleting the Object
+                    }
+                });
+            }else{
+                //Something went wrong
+            }
+        });
+
+    }
 }
+
+
 
 
 

@@ -32,20 +32,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminEventUpdateActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".AdminEventDetailedActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".CreateFreeitemActivity"
             android:exported="false">
             <meta-data

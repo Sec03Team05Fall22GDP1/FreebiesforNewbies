@@ -226,12 +226,12 @@ public class NewItemsApproveActivity extends AppCompatActivity {
 
                                         // Retrieve the object by id
                                         query.getInBackground(sItemId, new GetCallback<ParseObject>() {
-                                            public void done(ParseObject eventObject, ParseException e) {
+                                            public void done(ParseObject itemObject, ParseException e) {
                                                 if (e == null) {
-                                                    eventObject.put("isApproved",Boolean.TRUE );
+                                                    itemObject.put("isApproved",Boolean.TRUE );
                                                     // Saving object
                                                     progressDialog.show();
-                                                    eventObject.saveInBackground(new SaveCallback() {
+                                                    itemObject.saveInBackground(new SaveCallback() {
                                                         @Override
                                                         public void done(ParseException e) {
                                                             progressDialog.dismiss();
@@ -262,11 +262,11 @@ public class NewItemsApproveActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     // don't forget to change the line below with the names of your Activities
                                     Log.v("Button Selected: ","Approve");
-                                    Toast.makeText(NewItemsApproveActivity.this, "Event is rejected.", Toast.LENGTH_SHORT).show();
-                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
+                                    Toast.makeText(NewItemsApproveActivity.this, "Item is rejected.", Toast.LENGTH_SHORT).show();
+                                    ParseQuery<ParseObject> queryItems = ParseQuery.getQuery("Items");
                                     // Query parameters based on the item name
-                                    queryEvents.whereEqualTo("objectId", sItemId);
-                                    queryEvents.findInBackground(new FindCallback<ParseObject>() {
+                                    queryItems.whereEqualTo("objectId", sItemId);
+                                    queryItems.findInBackground(new FindCallback<ParseObject>() {
                                         @Override
                                         public void done(final List<ParseObject> event, ParseException e) {
                                             if (e == null) {

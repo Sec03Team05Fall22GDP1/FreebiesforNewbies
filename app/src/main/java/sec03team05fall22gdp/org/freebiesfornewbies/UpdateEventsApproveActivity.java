@@ -338,6 +338,17 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
 
                                                                  */
                                                                 // don't forget to change the line below with the names of your Activities
+
+                                                                ParseQuery<ParseObject> query = ParseQuery.getQuery("EventUpdateRequest");
+                                                                query.getInBackground(sEventId, new GetCallback<ParseObject>() {
+                                                                    public void done(ParseObject object, ParseException e) {
+                                                                        if (e == null) {
+                                                                            object.put("isApproved", true);
+                                                                            object.saveInBackground();
+                                                                        }
+                                                                    }
+                                                                });
+
                                                                 Intent intent = new Intent(UpdateEventsApproveActivity.this, UpdateEventsApproveActivity.class);
                                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 startActivity(intent);

@@ -173,7 +173,7 @@ public class ItemHomeActivity extends AppCompatActivity {
                 freeItemModel.itemsList.clear();
                 // Read Parse Objects
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
-                query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE).whereContains("eventName".toLowerCase(Locale.ROOT),searchText.toLowerCase(Locale.ROOT));
+                query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.TRUE).whereContains("eventName".toLowerCase(Locale.ROOT),searchText.toLowerCase(Locale.ROOT));
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> results, ParseException e) {
@@ -228,7 +228,7 @@ public class ItemHomeActivity extends AppCompatActivity {
     private void setUpEventModels() {
         // Read Parse Objects
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
-        query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE);
+        query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.TRUE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {

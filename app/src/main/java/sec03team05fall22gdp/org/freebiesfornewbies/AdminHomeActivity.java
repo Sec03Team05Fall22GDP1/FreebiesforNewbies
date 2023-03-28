@@ -213,6 +213,29 @@ public class AdminHomeActivity extends AppCompatActivity {
             }
         });
 
+        ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Items");
+        query4.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query4.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> results, ParseException e) {
+                int cnt = results.size();
+                adminReqModel.reqList.add(new AdminRequestModel.Requests("New Item Requests",cnt));
+                Log.v("Setup EventList Size:", String.valueOf(adminReqModel.reqList.size()));
+                adapter = new AdminRequestAdapter(AdminHomeActivity.this, adminReqModel);
+                Log.v("adapter", String.valueOf(adapter.getItemCount()));
+                recyclerView = findViewById(R.id.adminRecyclerView);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(AdminHomeActivity.this));
+                detector = new GestureDetectorCompat(AdminHomeActivity.this, new AdminHomeActivity.RecyclerViewOnGestureListener());
+                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                    @Override
+                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                        return detector.onTouchEvent(e);
+                    }
+                });
+            }
+        });
+
     }
 
     private void showAlert(String title, String message) {
@@ -253,6 +276,9 @@ public class AdminHomeActivity extends AppCompatActivity {
                         startActivity(intent);
                     }else if(reqType.matches("Event Delete Requests")) {
                         Intent intent = new Intent(AdminHomeActivity.this, DeleteEventsApproveActivity.class);
+                        startActivity(intent);
+                    }else if(reqType.matches("New Item Requests")) {
+                        Intent intent = new Intent(AdminHomeActivity.this, NewItemsApproveActivity.class);
                         startActivity(intent);
                     }else{
                         Intent intent = new Intent(AdminHomeActivity.this, AdminHomeActivity.class);

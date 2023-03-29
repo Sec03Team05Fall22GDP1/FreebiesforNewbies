@@ -30,6 +30,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 import java.util.Timer;
@@ -231,14 +232,22 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
                                                                 public void done(ParseObject object, ParseException e) {
                                                                     if (e == null) {
                                                                         object.put("isApproved", true);
-                                                                        object.saveInBackground();
+                                                                        object.saveInBackground(new SaveCallback() {
+                                                                            @Override
+                                                                            public void done(ParseException e) {
+                                                                                if (e == null) {
+                                                                                    //code here
+                                                                                    // don't forget to change the line below with the names of your Activities
+                                                                                    Intent intent = new Intent(DeleteItemsApproveActivity.this, DeleteItemsApproveActivity.class);
+                                                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                                    startActivity(intent);
+                                                                                }
+                                                                            }
+                                                                        });
                                                                     }
                                                                 }
                                                             });
-                                                            // don't forget to change the line below with the names of your Activities
-                                                            Intent intent = new Intent(DeleteItemsApproveActivity.this, DeleteItemsApproveActivity.class);
-                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                            startActivity(intent);
+
                                                         } else {
                                                             Log.v("Delete Inner Ex:", e.getMessage());
                                                         }

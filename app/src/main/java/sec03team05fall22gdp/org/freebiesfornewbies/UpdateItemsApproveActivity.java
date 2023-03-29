@@ -52,7 +52,7 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_events_approve);
+        setContentView(R.layout.activity_update_items_approve);
 
         myIModel = ItemUpdateRequestModel.getSingleton();
 
@@ -262,14 +262,22 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                                                                     public void done(ParseObject object, ParseException e) {
                                                                         if (e == null) {
                                                                             object.put("isApproved", true);
-                                                                            object.saveInBackground();
+                                                                            object.saveInBackground(new SaveCallback() {
+                                                                                @Override
+                                                                                public void done(ParseException e) {
+                                                                                    if (e == null) {
+                                                                                        //code here
+                                                                                        Intent intent = new Intent(UpdateItemsApproveActivity.this, UpdateItemsApproveActivity.class);
+                                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                                        startActivity(intent);
+                                                                                    }
+                                                                                }
+                                                                            });
                                                                         }
                                                                     }
                                                                 });
 
-                                                                Intent intent = new Intent(UpdateItemsApproveActivity.this, UpdateItemsApproveActivity.class);
-                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                                startActivity(intent);
+
                                                             } else {
                                                                 // Error
                                                                 Toast.makeText(UpdateItemsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

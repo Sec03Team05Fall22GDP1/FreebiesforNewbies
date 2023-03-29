@@ -145,7 +145,7 @@ public class AdminHomeActivity extends AppCompatActivity {
     private void setUpRequestModel() {
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Events");
-        query1.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query1.whereEqualTo("isApproved", Boolean.FALSE);
         query1.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
@@ -168,7 +168,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("EventUpdateRequest");
-        query2.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query2.whereEqualTo("isApproved", Boolean.FALSE);
         query2.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
@@ -191,7 +191,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
 
         ParseQuery<ParseObject> query3 = ParseQuery.getQuery("EventDeleteRequest");
-        query3.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query3.whereEqualTo("isApproved", Boolean.FALSE);
         query3.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
@@ -214,7 +214,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
 
         ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Items");
-        query4.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query4.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE);
         query4.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {

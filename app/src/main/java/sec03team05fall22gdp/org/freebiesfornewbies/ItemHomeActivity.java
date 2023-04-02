@@ -334,7 +334,7 @@ public class ItemHomeActivity extends AppCompatActivity {
             public void run() {
                 logoutUserAndReturnToLogin();
             }
-        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+        }, 2 * 60 * 1000); // 2 minutes in milliseconds
     }
 
     private void logoutUserAndReturnToLogin() {

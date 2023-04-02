@@ -55,9 +55,8 @@ public class ItemHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_home);
-
         progressDialog = new ProgressDialog(ItemHomeActivity.this);
-
+        getSupportActionBar().hide();
         freeItemModel=ItemModel.getSingleton();
         setUpEventModels();
 

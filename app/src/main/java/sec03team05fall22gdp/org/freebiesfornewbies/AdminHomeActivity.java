@@ -31,6 +31,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AdminHomeActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
@@ -145,7 +147,7 @@ public class AdminHomeActivity extends AppCompatActivity {
     private void setUpRequestModel() {
 
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Events");
-        query1.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query1.whereEqualTo("isApproved", Boolean.FALSE);
         query1.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
@@ -168,7 +170,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
 
         ParseQuery<ParseObject> query2 = ParseQuery.getQuery("EventUpdateRequest");
-        query2.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query2.whereEqualTo("isApproved", Boolean.FALSE);
         query2.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
@@ -191,12 +193,81 @@ public class AdminHomeActivity extends AppCompatActivity {
         });
 
         ParseQuery<ParseObject> query3 = ParseQuery.getQuery("EventDeleteRequest");
-        query3.whereGreaterThanOrEqualTo("isApproved", Boolean.FALSE);
+        query3.whereEqualTo("isApproved", Boolean.FALSE);
         query3.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
                 int cnt = results.size();
                 adminReqModel.reqList.add(new AdminRequestModel.Requests("Event Delete Requests",cnt));
+                Log.v("Setup EventList Size:", String.valueOf(adminReqModel.reqList.size()));
+                adapter = new AdminRequestAdapter(AdminHomeActivity.this, adminReqModel);
+                Log.v("adapter", String.valueOf(adapter.getItemCount()));
+                recyclerView = findViewById(R.id.adminRecyclerView);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(AdminHomeActivity.this));
+                detector = new GestureDetectorCompat(AdminHomeActivity.this, new AdminHomeActivity.RecyclerViewOnGestureListener());
+                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                    @Override
+                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                        return detector.onTouchEvent(e);
+                    }
+                });
+            }
+        });
+
+        ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Items");
+        query4.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE);
+        query4.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> results, ParseException e) {
+                int cnt = results.size();
+                adminReqModel.reqList.add(new AdminRequestModel.Requests("New Item Requests",cnt));
+                Log.v("Setup EventList Size:", String.valueOf(adminReqModel.reqList.size()));
+                adapter = new AdminRequestAdapter(AdminHomeActivity.this, adminReqModel);
+                Log.v("adapter", String.valueOf(adapter.getItemCount()));
+                recyclerView = findViewById(R.id.adminRecyclerView);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(AdminHomeActivity.this));
+                detector = new GestureDetectorCompat(AdminHomeActivity.this, new AdminHomeActivity.RecyclerViewOnGestureListener());
+                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                    @Override
+                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                        return detector.onTouchEvent(e);
+                    }
+                });
+            }
+        });
+
+        ParseQuery<ParseObject> query5 = ParseQuery.getQuery("ItemsUpdateRequest");
+        query5.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE);
+        query5.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> results, ParseException e) {
+                int cnt = results.size();
+                adminReqModel.reqList.add(new AdminRequestModel.Requests("Item Update Requests",cnt));
+                Log.v("Setup EventList Size:", String.valueOf(adminReqModel.reqList.size()));
+                adapter = new AdminRequestAdapter(AdminHomeActivity.this, adminReqModel);
+                Log.v("adapter", String.valueOf(adapter.getItemCount()));
+                recyclerView = findViewById(R.id.adminRecyclerView);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(AdminHomeActivity.this));
+                detector = new GestureDetectorCompat(AdminHomeActivity.this, new AdminHomeActivity.RecyclerViewOnGestureListener());
+                recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                    @Override
+                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                        return detector.onTouchEvent(e);
+                    }
+                });
+            }
+        });
+
+        ParseQuery<ParseObject> query6 = ParseQuery.getQuery("ItemsDeleteRequest");
+        query6.whereEqualTo("isApproved", Boolean.FALSE);
+        query6.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> results, ParseException e) {
+                int cnt = results.size();
+                adminReqModel.reqList.add(new AdminRequestModel.Requests("Item Delete Requests",cnt));
                 Log.v("Setup EventList Size:", String.valueOf(adminReqModel.reqList.size()));
                 adapter = new AdminRequestAdapter(AdminHomeActivity.this, adminReqModel);
                 Log.v("adapter", String.valueOf(adapter.getItemCount()));
@@ -254,6 +325,15 @@ public class AdminHomeActivity extends AppCompatActivity {
                     }else if(reqType.matches("Event Delete Requests")) {
                         Intent intent = new Intent(AdminHomeActivity.this, DeleteEventsApproveActivity.class);
                         startActivity(intent);
+                    }else if(reqType.matches("New Item Requests")) {
+                        Intent intent = new Intent(AdminHomeActivity.this, NewItemsApproveActivity.class);
+                        startActivity(intent);
+                    }else if(reqType.matches("Item Update Requests")) {
+                        Intent intent = new Intent(AdminHomeActivity.this, UpdateItemsApproveActivity.class);
+                        startActivity(intent);
+                    }else if(reqType.matches("Item Delete Requests")) {
+                        Intent intent = new Intent(AdminHomeActivity.this, DeleteItemsApproveActivity.class);
+                        startActivity(intent);
                     }else{
                         Intent intent = new Intent(AdminHomeActivity.this, AdminHomeActivity.class);
                         startActivity(intent);
@@ -265,5 +345,55 @@ public class AdminHomeActivity extends AppCompatActivity {
             }            // we didn't handle the gesture so pass it on
             return false;
         }
+    }
+
+    private Timer inactivityTimer;
+    private boolean isUserActive = true;
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        resetInactivityTimer();
+        isUserActive = true;
+    }
+
+    private void resetInactivityTimer() {
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        inactivityTimer = new Timer();
+        inactivityTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                logoutUserAndReturnToLogin();
+            }
+        }, 2 * 60 * 1000); // 2 minutes in milliseconds
+    }
+
+    private void logoutUserAndReturnToLogin() {
+        // logging out of Parse
+        ParseUser.logOutInBackground(e -> {
+            if (e == null){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isUserActive) {
+            resetInactivityTimer();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (inactivityTimer != null) {
+            inactivityTimer.cancel();
+        }
+        isUserActive = false;
     }
 }

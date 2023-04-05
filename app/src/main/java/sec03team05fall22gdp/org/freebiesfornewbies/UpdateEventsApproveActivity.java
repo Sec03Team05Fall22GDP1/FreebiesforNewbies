@@ -338,9 +338,28 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
 
                                                                  */
                                                                 // don't forget to change the line below with the names of your Activities
-                                                                Intent intent = new Intent(UpdateEventsApproveActivity.this, UpdateEventsApproveActivity.class);
-                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                                startActivity(intent);
+
+                                                                ParseQuery<ParseObject> query = ParseQuery.getQuery("EventUpdateRequest");
+                                                                query.getInBackground(sEventId, new GetCallback<ParseObject>() {
+                                                                    public void done(ParseObject object, ParseException e) {
+                                                                        if (e == null) {
+                                                                            object.put("isApproved", true);
+                                                                            object.saveInBackground(new SaveCallback() {
+                                                                                @Override
+                                                                                public void done(ParseException e) {
+                                                                                    if (e == null) {
+                                                                                        //code here
+                                                                                        Intent intent = new Intent(UpdateEventsApproveActivity.this, UpdateEventsApproveActivity.class);
+                                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                                        startActivity(intent);
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                });
+
+
                                                             } else {
                                                                 // Error
                                                                 Toast.makeText(UpdateEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -429,7 +448,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
             public void run() {
                 logoutUserAndReturnToLogin();
             }
-        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+        }, 2 * 60 * 1000); // 2 minutes in milliseconds
     }
 
     private void logoutUserAndReturnToLogin() {

@@ -58,7 +58,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
             try{
                 ParseObject eventObject = new ParseObject("ItemsDeleteRequest");
                 eventObject.put("DeleteItemID",fetchID);
-                eventObject.put("eventName",iNameTV.getText().toString());
+                eventObject.put("itemName",iNameTV.getText().toString());
                 eventObject.put("DeleteReason",iDeleteReason.getText().toString());
                 // Saving object
                 eventObject.saveInBackground(new SaveCallback() {
@@ -149,7 +149,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
             public void run() {
                 logoutUserAndReturnToLogin();
             }
-        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+        }, 2 * 60 * 1000); // 2 minutes in milliseconds
     }
 
     private void logoutUserAndReturnToLogin() {

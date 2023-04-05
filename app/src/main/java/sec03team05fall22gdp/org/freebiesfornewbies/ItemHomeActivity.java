@@ -55,9 +55,8 @@ public class ItemHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_home);
-
         progressDialog = new ProgressDialog(ItemHomeActivity.this);
-
+        getSupportActionBar().hide();
         freeItemModel=ItemModel.getSingleton();
         setUpEventModels();
 
@@ -173,7 +172,7 @@ public class ItemHomeActivity extends AppCompatActivity {
                 freeItemModel.itemsList.clear();
                 // Read Parse Objects
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
-                query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE).whereContains("eventName".toLowerCase(Locale.ROOT),searchText.toLowerCase(Locale.ROOT));
+                query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.TRUE).whereContains("eventName".toLowerCase(Locale.ROOT),searchText.toLowerCase(Locale.ROOT));
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> results, ParseException e) {
@@ -228,7 +227,7 @@ public class ItemHomeActivity extends AppCompatActivity {
     private void setUpEventModels() {
         // Read Parse Objects
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
-        query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE);
+        query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.TRUE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
@@ -334,7 +333,7 @@ public class ItemHomeActivity extends AppCompatActivity {
             public void run() {
                 logoutUserAndReturnToLogin();
             }
-        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+        }, 2 * 60 * 1000); // 2 minutes in milliseconds
     }
 
     private void logoutUserAndReturnToLogin() {

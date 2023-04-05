@@ -1,0 +1,61 @@
+package sec03team05fall22gdp.org.freebiesfornewbies;
+
+
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class ItemUpdateRequestAdapter extends RecyclerView.Adapter<ItemUpdateRequestAdapter.MyViewHolder> {
+
+    Context context;
+    private ItemUpdateRequestModel myModel;
+
+    public ItemUpdateRequestAdapter(Context context, ItemUpdateRequestModel myModel){
+        this.context= context;
+        this.myModel = myModel;
+    }
+
+    @NonNull
+    @Override
+    public ItemUpdateRequestAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.item_recylcerview_row,parent,false);
+        return new ItemUpdateRequestAdapter.MyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ItemUpdateRequestAdapter.MyViewHolder holder, int position) {
+        holder.tvItemName.setText(myModel.itemsList.get(position).itemName);
+        String eLocation = myModel.itemsList.get(position).itemAddressLine1
+                +", "+myModel.itemsList.get(position).itemCity
+                +", "+myModel.itemsList.get(position).itemState+" "+myModel.itemsList.get(position).itemZipcode;
+        holder.tvItemLocation.setText(eLocation);
+        holder.tvItemURL.setText(myModel.itemsList.get(position).itemURL);
+        holder.tvItemDescription.setText(myModel.itemsList.get(position).itemDescription);
+
+        Log.v("position", String.valueOf(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return myModel.itemsList.size();
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
+
+        TextView tvItemName, tvItemDescription, tvItemLocation, tvItemURL;
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvItemName = itemView.findViewById(R.id.tvItem);
+            tvItemLocation = itemView.findViewById(R.id.tvItemLoc);
+            tvItemURL = itemView.findViewById(R.id.tvItemURL);
+            tvItemDescription= itemView.findViewById(R.id.tvItemDesc);
+        }
+    }
+}
+

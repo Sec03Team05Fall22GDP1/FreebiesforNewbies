@@ -32,32 +32,28 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DeleteEventsApproveActivity extends AppCompatActivity {
+public class DeleteItemsApproveActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private ImageView logoutBtn, ivMenu;
 
-    private EventDeleteRequestModel myEModel ;
+    private ItemDeleteRequestModel myIModel ;
     private RecyclerView recyclerView=null;
-    private EventDeleteRequestAdapter adapter = null;
+    private ItemDeleteRequestAdapter adapter = null;
     private GestureDetectorCompat detector = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_delete_events_approve);
-
-        myEModel = EventDeleteRequestModel.getSingleton();
+        setContentView(R.layout.activity_delete_items_approve);
+        myIModel = ItemDeleteRequestModel.getSingleton();
 
         setUpEventModels();
 
-        progressDialog = new ProgressDialog(DeleteEventsApproveActivity.this);
+        progressDialog = new ProgressDialog(DeleteItemsApproveActivity.this);
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -97,37 +93,17 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                 switch (id){
                     case R.id.nav_admin_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DeleteEventsApproveActivity.this, AdminHomeActivity.class));
+                        Toast.makeText(DeleteItemsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DeleteItemsApproveActivity.this, AdminHomeActivity.class));
                         break;
-//                    case R.id.admin_nav_event_home:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(DeleteEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
-//                        break;
-//                    case R.id.admin_nav_add_event:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(DeleteEventsApproveActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
-//                        break;
-//                    case R.id.admin_nav_items_home:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(DeleteEventsApproveActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
-//                        break;
-//                    case R.id.admin_nav_add_items:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(DeleteEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
-//                        break;
                     case R.id.admin_nav_switch_user:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(DeleteEventsApproveActivity.this, HomeActivity.class));
+                        Toast.makeText(DeleteItemsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(DeleteItemsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DeleteItemsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
                         // logging out of Parse
                         ParseUser.logOutInBackground(e -> {
@@ -138,10 +114,10 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                         break;
                     case R.id.admin_nav_share:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(DeleteItemsApproveActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.admin_nav_contact:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(DeleteEventsApproveActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(DeleteItemsApproveActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
                     default:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
@@ -151,7 +127,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
     }
 
     private void showAlert(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(DeleteEventsApproveActivity.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(DeleteItemsApproveActivity.this)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -159,7 +135,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         // don't forget to change the line below with the names of your Activities
-                        Intent intent = new Intent(DeleteEventsApproveActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(DeleteItemsApproveActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
@@ -170,35 +146,34 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
 
     private void setUpEventModels() {
         // Read Parse Objects
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("EventDeleteRequest");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("ItemsDeleteRequest");
         query.whereEqualTo("isApproved", Boolean.FALSE);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> results, ParseException e) {
-                for (ParseObject eventObj : results) {
+                for (ParseObject itemObj : results) {
                     if (e == null) {
-                        String deleteID, eventID, eventName, delReason, eventEndDt, eventDescription, eventAddressLine1,
-                                eventAddressLine2, eventCity, eventState, eventCountry, eventZipcode, eventNotes, updateReason;
-                        eventID = eventObj.getObjectId();
-                        deleteID = eventObj.getString("DeleteEventID");
-                        eventName = eventObj.getString("eventName");
-                        delReason = eventObj.getString("DeleteReason");
+                        String deleteID, itemID, itemName, delReason;
+                        itemID = itemObj.getObjectId();
+                        deleteID = itemObj.getString("DeleteItemID");
+                        itemName = itemObj.getString("itemName");
+                        delReason = itemObj.getString("DeleteReason");
 
 
-                        Log.v("ObjectID", String.valueOf(eventID));
+                        Log.v("ObjectID", String.valueOf(itemID));
 
-                        myEModel.EventDeleteRequestsList.add(new EventDeleteRequestModel.EventDeleteRequests(deleteID, eventID, eventName, delReason));
+                        myIModel.ItemDeleteRequestsList.add(new ItemDeleteRequestModel.ItemDeleteRequests(deleteID, itemID, itemName, delReason));
 
-                        Log.v("Setup EventList Size:", String.valueOf(myEModel.EventDeleteRequestsList.size()));
-                        adapter = new EventDeleteRequestAdapter(DeleteEventsApproveActivity.this, myEModel);
+                        Log.v("Setup EventList Size:", String.valueOf(myIModel.ItemDeleteRequestsList.size()));
+                        adapter = new ItemDeleteRequestAdapter(DeleteItemsApproveActivity.this, myIModel);
                         Log.v("adapter", String.valueOf(adapter.getItemCount()));
 
                         recyclerView = findViewById(R.id.adminRecyclerView);
                         recyclerView.setAdapter(adapter);
 
-                        recyclerView.setLayoutManager(new LinearLayoutManager(DeleteEventsApproveActivity.this));
+                        recyclerView.setLayoutManager(new LinearLayoutManager(DeleteItemsApproveActivity.this));
 
-                        detector = new GestureDetectorCompat(DeleteEventsApproveActivity.this, new DeleteEventsApproveActivity.RecyclerViewOnGestureListener());
+                        detector = new GestureDetectorCompat(DeleteItemsApproveActivity.this, new DeleteItemsApproveActivity.RecyclerViewOnGestureListener());
                         recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
                             @Override
                             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -206,7 +181,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        Toast.makeText(DeleteEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(DeleteItemsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -219,26 +194,26 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
             View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
             if (view != null) {
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
-                if (holder instanceof EventDeleteRequestAdapter.RequestHolder) {
+                if (holder instanceof ItemDeleteRequestAdapter.RequestHolder) {
                     int position = holder.getAdapterPosition();
                     // handle single tap
-                    String objId = myEModel.EventDeleteRequestsList.get(position).eventID;
-                    String delId = myEModel.EventDeleteRequestsList.get(position).deleteID;
-                    String objName = myEModel.EventDeleteRequestsList.get(position).eventName;
+                    String objId = myIModel.ItemDeleteRequestsList.get(position).ItemID;
+                    String delId = myIModel.ItemDeleteRequestsList.get(position).deleteID;
+                    String objName = myIModel.ItemDeleteRequestsList.get(position).ItemName;
                     Log.v("Selected EventID: ", objId);
 
-                    Toast.makeText(DeleteEventsApproveActivity.this, "Selected EventID: " + objId, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DeleteItemsApproveActivity.this, "Selected ItemID: " + objId, Toast.LENGTH_SHORT).show();
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(DeleteEventsApproveActivity.this)
-                            .setTitle("Approve Delete Request")
-                            .setMessage("Do you want to approve below event? \nEvent ID: " + delId + "\nEvent Name: " + objName)
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DeleteItemsApproveActivity.this)
+                            .setTitle("Item Delete Request")
+                            .setMessage("Do you want to Remove below Item? \nItem ID: " + delId + "\nItem Name: " + objName)
                             .setPositiveButton("Approve", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                     Log.v("Button Selected: ", "Approve");
 
-                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
+                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Items");
                                     // Query parameters based on the item name
                                     queryEvents.whereEqualTo("objectId", delId);
                                     queryEvents.findInBackground(new FindCallback<ParseObject>() {
@@ -250,9 +225,9 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                                     public void done(ParseException e) {
                                                         if (e == null) {
                                                             // Success
-                                                            Toast.makeText(DeleteEventsApproveActivity.this, "Event delete request is rejected...!", Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(DeleteItemsApproveActivity.this, "Item delete request is approved...!", Toast.LENGTH_LONG).show();
 
-                                                            ParseQuery<ParseObject> query = ParseQuery.getQuery("EventDeleteRequest");
+                                                            ParseQuery<ParseObject> query = ParseQuery.getQuery("ItemsDeleteRequest");
                                                             query.getInBackground(objId, new GetCallback<ParseObject>() {
                                                                 public void done(ParseObject object, ParseException e) {
                                                                     if (e == null) {
@@ -263,7 +238,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                                                                 if (e == null) {
                                                                                     //code here
                                                                                     // don't forget to change the line below with the names of your Activities
-                                                                                    Intent intent = new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class);
+                                                                                    Intent intent = new Intent(DeleteItemsApproveActivity.this, DeleteItemsApproveActivity.class);
                                                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                                     startActivity(intent);
                                                                                 }
@@ -278,7 +253,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                                         }
                                                     }
                                                 });
-                                                Toast.makeText(DeleteEventsApproveActivity.this, "Event is Deleted!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(DeleteItemsApproveActivity.this, "Item is Deleted!", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 Log.v("Delete Parse Outer Ex: ", e.getMessage());
                                             }
@@ -291,7 +266,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
-                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("EventDeleteRequest");
+                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("ItemsDeleteRequest");
                                     // Query parameters based on the item name
                                     queryEvents.whereEqualTo("objectId", objId);
                                     queryEvents.findInBackground(new FindCallback<ParseObject>() {
@@ -303,10 +278,10 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                                     public void done(ParseException e) {
                                                         if (e == null) {
                                                             // Success
-                                                            Toast.makeText(DeleteEventsApproveActivity.this, "Event delete request is rejected...!", Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(DeleteItemsApproveActivity.this, "Item delete request is rejected...!", Toast.LENGTH_LONG).show();
 
                                                             // don't forget to change the line below with the names of your Activities
-                                                            Intent intent = new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class);
+                                                            Intent intent = new Intent(DeleteItemsApproveActivity.this, DeleteItemsApproveActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                             startActivity(intent);
                                                         } else {
@@ -327,7 +302,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     // don't forget to change the line below with the names of your Activities
                                     Log.v("Button Selected: ", "Ignore");
-                                    Toast.makeText(DeleteEventsApproveActivity.this, "Event is Ignored.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DeleteItemsApproveActivity.this, "Item is Ignored.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                     AlertDialog ok = builder.create();

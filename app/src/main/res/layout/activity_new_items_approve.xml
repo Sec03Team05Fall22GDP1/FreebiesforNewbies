@@ -7,14 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".UpdateEventsApproveActivity" >
+    tools:context=".NewItemsApproveActivity" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarAdmin"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:background="@color/purple_700"
@@ -36,13 +36,13 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:contentDescription="Menu" />
                 <TextView
-                    android:id="@+id/tvAdminHome"
+                    android:id="@+id/tvHomePage"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Event Update Requests"
-                    android:textSize="30sp"
+                    android:text="New Free Items"
+                    android:textSize="32sp"
                     android:fontFamily="cursive"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="7dp"
                     android:layout_marginStart="15dp"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/ivMenuIcon"
@@ -59,18 +59,16 @@
                     android:contentDescription="Logout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/adminRecyclerView"
+            android:id="@+id/itemRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="56dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </RelativeLayout>
-
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
@@ -78,8 +76,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        app:menu="@menu/admin_nav_bar"
         app:headerLayout="@layout/header"
+        app:menu="@menu/admin_nav_bar"
         android:visibility="visible"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

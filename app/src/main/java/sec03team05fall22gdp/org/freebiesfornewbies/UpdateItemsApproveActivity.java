@@ -32,29 +32,33 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class NewEventsApproveActivity extends AppCompatActivity {
+public class UpdateItemsApproveActivity extends AppCompatActivity {
+
     private ProgressDialog progressDialog;
     private ImageView logoutBtn, ivMenu;
 
-    private EventModel myEModel ;
+    private ItemUpdateRequestModel myIModel ;
     private RecyclerView recyclerView=null;
-    private EventRAdapter adapter = null;
+    private ItemUpdateRequestAdapter adapter = null;
     private GestureDetectorCompat detector = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_events_approve);
+        setContentView(R.layout.activity_update_items_approve);
 
-        progressDialog = new ProgressDialog(NewEventsApproveActivity.this);
-
-        myEModel = EventModel.getSingleton();
+        myIModel = ItemUpdateRequestModel.getSingleton();
 
         setUpEventModels();
+
+        progressDialog = new ProgressDialog(UpdateItemsApproveActivity.this);
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -94,37 +98,17 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                 switch (id){
                     case R.id.nav_admin_home:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewEventsApproveActivity.this, AdminHomeActivity.class));
+                        Toast.makeText(UpdateItemsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UpdateItemsApproveActivity.this, AdminHomeActivity.class));
                         break;
-//                    case R.id.admin_nav_event_home:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(NewEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
-//                        break;
-//                    case R.id.admin_nav_add_event:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(NewEventsApproveActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
-//                        break;
-//                    case R.id.admin_nav_items_home:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(NewEventsApproveActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
-//                        break;
-//                    case R.id.admin_nav_add_items:
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        Toast.makeText(NewEventsApproveActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class));
-//                        break;
                     case R.id.admin_nav_switch_user:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewEventsApproveActivity.this, HomeActivity.class));
+                        Toast.makeText(UpdateItemsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(UpdateItemsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateItemsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
                         // logging out of Parse
                         ParseUser.logOutInBackground(e -> {
@@ -135,10 +119,10 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                         break;
                     case R.id.admin_nav_share:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(UpdateItemsApproveActivity.this, "Share Link is Clicked", Toast.LENGTH_SHORT).show();break;
                     case R.id.admin_nav_contact:
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        Toast.makeText(NewEventsApproveActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(UpdateItemsApproveActivity.this, "Contact us is Clicked", Toast.LENGTH_SHORT).show();break;
                     default:
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
@@ -147,60 +131,8 @@ public class NewEventsApproveActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpEventModels() {
-        // Read Parse Objects
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
-        query.whereEqualTo("isApproved", Boolean.FALSE);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> results, ParseException e) {
-                for (ParseObject eventObj : results) {
-                    if (e == null) {
-                        String eventID, eventName, eventStDT, eventEndDt, eventDescription,eventAddressLine1,
-                                eventAddressLine2, eventCity,eventState, eventCountry, eventZipcode, eventNotes;
-                        eventID= eventObj.getObjectId();
-                        eventName = eventObj.getString("eventName");
-                        eventStDT = String.valueOf(eventObj.getDate("eventStartDt"));
-                        eventEndDt =  String.valueOf(eventObj.getDate("eventEndDt"));
-                        eventDescription =  eventObj.getString("eventDescription");
-                        eventAddressLine1 =  eventObj.getString("eventAddressLine1") ;
-                        eventAddressLine2 =  eventObj.getString("eventAddressLine2");
-                        eventCity= eventObj.getString("eventCity") ;
-                        eventState= eventObj.getString("eventState") ;
-                        eventCountry= eventObj.getString("eventCountry");
-                        eventZipcode= eventObj.getString("eventZipcode") ;
-                        eventNotes =  eventObj.getString("eventNotes");
-                        Log.v("ObjectID",String.valueOf(eventID));
-
-                        myEModel.eventsList.add(new EventModel.Events(eventID,eventName,eventStDT,eventEndDt,eventDescription,eventAddressLine1,eventAddressLine2,eventCity,eventState,eventCountry,eventZipcode,eventNotes));
-
-                        Log.v("Setup EventList Size:", String.valueOf(myEModel.eventsList.size()));
-                        adapter = new EventRAdapter(NewEventsApproveActivity.this, myEModel);
-                        Log.v("adapter", String.valueOf(adapter.getItemCount()));
-
-                        recyclerView = findViewById(R.id.eventRecyclerView);
-                        recyclerView.setAdapter(adapter);
-
-                        recyclerView.setLayoutManager(new LinearLayoutManager(NewEventsApproveActivity.this));
-
-                        detector = new GestureDetectorCompat(NewEventsApproveActivity.this, new RecyclerViewOnGestureListener());
-                        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
-                            @Override
-                            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                                return detector.onTouchEvent(e);
-                            }
-                        });
-                    } else {
-                        Toast.makeText(NewEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
-
-    }
-
     private void showAlert(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(NewEventsApproveActivity.this)
+        AlertDialog.Builder builder = new AlertDialog.Builder(UpdateItemsApproveActivity.this)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -208,7 +140,7 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         // don't forget to change the line below with the names of your Activities
-                        Intent intent = new Intent(NewEventsApproveActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(UpdateItemsApproveActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
@@ -217,57 +149,138 @@ public class NewEventsApproveActivity extends AppCompatActivity {
         ok.show();
     }
 
+    private void setUpEventModels() {
+        // Read Parse Objects
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("ItemsUpdateRequest");
+        query.whereEqualTo("isAvailable",Boolean.TRUE).whereEqualTo("isApproved", Boolean.FALSE);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> results, ParseException e) {
+                for (ParseObject itemObj : results) {
+                    if (e == null) {
+                        String itemID,updateID,updateReason, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity, itemState, itemCountry, itemZipcode,itemDescription;
+                        itemID=itemObj.getObjectId();
+                        updateID= itemObj.getString("updateItemId");
+                        itemName=itemObj.getString("itemName");
+                        itemURL=itemObj.getString("itemURL");
+                        itemAddressLine1=itemObj.getString("itemAddressLine1");
+                        itemCity=itemObj.getString("itemCity");
+                        itemState=itemObj.getString("itemState");
+                        itemCountry=itemObj.getString("itemCountry");
+                        itemZipcode=itemObj.getString("itemZipcode");
+                        itemAddressLine2=itemObj.getString("itemAddressLine2");
+                        itemDescription= itemObj.getString("itemDescription");
+                        updateReason= itemObj.getString("updateReason");
+                        Log.v("ObjectID",String.valueOf(itemID));
+
+                        myIModel.itemsList.add(new ItemUpdateRequestModel.ItemUpdateRequests(itemID, updateID, itemName, itemURL, itemAddressLine1, itemAddressLine2, itemCity, itemState, itemCountry, itemZipcode,itemDescription,updateReason));
+
+                        Log.v("Setup EventList Size:", String.valueOf(myIModel.itemsList.size()));
+                        adapter = new ItemUpdateRequestAdapter(UpdateItemsApproveActivity.this, myIModel);
+                        Log.v("adapter", String.valueOf(adapter.getItemCount()));
+
+                        recyclerView = findViewById(R.id.itemRecyclerView);
+                        recyclerView.setAdapter(adapter);
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(UpdateItemsApproveActivity.this));
+
+                        detector = new GestureDetectorCompat(UpdateItemsApproveActivity.this, new UpdateItemsApproveActivity.RecyclerViewOnGestureListener());
+                        recyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+                            @Override
+                            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                                return detector.onTouchEvent(e);
+                            }
+                        });
+                    } else {
+                        Toast.makeText(UpdateItemsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
+    }
     private class RecyclerViewOnGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             View view = recyclerView.findChildViewUnder(e.getX(), e.getY());
             if (view != null) {
                 RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(view);
-                if (holder instanceof EventRAdapter.MyViewHolder) {
+                if (holder instanceof ItemUpdateRequestAdapter.MyViewHolder) {
                     int position = holder.getAdapterPosition();
                     // handle single tap
-                    String sEventId= myEModel.eventsList.get(position).eventID;
-                    String sEventName= myEModel.eventsList.get(position).eventName;
-                    Log.v("Selected EventID: ",sEventId);
+                    String sItemId= myIModel.itemsList.get(position).itemID;
+                    String sIUpdateId= myIModel.itemsList.get(position).updateID;
+                    String sItemName= myIModel.itemsList.get(position).itemName;
+                    String sUpdateReason= myIModel.itemsList.get(position).updateReason;
+                    Log.v("Selected ItemID: ",sItemId);
 
-                    Toast.makeText(NewEventsApproveActivity.this, "Selected EventID: "+sEventId, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateItemsApproveActivity.this, "Selected ItemID: "+sItemId, Toast.LENGTH_SHORT).show();
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(NewEventsApproveActivity.this)
-                            .setTitle("Approve New Request")
-                            .setMessage("Do you want to approve below event? \nEvent ID: "+sEventId+"\nEvent Name: "+sEventName)
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UpdateItemsApproveActivity.this)
+                            .setTitle("Approve Update Request")
+                            .setMessage("Do you want to approve below event? \nEvent ID: "+sIUpdateId+"\nEvent Name: "+sItemName+"\nUpdate Reason: "+sUpdateReason)
                             .setPositiveButton("Approve", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                     Log.v("Button Selected: ","Approve");
 
-                                    Toast.makeText(NewEventsApproveActivity.this, "Event is approved!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UpdateItemsApproveActivity.this, "Item is approved!", Toast.LENGTH_SHORT).show();
 
                                     try{
-                                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Events");
+                                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
 
                                         // Retrieve the object by id
-                                        query.getInBackground(sEventId, new GetCallback<ParseObject>() {
-                                            public void done(ParseObject eventObject, ParseException e) {
+                                        query.getInBackground(sIUpdateId, new GetCallback<ParseObject>() {
+                                            public void done(ParseObject itemObject, ParseException e) {
                                                 if (e == null) {
-                                                    eventObject.put("isApproved",Boolean.TRUE );
+                                                    itemObject.put("itemName", myIModel.itemsList.get(position).itemName );
+                                                    itemObject.put("itemURL", myIModel.itemsList.get(position).itemURL);
+                                                    itemObject.put("isAvailable", true);
+                                                    itemObject.put("itemAddressLine1", myIModel.itemsList.get(position).itemAddressLine1);
+                                                    itemObject.put("itemCity", myIModel.itemsList.get(position).itemCity);
+                                                    itemObject.put("itemState", myIModel.itemsList.get(position).itemState);
+                                                    itemObject.put("itemCountry", myIModel.itemsList.get(position).itemCountry);
+                                                    itemObject.put("itemZipcode", myIModel.itemsList.get(position).itemZipcode);
+                                                    itemObject.put("itemAddressLine2", myIModel.itemsList.get(position).itemAddressLine2);
+                                                    itemObject.put("itemDescription", myIModel.itemsList.get(position).itemDescription);
+
+                                                    itemObject.put("isApproved",Boolean.TRUE );
                                                     // Saving object
                                                     progressDialog.show();
-                                                    eventObject.saveInBackground(new SaveCallback() {
+                                                    itemObject.saveInBackground(new SaveCallback() {
                                                         @Override
                                                         public void done(ParseException e) {
                                                             progressDialog.dismiss();
                                                             if (e == null) {
                                                                 // Success
-                                                                Toast.makeText(NewEventsApproveActivity.this, "Event updated in database...!", Toast.LENGTH_LONG).show();
-
+                                                                Toast.makeText(UpdateItemsApproveActivity.this, "Item updated in database...!", Toast.LENGTH_LONG).show();
                                                                 // don't forget to change the line below with the names of your Activities
-                                                                Intent intent = new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class);
-                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                                startActivity(intent);
+
+                                                                ParseQuery<ParseObject> query = ParseQuery.getQuery("ItemsUpdateRequest");
+                                                                query.getInBackground(sItemId, new GetCallback<ParseObject>() {
+                                                                    public void done(ParseObject object, ParseException e) {
+                                                                        if (e == null) {
+                                                                            object.put("isApproved", true);
+                                                                            object.saveInBackground(new SaveCallback() {
+                                                                                @Override
+                                                                                public void done(ParseException e) {
+                                                                                    if (e == null) {
+                                                                                        //code here
+                                                                                        Intent intent = new Intent(UpdateItemsApproveActivity.this, UpdateItemsApproveActivity.class);
+                                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                                        startActivity(intent);
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                });
+
+
                                                             } else {
                                                                 // Error
-                                                                Toast.makeText(NewEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                                                Toast.makeText(UpdateItemsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                                             }
                                                         }
                                                     });
@@ -275,7 +288,7 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                                             }
                                         });
                                     }catch (Exception e){
-                                        Toast.makeText(NewEventsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(UpdateItemsApproveActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             }).setNegativeButton("Deny", new DialogInterface.OnClickListener() {
@@ -284,10 +297,10 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     // don't forget to change the line below with the names of your Activities
                                     Log.v("Button Selected: ","Approve");
-                                    Toast.makeText(NewEventsApproveActivity.this, "Event is rejected.", Toast.LENGTH_SHORT).show();
-                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("Events");
+                                    Toast.makeText(UpdateItemsApproveActivity.this, "Item is rejected.", Toast.LENGTH_SHORT).show();
+                                    ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("ItemsUpdateRequest");
                                     // Query parameters based on the item name
-                                    queryEvents.whereEqualTo("objectId", sEventId);
+                                    queryEvents.whereEqualTo("objectId", sItemId);
                                     queryEvents.findInBackground(new FindCallback<ParseObject>() {
                                         @Override
                                         public void done(final List<ParseObject> event, ParseException e) {
@@ -297,10 +310,10 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                                                     public void done(ParseException e) {
                                                         if (e == null) {
                                                             // Success
-                                                            Toast.makeText(NewEventsApproveActivity.this, "Event Removed in database...!", Toast.LENGTH_LONG).show();
+                                                            Toast.makeText(UpdateItemsApproveActivity.this, "Item Removed in database...!", Toast.LENGTH_LONG).show();
 
                                                             // don't forget to change the line below with the names of your Activities
-                                                            Intent intent = new Intent(NewEventsApproveActivity.this, NewEventsApproveActivity.class);
+                                                            Intent intent = new Intent(UpdateItemsApproveActivity.this, UpdateItemsApproveActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                             startActivity(intent);
                                                         } else {
@@ -320,7 +333,7 @@ public class NewEventsApproveActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     // don't forget to change the line below with the names of your Activities
                                     Log.v("Button Selected: ","Ignore");
-                                    Toast.makeText(NewEventsApproveActivity.this, "Event is Ignored.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(UpdateItemsApproveActivity.this, "Item is Ignored.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                     AlertDialog ok = builder.create();
@@ -333,7 +346,6 @@ public class NewEventsApproveActivity extends AppCompatActivity {
             return false;
         }
     }
-
     private Timer inactivityTimer;
     private boolean isUserActive = true;
 
@@ -383,4 +395,5 @@ public class NewEventsApproveActivity extends AppCompatActivity {
         }
         isUserActive = false;
     }
+
 }

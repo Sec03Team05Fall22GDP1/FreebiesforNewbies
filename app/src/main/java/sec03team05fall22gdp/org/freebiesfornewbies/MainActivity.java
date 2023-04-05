@@ -17,6 +17,9 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import androidx.appcompat.app.AlertDialog;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText regFirstName, regLastName, regEmail, regUsername, regPhone, regPassword, regConfirmPassword;
@@ -51,8 +54,18 @@ public class MainActivity extends AppCompatActivity {
 
         registerBtn.setOnClickListener(v -> {
             if (regPassword.getText().toString().equals(regConfirmPassword.getText().toString()) && !TextUtils.isEmpty(regUsername.getText().toString())) {
-                nUser[0] = new NewBie(regFirstName.getText().toString(), regLastName.getText().toString(), regEmail.getText().toString(), regPhone.getText().toString(), regDOB.getText().toString(), regAddressLine.getText().toString(), regCity.getText().toString(), regState.getText().toString(), regCountry.getText().toString(), regZipcode.getText().toString(), regUsername.getText().toString(), regPassword.getText().toString());
-                login(nUser[0]);
+                String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+                String str = regPassword.getText().toString();
+                Pattern p = Pattern.compile(regex);
+                Matcher m = p.matcher(str);
+                if(m.find()){
+                    nUser[0] = new NewBie(regFirstName.getText().toString(), regLastName.getText().toString(), regEmail.getText().toString(), regPhone.getText().toString(), regDOB.getText().toString(), regAddressLine.getText().toString(), regCity.getText().toString(), regState.getText().toString(), regCountry.getText().toString(), regZipcode.getText().toString(), regUsername.getText().toString(), regPassword.getText().toString());
+                    login(nUser[0]);
+                }else {
+                    regPassword.setError("Password must contain atleast:\n\t1 Capital Letter\n\t1 Small Letter\n\t1 Number\n\t1 Special character @$!%*?&");
+                }
+
+
             }
             else{
                 Toast.makeText(this, "Make sure that the values you entered are correct.", Toast.LENGTH_SHORT).show();

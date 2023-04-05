@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".UpdateEventsApproveActivity" >
+    tools:context=".DeleteItemsApproveActivity" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                     android:id="@+id/tvAdminHome"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Event Update Requests"
+                    android:text="Item Delete Requests"
                     android:textSize="30sp"
                     android:fontFamily="cursive"
                     android:layout_marginTop="8dp"
@@ -78,8 +78,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        app:menu="@menu/admin_nav_bar"
         app:headerLayout="@layout/header"
+        app:menu="@menu/admin_nav_bar"
         android:visibility="visible"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

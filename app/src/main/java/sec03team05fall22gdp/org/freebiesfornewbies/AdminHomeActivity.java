@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -43,10 +44,20 @@ public class AdminHomeActivity extends AppCompatActivity {
     private AdminRequestAdapter adapter = null;
     private GestureDetectorCompat detector = null;
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Release any resources or clean up any state that needs to be cleaned up when the activity is destroyed
+        handler.removeCallbacks(myRunnable);
+        Log.d("OnDestroy", "inside");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
 
         adminReqModel = AdminRequestModel.getSingleton();
         progressDialog = new ProgressDialog(AdminHomeActivity.this);
@@ -86,7 +97,6 @@ public class AdminHomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
                 int id = item.getItemId();
-
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_admin_home:
@@ -355,6 +365,10 @@ public class AdminHomeActivity extends AppCompatActivity {
         super.onUserInteraction();
         resetInactivityTimer();
         isUserActive = true;
+        Log.v("onUserInteraction()","inside");
+        handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
+
     }
 
     private void resetInactivityTimer() {
@@ -386,6 +400,8 @@ public class AdminHomeActivity extends AppCompatActivity {
         if (isUserActive) {
             resetInactivityTimer();
         }
+        handler.removeCallbacks(myRunnable);
+        Log.d("OnResume", "inside");
     }
 
     @Override
@@ -395,5 +411,26 @@ public class AdminHomeActivity extends AppCompatActivity {
             inactivityTimer.cancel();
         }
         isUserActive = false;
+        handler.removeCallbacks(myRunnable);
+        Log.d("onPause", "inside");
     }
+    private Handler handler = new Handler();
+    private Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // logging out of Parse
+            ParseUser.logOutInBackground(e -> {
+                if (e == null){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    moveTaskToBack(true);
+                }
+            });
+            Log.d("MyApp", "Performing operation after 2 minutes in background");
+        }
+    };
+
+
+
 }

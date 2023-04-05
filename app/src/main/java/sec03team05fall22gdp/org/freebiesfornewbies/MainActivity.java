@@ -6,7 +6,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +30,22 @@ public class MainActivity extends AppCompatActivity {
     private TextView regToLoginLink;
     private ProgressDialog progressDialog;
 
+    private Handler handler = new Handler();
+    private Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // logging out of Parse
+            ParseUser.logOutInBackground(e -> {
+                if (e == null){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    moveTaskToBack(true);
+                }
+            });
+            Log.d("MyApp", "Performing operation after 2 minutes in background");
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

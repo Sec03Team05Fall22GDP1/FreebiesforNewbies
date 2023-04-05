@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
@@ -45,10 +46,29 @@ public class NewEventsApproveActivity extends AppCompatActivity {
     private EventRAdapter adapter = null;
     private GestureDetectorCompat detector = null;
 
+    private Handler handler = new Handler();
+    private Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+            // logging out of Parse
+            ParseUser.logOutInBackground(e -> {
+                if (e == null){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    moveTaskToBack(true);
+                }
+            });
+            Log.d("MyApp", "Performing operation after 2 minutes in background");
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_events_approve);
+
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
 
         progressDialog = new ProgressDialog(NewEventsApproveActivity.this);
 
@@ -342,6 +362,9 @@ public class NewEventsApproveActivity extends AppCompatActivity {
         super.onUserInteraction();
         resetInactivityTimer();
         isUserActive = true;
+        Log.v("onUserInteraction()","inside");
+        handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
     }
 
     private void resetInactivityTimer() {
@@ -373,6 +396,8 @@ public class NewEventsApproveActivity extends AppCompatActivity {
         if (isUserActive) {
             resetInactivityTimer();
         }
+        handler.removeCallbacks(myRunnable);
+        Log.d("onResume", "inside");
     }
 
     @Override
@@ -382,5 +407,8 @@ public class NewEventsApproveActivity extends AppCompatActivity {
             inactivityTimer.cancel();
         }
         isUserActive = false;
+        handler.removeCallbacks(myRunnable);
+        Log.d("onPause", "inside");
+
     }
 }

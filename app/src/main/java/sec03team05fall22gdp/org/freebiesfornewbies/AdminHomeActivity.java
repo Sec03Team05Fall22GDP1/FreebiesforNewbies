@@ -59,6 +59,8 @@ public class AdminHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_home);
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 
+        App.sendEmail( "mjaichandms@gmail.com",  "This is Subject", "This is mail body" );
+
         adminReqModel = AdminRequestModel.getSingleton();
         progressDialog = new ProgressDialog(AdminHomeActivity.this);
         
@@ -430,7 +432,5 @@ public class AdminHomeActivity extends AppCompatActivity {
             Log.d("MyApp", "Performing operation after 2 minutes in background");
         }
     };
-
-
 
 }

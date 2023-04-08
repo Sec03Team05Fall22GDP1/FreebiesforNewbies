@@ -1,6 +1,7 @@
 package sec03team05fall22gdp.org.freebiesfornewbies;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,6 +33,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -53,13 +57,14 @@ public class AdminHomeActivity extends AppCompatActivity {
         Log.d("OnDestroy", "inside");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 
-        App.sendEmail( "mjaichandms@gmail.com",  "This is Subject", "This is mail body" );
+        App.sendEmail( "mjaichandms@gmail.com",  "Email Login Alert..!", "Hi "+ParseUser.getCurrentUser().getUsername()+",\n\t You have made a login attempt today at "+ LocalDateTime.now().toString()+".\n \tIf this is not made by you report to sec03team05fall22gdp1@gmail.com.\n- Team FreebiesforNewbies");
 
         adminReqModel = AdminRequestModel.getSingleton();
         progressDialog = new ProgressDialog(AdminHomeActivity.this);
@@ -102,6 +107,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_admin_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(AdminHomeActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(AdminHomeActivity.this, AdminHomeActivity.class));
@@ -127,11 +133,13 @@ public class AdminHomeActivity extends AppCompatActivity {
 //                        startActivity(new Intent(AdminHomeActivity.this, AdminHomeActivity.class));
 //                        break;
                     case R.id.admin_nav_switch_user:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(AdminHomeActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(AdminHomeActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(AdminHomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -306,6 +314,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(AdminHomeActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -328,6 +337,7 @@ public class AdminHomeActivity extends AppCompatActivity {
                     String reqType= adminReqModel.reqList.get(position).requestType;
                     Log.v("Selected Request Type: ",reqType);
 
+                    handler.removeCallbacks(myRunnable);
                     if(reqType.matches("New Event Requests")){
                         Intent intent = new Intent(AdminHomeActivity.this, NewEventsApproveActivity.class);
                         startActivity(intent);
@@ -385,12 +395,20 @@ public class AdminHomeActivity extends AppCompatActivity {
             }
         }, 2 * 60 * 1000); // 2 minutes in milliseconds
     }
+    private void resetUseractivityTimer() {
+        if (handler != null) {
+            handler.removeCallbacks(myRunnable);
+        }
+        handler = new Handler();
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
+    }
 
     private void logoutUserAndReturnToLogin() {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
-                Intent intent = new Intent(this, LoginActivity.class);
+                handler.removeCallbacks(myRunnable);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -403,6 +421,7 @@ public class AdminHomeActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("OnResume", "inside");
     }
 
@@ -414,6 +433,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         }
         isUserActive = false;
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
     }
     private Handler handler = new Handler();
@@ -423,6 +443,9 @@ public class AdminHomeActivity extends AppCompatActivity {
             // logging out of Parse
             ParseUser.logOutInBackground(e -> {
                 if (e == null){
+                    if (inactivityTimer != null) {
+                        inactivityTimer.cancel();
+                    }
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

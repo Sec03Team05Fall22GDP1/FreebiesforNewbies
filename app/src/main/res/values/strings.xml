@@ -36,5 +36,8 @@
     <string name="forgot_username">forgot Username</string>
     <string name="forgot_password">forgot Password</string>
     <string name="registerHint">Not Registered? Sign up here</string>
+    <string name="Select">Select Country</string>
+    String[] countries = {" "Australia", "Burma","China","Denmark","Finland","Germany","India","Indonesia","Japan","Netherlands","Russia","South Africa"};
+
 
 </resources>

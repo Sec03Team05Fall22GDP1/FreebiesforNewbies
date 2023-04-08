@@ -50,6 +50,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EditText emailEditText = findViewById(R.id.etEmail);
+        String email = emailEditText.getText().toString();
+
+        if (!email.matches("^[^@]+@(gmail|yahoo)\\.com$")) {
+            // Invalid email address, show an error message
+            emailEditText.setError("Please enter a valid email address");
+        } else {
+            Toast.makeText(this, "Please enter a valid email address with @gmail.com or @yahoo.com domain", Toast.LENGTH_SHORT).show();
+        }
+
+
 
         progressDialog = new ProgressDialog(MainActivity.this);
         regFirstName=findViewById(R.id.etFirstName);

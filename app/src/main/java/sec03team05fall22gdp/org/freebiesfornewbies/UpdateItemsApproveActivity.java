@@ -234,6 +234,21 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                     String sUpdateReason= myIModel.itemsList.get(position).updateReason;
                     Log.v("Selected ItemID: ",sItemId);
 
+                    final ParseObject[] objEmail = new ParseObject[1];
+                    final String[] userEmail = new String[1];
+                    ParseQuery<ParseObject> queryEmail = ParseQuery.getQuery("ItemsUpdateRequest");
+                    queryEmail.whereEqualTo("objectId", sItemId);
+                    queryEmail.getFirstInBackground(new GetCallback<ParseObject>() {
+                        public void done(ParseObject event, ParseException e){
+                            if (e == null) {
+                                objEmail[0] =event;
+                                userEmail[0] = event.getString("byUser");
+                            } else {
+                                Log.v("Email Back4App", e.getMessage());
+                            }
+                        }
+                    });
+
                     Toast.makeText(UpdateItemsApproveActivity.this, "Selected ItemID: "+sItemId, Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(UpdateItemsApproveActivity.this)
@@ -244,6 +259,15 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                     Log.v("Button Selected: ","Approve");
+
+                                    App.sendEmail( userEmail[0],  "Your Request Has Been Approved", "Dear User,\n" +
+                                            "\n" +
+                                            "I am pleased to inform you that your request has been approved. We have carefully reviewed your request and have found it to be appropriate and relevant.\n" +
+                                            "\n" +
+                                            "If you have any questions or concerns, please do not hesitate to contact us. We are always here to assist you.\n" +
+                                            "\n " +objEmail[0].toString()+
+                                            "\nSupport Team,\n" +
+                                            "Freebies for Newbies");
 
                                     Toast.makeText(UpdateItemsApproveActivity.this, "Item is approved!", Toast.LENGTH_SHORT).show();
 
@@ -316,7 +340,15 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                     // don't forget to change the line below with the names of your Activities
-                                    Log.v("Button Selected: ","Approve");
+                                    Log.v("Button Selected: ","Deny");
+                                    App.sendEmail( userEmail[0],"Your Request Has Been Rejected","Dear User,\n" +
+                                            "\n" +
+                                            "Thank you for submitting your request. After careful consideration, we regret to inform you that we are unable to approve your request at this time.\n" +
+                                            "\n" +
+                                            "We understand that this may be disappointing news, but we encourage you to update latest data. Please feel free to contact us if you have any questions or would like to discuss this further.\n" +
+                                            "\n" + objEmail[0].toString()+
+                                            "\nSupport Team,\n" +
+                                            "Freebies for Newbies");
                                     Toast.makeText(UpdateItemsApproveActivity.this, "Item is rejected.", Toast.LENGTH_SHORT).show();
                                     ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("ItemsUpdateRequest");
                                     // Query parameters based on the item name

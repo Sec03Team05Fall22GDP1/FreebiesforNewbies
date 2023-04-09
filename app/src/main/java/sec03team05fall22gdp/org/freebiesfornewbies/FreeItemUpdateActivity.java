@@ -109,6 +109,7 @@ public class FreeItemUpdateActivity extends AppCompatActivity {
                 itemObj.put("updateReason", eUpdateReason.getText().toString());
                 itemObj.put("itemURL", iURLET.getText().toString());
                 itemObj.put("isAvailable", true);
+                itemObj.put("byUser",ParseUser.getCurrentUser().getEmail());
 
                 // Saving object
                 itemObj.saveInBackground(new SaveCallback() {

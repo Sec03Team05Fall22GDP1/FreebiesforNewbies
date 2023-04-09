@@ -92,6 +92,7 @@ public class CreateFreeitemActivity extends AppCompatActivity {
                 itemObject.put("itemZipcode", iZipET.getText().toString());
                 itemObject.put("itemAddressLine2", iAddLine2ET.getText().toString());
                 itemObject.put("itemDescription", iDescET.getText().toString());
+                itemObject.put("byUser",ParseUser.getCurrentUser().getEmail());
                 // Saving object
                 itemObject.saveInBackground(new SaveCallback() {
                     @Override

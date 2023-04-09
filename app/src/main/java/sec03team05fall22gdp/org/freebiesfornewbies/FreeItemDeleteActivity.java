@@ -81,6 +81,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
                 eventObject.put("DeleteItemID",fetchID);
                 eventObject.put("itemName",iNameTV.getText().toString());
                 eventObject.put("DeleteReason",iDeleteReason.getText().toString());
+                eventObject.put("byUser",ParseUser.getCurrentUser().getEmail());
                 // Saving object
                 eventObject.saveInBackground(new SaveCallback() {
                     @Override

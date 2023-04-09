@@ -79,6 +79,7 @@ public class Event_Delete_Request extends AppCompatActivity {
                 eventObject.put("DeleteEventID",fetchID);
                 eventObject.put("eventName",eNameET.getText().toString());
                 eventObject.put("DeleteReason",eDeleteReason.getText().toString());
+                eventObject.put("byUser",ParseUser.getCurrentUser().getEmail());
                 // Saving object
                 eventObject.saveInBackground(new SaveCallback() {
                     @Override

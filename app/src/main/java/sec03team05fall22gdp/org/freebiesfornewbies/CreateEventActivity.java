@@ -116,7 +116,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 eventObject.put("eventState",eStateET.getText().toString());
                 eventObject.put("eventCountry",eCountryET.getText().toString());
                 eventObject.put("eventZipcode",eZipET.getText().toString());
-
+                eventObject.put("byUser",ParseUser.getCurrentUser().getEmail());
                 String stDateTime=eStDtET.getText().toString();
                 String endDateTime=eEndDtET.getText().toString();
 

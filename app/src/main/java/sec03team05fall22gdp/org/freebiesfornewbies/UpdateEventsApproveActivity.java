@@ -262,6 +262,21 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
                     String sUpdateReason= myEModel.EventUpdateRequestsList.get(position).updateReason;
                     Log.v("Selected EventID: ",sEventId);
 
+                    final ParseObject[] objEmail = new ParseObject[1];
+                    final String[] userEmail = new String[1];
+                    ParseQuery<ParseObject> queryEmail = ParseQuery.getQuery("EventUpdateRequest");
+                    queryEmail.whereEqualTo("objectId", sEventId);
+                    queryEmail.getFirstInBackground(new GetCallback<ParseObject>() {
+                        public void done(ParseObject event, ParseException e){
+                            if (e == null) {
+                                objEmail[0] =event;
+                                userEmail[0] = event.getString("byUser");
+                            } else {
+                                Log.v("Email Back4App", e.getMessage());
+                            }
+                        }
+                    });
+
                     Toast.makeText(UpdateEventsApproveActivity.this, "Selected EventID: "+sEventId, Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(UpdateEventsApproveActivity.this)
@@ -272,6 +287,15 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                     Log.v("Button Selected: ","Approve");
+
+                                    App.sendEmail( userEmail[0],  "Your Request Has Been Approved", "Dear User,\n" +
+                                            "\n" +
+                                            "I am pleased to inform you that your request has been approved. We have carefully reviewed your request and have found it to be appropriate and relevant.\n" +
+                                            "\n" +
+                                            "If you have any questions or concerns, please do not hesitate to contact us. We are always here to assist you.\n" +
+                                            "\n " +objEmail[0].toString()+
+                                            "\nSupport Team,\n" +
+                                            "Freebies for Newbies");
 
                                     Toast.makeText(UpdateEventsApproveActivity.this, "Event is approved!", Toast.LENGTH_SHORT).show();
 
@@ -399,6 +423,16 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
                                     dialog.cancel();
                                     // don't forget to change the line below with the names of your Activities
                                     Log.v("Button Selected: ","Approve");
+
+                                    App.sendEmail( userEmail[0],"Your Request Has Been Rejected","Dear User,\n" +
+                                            "\n" +
+                                            "Thank you for submitting your request. After careful consideration, we regret to inform you that we are unable to approve your request at this time.\n" +
+                                            "\n" +
+                                            "We understand that this may be disappointing news, but we encourage you to update latest data. Please feel free to contact us if you have any questions or would like to discuss this further.\n" +
+                                            "\n" + objEmail[0].toString()+
+                                            "\nSupport Team,\n" +
+                                            "Freebies for Newbies");
+
                                     Toast.makeText(UpdateEventsApproveActivity.this, "Event is rejected.", Toast.LENGTH_SHORT).show();
                                     ParseQuery<ParseObject> queryEvents = ParseQuery.getQuery("EventUpdateRequest");
                                     // Query parameters based on the item name

@@ -117,6 +117,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_admin_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(UpdateEventsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(UpdateEventsApproveActivity.this, AdminHomeActivity.class));
@@ -142,11 +143,13 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
 //                        startActivity(new Intent(UpdateEventsApproveActivity.this, UpdateEventsApproveActivity.class));
 //                        break;
                     case R.id.admin_nav_switch_user:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(UpdateEventsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(UpdateEventsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(UpdateEventsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -179,6 +182,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(UpdateEventsApproveActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -393,6 +397,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
                                                                                 public void done(ParseException e) {
                                                                                     if (e == null) {
                                                                                         //code here
+                                                                                        handler.removeCallbacks(myRunnable);
                                                                                         Intent intent = new Intent(UpdateEventsApproveActivity.this, UpdateEventsApproveActivity.class);
                                                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                                         startActivity(intent);
@@ -447,7 +452,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
                                                         if (e == null) {
                                                             // Success
                                                             Toast.makeText(UpdateEventsApproveActivity.this, "Event Removed in database...!", Toast.LENGTH_LONG).show();
-
+                                                            handler.removeCallbacks(myRunnable);
                                                             // don't forget to change the line below with the names of your Activities
                                                             Intent intent = new Intent(UpdateEventsApproveActivity.this, UpdateEventsApproveActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -512,6 +517,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -525,6 +531,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -536,6 +543,7 @@ public class UpdateEventsApproveActivity extends AppCompatActivity {
         }
         isUserActive = false;
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
 
     }

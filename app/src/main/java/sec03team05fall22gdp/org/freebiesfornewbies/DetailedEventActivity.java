@@ -78,11 +78,13 @@ public class DetailedEventActivity extends AppCompatActivity {
         deleteBtn = findViewById(R.id.btnDetailDelete);
 
         updateBtn.setOnClickListener(v -> {
+            handler.removeCallbacks(myRunnable);
             Intent intent1 = new Intent(DetailedEventActivity.this, UpdateEventActivity.class);
             intent1.putExtra("eventID",fetchID);
             startActivity(intent1);
         });
         deleteBtn.setOnClickListener(v -> {
+            handler.removeCallbacks(myRunnable);
             Intent intent1 = new Intent(DetailedEventActivity.this, Event_Delete_Request.class);
             intent1.putExtra("eventID",fetchID);
             startActivity(intent1);
@@ -126,31 +128,37 @@ public class DetailedEventActivity extends AppCompatActivity {
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_switch_admin:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Switching to Admin...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DetailedEventActivity.this, AdminHomeActivity.class));
                         break;
                     case R.id.nav_event_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DetailedEventActivity.this, HomeActivity.class));
                         break;
                     case R.id.nav_add_event:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DetailedEventActivity.this, CreateEventActivity.class));
                         break;
                     case R.id.nav_items_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DetailedEventActivity.this, ItemHomeActivity.class));
                         break;
                     case R.id.nav_add_items:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DetailedEventActivity.this, CreateFreeitemActivity.class));
                         break;
                     case R.id.nav_logout:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DetailedEventActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -270,6 +278,7 @@ public class DetailedEventActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -283,6 +292,7 @@ public class DetailedEventActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -294,6 +304,7 @@ public class DetailedEventActivity extends AppCompatActivity {
         }
         isUserActive = false;
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
 
     }

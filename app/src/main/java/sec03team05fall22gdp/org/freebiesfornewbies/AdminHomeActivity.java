@@ -396,14 +396,6 @@ public class AdminHomeActivity extends AppCompatActivity {
             }
         }, 2 * 60 * 1000); // 2 minutes in milliseconds
     }
-    private void resetUseractivityTimer() {
-        if (handler != null) {
-            handler.removeCallbacks(myRunnable);
-        }
-        handler = new Handler();
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-    }
-
     private void logoutUserAndReturnToLogin() {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {

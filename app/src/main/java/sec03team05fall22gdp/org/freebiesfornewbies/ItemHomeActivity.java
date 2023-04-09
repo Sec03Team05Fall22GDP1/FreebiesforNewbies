@@ -85,6 +85,7 @@ public class ItemHomeActivity extends AppCompatActivity {
         //date button set up
 
         createItemBtn.setOnClickListener(v -> {
+            handler.removeCallbacks(myRunnable);
             startActivity(new Intent(ItemHomeActivity.this, CreateFreeitemActivity.class));
         });
 
@@ -136,31 +137,37 @@ public class ItemHomeActivity extends AppCompatActivity {
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_switch_admin:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Switching to Admin...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, AdminHomeActivity.class));
                         break;
                     case R.id.nav_event_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, HomeActivity.class));
                         break;
                     case R.id.nav_add_event:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, CreateEventActivity.class));
                         break;
                     case R.id.nav_items_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, ItemHomeActivity.class));
                         break;
                     case R.id.nav_add_items:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Item add is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, CreateFreeitemActivity.class));
                         break;
                     case R.id.nav_logout:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -301,6 +308,7 @@ public class ItemHomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(ItemHomeActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -322,7 +330,7 @@ public class ItemHomeActivity extends AppCompatActivity {
                     // handle single tap
                     String sItemId= freeItemModel.itemsList.get(position).itemID;
                     Log.v("Selected ItemID: ",sItemId);
-
+                    handler.removeCallbacks(myRunnable);
                     Intent intent = new Intent(ItemHomeActivity.this, FreeItemDetailedActivity.class);
                     intent.putExtra("itemID",sItemId);
                     startActivity(intent);
@@ -363,6 +371,7 @@ public class ItemHomeActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -376,6 +385,7 @@ public class ItemHomeActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -387,6 +397,7 @@ public class ItemHomeActivity extends AppCompatActivity {
         }
         isUserActive = false;
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
 
     }

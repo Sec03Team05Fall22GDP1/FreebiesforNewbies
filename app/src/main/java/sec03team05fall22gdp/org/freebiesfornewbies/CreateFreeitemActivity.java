@@ -72,6 +72,7 @@ public class CreateFreeitemActivity extends AppCompatActivity {
 
         cancelBtn.setOnClickListener( v -> {
             startActivity(new Intent(this,ItemHomeActivity.class));
+            handler.removeCallbacks(myRunnable);
         });
 
         createBtn.setOnClickListener( v -> {
@@ -127,6 +128,7 @@ public class CreateFreeitemActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(CreateFreeitemActivity.this, ItemHomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -168,6 +170,7 @@ public class CreateFreeitemActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -181,6 +184,7 @@ public class CreateFreeitemActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -192,6 +196,7 @@ public class CreateFreeitemActivity extends AppCompatActivity {
         }
         isUserActive = false;
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
 
     }

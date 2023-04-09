@@ -91,7 +91,6 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
                             // Success
                             showAlert("Request Successful!\n", "Your request is now under review");
                         } else {
-                            // Error
                             Toast.makeText(FreeItemDeleteActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
                         }
@@ -106,6 +105,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
     }
 
     private void canclemethod() {
+        handler.removeCallbacks(myRunnable);
         Intent intent1 = new Intent(FreeItemDeleteActivity.this, FreeItemDetailedActivity.class);
         intent1.putExtra("itemID",fetchID);
         startActivity(intent1);
@@ -141,6 +141,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(FreeItemDeleteActivity.this, FreeItemDetailedActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -181,6 +182,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -194,6 +196,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -205,6 +208,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
         }
         isUserActive = false;
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
 
     }

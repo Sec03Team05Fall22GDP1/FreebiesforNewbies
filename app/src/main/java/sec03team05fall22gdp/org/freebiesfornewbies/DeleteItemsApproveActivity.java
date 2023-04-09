@@ -112,16 +112,19 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_admin_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DeleteItemsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DeleteItemsApproveActivity.this, AdminHomeActivity.class));
                         break;
                     case R.id.admin_nav_switch_user:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DeleteItemsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DeleteItemsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DeleteItemsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -154,6 +157,7 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(DeleteItemsApproveActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -280,6 +284,7 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
                                                                             public void done(ParseException e) {
                                                                                 if (e == null) {
                                                                                     //code here
+                                                                                    handler.removeCallbacks(myRunnable);
                                                                                     // don't forget to change the line below with the names of your Activities
                                                                                     Intent intent = new Intent(DeleteItemsApproveActivity.this, DeleteItemsApproveActivity.class);
                                                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -330,7 +335,7 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
                                                         if (e == null) {
                                                             // Success
                                                             Toast.makeText(DeleteItemsApproveActivity.this, "Item delete request is rejected...!", Toast.LENGTH_LONG).show();
-
+                                                            handler.removeCallbacks(myRunnable);
                                                             // don't forget to change the line below with the names of your Activities
                                                             Intent intent = new Intent(DeleteItemsApproveActivity.this, DeleteItemsApproveActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -396,6 +401,7 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -409,6 +415,7 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -421,6 +428,7 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
         isUserActive = false;
 
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
 
     }

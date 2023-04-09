@@ -113,10 +113,10 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
                 int id = item.getItemId();
-
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_admin_home:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DeleteEventsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DeleteEventsApproveActivity.this, AdminHomeActivity.class));
@@ -142,11 +142,13 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
 //                        startActivity(new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class));
 //                        break;
                     case R.id.admin_nav_switch_user:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DeleteEventsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(DeleteEventsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
+                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(DeleteEventsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -179,6 +181,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(DeleteEventsApproveActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -306,6 +309,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                                                             public void done(ParseException e) {
                                                                                 if (e == null) {
                                                                                     //code here
+                                                                                    handler.removeCallbacks(myRunnable);
                                                                                     // don't forget to change the line below with the names of your Activities
                                                                                     Intent intent = new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class);
                                                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -358,6 +362,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
                                                             // Success
                                                             Toast.makeText(DeleteEventsApproveActivity.this, "Event delete request is rejected...!", Toast.LENGTH_LONG).show();
 
+                                                            handler.removeCallbacks(myRunnable);
                                                             // don't forget to change the line below with the names of your Activities
                                                             Intent intent = new Intent(DeleteEventsApproveActivity.this, DeleteEventsApproveActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -423,6 +428,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -437,6 +443,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
         }
 
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -449,6 +456,7 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
         isUserActive = false;
 
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 }

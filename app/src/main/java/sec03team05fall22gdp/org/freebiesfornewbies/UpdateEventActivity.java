@@ -105,6 +105,7 @@ public class UpdateEventActivity extends AppCompatActivity {
         fetchEvent(fetchID);
 
         cancelBtn.setOnClickListener( v -> {
+            handler.removeCallbacks(myRunnable);
             Intent intent1 = new Intent(UpdateEventActivity.this, DetailedEventActivity.class);
             intent1.putExtra("eventID",fetchID);
             startActivity(intent1);
@@ -287,6 +288,7 @@ public class UpdateEventActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(UpdateEventActivity.this, DetailedEventActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -414,6 +416,7 @@ public class UpdateEventActivity extends AppCompatActivity {
         // logging out of Parse
         ParseUser.logOutInBackground(e -> {
             if (e == null){
+                handler.removeCallbacks(myRunnable);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -427,6 +430,7 @@ public class UpdateEventActivity extends AppCompatActivity {
             resetInactivityTimer();
         }
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onResume", "inside");
     }
 
@@ -438,6 +442,7 @@ public class UpdateEventActivity extends AppCompatActivity {
         }
         isUserActive = false;
         handler.removeCallbacks(myRunnable);
+        handler.postDelayed(myRunnable, 2 * 60 * 1000);
         Log.d("onPause", "inside");
 
     }

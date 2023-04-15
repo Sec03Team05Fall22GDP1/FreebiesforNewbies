@@ -34,7 +34,7 @@
                 android:textStyle="bold"
                 android:textSize="32sp"
                 android:textColor="@color/white"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +47,7 @@
                 android:text="Event1 StartDate"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -58,7 +58,7 @@
                 android:text="Event1 EndDate"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvEvent"
                 app:layout_constraintEnd_toEndOf="parent"/>
             <TextView
@@ -68,7 +68,7 @@
                 android:text="Event1 Location"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvEvent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -79,7 +79,7 @@
                 android:text="Event1 Description"
                 android:textSize="22sp"
                 android:textColor="@color/white"
-                android:padding="5dp"
+                android:padding="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvEventLoc"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

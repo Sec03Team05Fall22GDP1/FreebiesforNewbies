@@ -37,6 +37,17 @@
     <string name="forgot_password">forgot Password</string>
     <string name="registerHint">Not Registered? Sign up here</string>
     <string name="Select">Select Country</string>
+    <string-array name ="countries">
+        <item>India</item>
+        <item>United states</item>
+        <item>China</item>
+        <item>Japan</item>
+        <item>Indonesia</item>
+        <item>Africa</item>
+        <item>Argentina</item>
+        <item>Burma</item>
+        <item>United Kingdom</item>
+    </string-array>
 
 
 

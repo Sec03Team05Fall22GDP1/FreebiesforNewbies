@@ -65,10 +65,12 @@ public class HomeActivity extends AppCompatActivity {
             // logging out of Parse
             ParseUser.logOutInBackground(e -> {
                 if (e == null){
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    moveTaskToBack(true);
+                    if (!isUserActive) {
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        moveTaskToBack(true);
+                    }
                 }
             });
             Log.d("MyApp", "Performing operation after 2 minutes in background");
@@ -209,6 +211,8 @@ public class HomeActivity extends AppCompatActivity {
         ivDateSearch = findViewById(R.id.ivDateSearch);
 
         ivNameSearch.setOnClickListener(v ->{
+            handler.removeCallbacks(myRunnable);
+            handler.postDelayed(myRunnable, 2 * 60 * 1000);
             searchNameET = findViewById(R.id.etSearchtext);
             String searchText = searchNameET.getText().toString();
             if(!searchText.matches("")){
@@ -265,6 +269,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         ivDateSearch.setOnClickListener(v ->{
+            handler.removeCallbacks(myRunnable);
+            handler.postDelayed(myRunnable, 2 * 60 * 1000);
             String searchDate = dateButton.getText().toString();
             if(!searchDate.matches("")){
                 Calendar calendar = Calendar.getInstance();

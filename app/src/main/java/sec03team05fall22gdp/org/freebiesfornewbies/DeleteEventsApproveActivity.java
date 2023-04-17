@@ -57,10 +57,12 @@ public class DeleteEventsApproveActivity extends AppCompatActivity {
             // logging out of Parse
             ParseUser.logOutInBackground(e -> {
                 if (e == null){
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    moveTaskToBack(true);
+                    if (!isUserActive) {
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        moveTaskToBack(true);
+                    }
                 }
             });
             Log.d("MyApp", "Performing operation after 2 minutes in background");

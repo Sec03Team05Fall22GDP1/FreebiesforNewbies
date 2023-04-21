@@ -119,28 +119,4 @@ public class NewBie {
         this.passWord = passWord;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (isUserActive) {
-            resetInactivityTimer();
-        }
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onResume", "inside");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (inactivityTimer != null) {
-            inactivityTimer.cancel();
-        }
-        isUserActive = false;
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onPause", "inside");
-
-    }
-
 }

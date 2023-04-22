@@ -65,6 +65,7 @@ public class FreeItemUpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_free_item_update);
         Intent intent = getIntent();
         fetchID =  intent.getStringExtra("itemID");
+        getSupportActionBar().hide();
 
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 

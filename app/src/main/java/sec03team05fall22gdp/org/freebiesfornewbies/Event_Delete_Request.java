@@ -56,6 +56,7 @@ public class Event_Delete_Request extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_delete_page);
         Intent intent = getIntent();
+        getSupportActionBar().hide();
 
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 

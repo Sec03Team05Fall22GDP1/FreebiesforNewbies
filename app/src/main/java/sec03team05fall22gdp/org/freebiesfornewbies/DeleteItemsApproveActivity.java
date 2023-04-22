@@ -70,6 +70,7 @@ public class DeleteItemsApproveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_items_approve);
         myIModel = ItemDeleteRequestModel.getSingleton();
+        getSupportActionBar().hide();
 
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 

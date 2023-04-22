@@ -156,27 +156,26 @@
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:textColor="@color/darkblue"
         android:background="@color/sblue2"
-        app:layout_constraintEnd_toStartOf="@+id/etCountry"
+        app:layout_constraintEnd_toStartOf="@id/Item_genere_spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAddressLine"/>
 
-
-
-    <EditText
-        android:id="@+id/etCountry"
+    <Spinner
+        android:id="@+id/Item_genere_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:inputType="textEmailAddress"
-        android:hint="@string/label_country"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        android:textSize="15sp"
-        android:padding="15dp"
-        android:textColor="@color/darkblue"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:background="@color/sblue2"
-        app:layout_constraintStart_toEndOf="@+id/etState"
-        app:layout_constraintEnd_toStartOf="@+id/etZipcode"
-        app:layout_constraintTop_toBottomOf="@+id/etAddressLine"/>
+        android:layout_margin="10dp"
+        android:drawablePadding="8dp"
+        android:hint="Country"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        />
+
+
+
+
 
     <EditText
         android:id="@+id/etZipcode"
@@ -190,7 +189,7 @@
         android:digits="0123456789"
         android:textColor="@color/darkblue"
         android:background="@color/sblue2"
-        app:layout_constraintStart_toEndOf="@+id/etCountry"
+        app:layout_constraintStart_toEndOf="@id/Item_genere_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAddressLine"/>
 

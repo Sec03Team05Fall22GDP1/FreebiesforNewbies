@@ -22,9 +22,11 @@ public class EventDeleteRequestAdapter extends RecyclerView.Adapter<EventDeleteR
     @NonNull
     @Override
     public RequestHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.delete_recyclerview_row,parent,false);
         return new EventDeleteRequestAdapter.RequestHolder(view);
+
     }
 
     @Override

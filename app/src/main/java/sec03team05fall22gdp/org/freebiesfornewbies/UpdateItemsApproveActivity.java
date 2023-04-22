@@ -73,6 +73,7 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_items_approve);
+        getSupportActionBar().hide();
 
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 

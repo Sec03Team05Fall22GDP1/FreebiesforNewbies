@@ -57,6 +57,7 @@ public class FreeItemDeleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_free_item_delete);
         Intent intent = getIntent();
+        getSupportActionBar().hide();
 
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 

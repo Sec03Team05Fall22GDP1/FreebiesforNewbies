@@ -30,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         progressDialog = new ProgressDialog(LoginActivity.this);
+        getSupportActionBar().hide();
+        progressDialog.setMessage("Loading...");
 
         loginUser = (EditText) findViewById(R.id.login_username);
         loginPassword = (EditText) findViewById(R.id.login_password);

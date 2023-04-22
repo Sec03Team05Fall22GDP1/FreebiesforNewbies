@@ -63,8 +63,9 @@ public class AdminHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
+        getSupportActionBar().hide();
 
-        App.sendEmail( ParseUser.getCurrentUser().getEmail(),  "Email Login Alert..!", "Dear "+ParseUser.getCurrentUser().getUsername()+",\n\t You have made a login attempt today at "+ LocalDateTime.now().toString()+".\n \tIf this is not made by you report to sec03team05fall22gdp1@gmail.com.\n- Team FreebiesforNewbies");
+        //App.sendEmail( ParseUser.getCurrentUser().getEmail(),  "Email Login Alert..!", "Dear "+ParseUser.getCurrentUser().getUsername()+",\n\t You have made a login attempt today at "+ LocalDateTime.now().toString()+".\n \tIf this is not made by you report to sec03team05fall22gdp1@gmail.com.\n- Team FreebiesforNewbies");
 
 
         adminReqModel = AdminRequestModel.getSingleton();

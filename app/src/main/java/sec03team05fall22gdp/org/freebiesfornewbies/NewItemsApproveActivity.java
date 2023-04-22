@@ -73,6 +73,7 @@ public class NewItemsApproveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_items_approve);
         progressDialog = new ProgressDialog(NewItemsApproveActivity.this);
+        getSupportActionBar().hide();
 
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 

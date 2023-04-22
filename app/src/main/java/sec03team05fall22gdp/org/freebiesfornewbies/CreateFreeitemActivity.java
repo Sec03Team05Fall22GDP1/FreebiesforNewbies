@@ -56,6 +56,7 @@ public class CreateFreeitemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_freeitem);
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
+        getSupportActionBar().hide();
 
         progressDialog = new ProgressDialog(CreateFreeitemActivity.this);
 

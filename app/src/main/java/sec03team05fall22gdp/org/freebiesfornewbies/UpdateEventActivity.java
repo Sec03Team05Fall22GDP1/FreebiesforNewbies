@@ -68,6 +68,7 @@ public class UpdateEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_event);
         Intent intent = getIntent();
         fetchID =  intent.getStringExtra("eventID");
+        getSupportActionBar().hide();
 
         handler.postDelayed(myRunnable, 2 * 60 * 1000);
 

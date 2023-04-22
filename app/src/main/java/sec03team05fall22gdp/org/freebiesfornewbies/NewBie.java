@@ -1,5 +1,7 @@
 package sec03team05fall22gdp.org.freebiesfornewbies;
 
+import android.util.Log;
+
 public class NewBie {
 
     private String firstName, lastName, eMail, phoneNumber, dateOfBirth, addressLine, cityName, stateName, countryName, zipCode;
@@ -116,4 +118,5 @@ public class NewBie {
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
+
 }

@@ -32,33 +32,12 @@ public class Event_Delete_Request extends AppCompatActivity {
     private EditText eDeleteReason;
     private ProgressDialog progressDialog;
 
-    private Handler handler = new Handler();
-    private Runnable myRunnable = new Runnable() {
-        @Override
-        public void run() {
-            // logging out of Parse
-            ParseUser.logOutInBackground(e -> {
-                if (e == null){
-                    if (!isUserActive) {
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        moveTaskToBack(true);
-                    }
-                }
-            });
-            Log.d("MyApp", "Performing operation after 2 minutes in background");
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_delete_page);
         Intent intent = getIntent();
         getSupportActionBar().hide();
-
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
 
         fetchID =  intent.getStringExtra("eventID");
         fetchEvent(fetchID);
@@ -127,7 +106,6 @@ public class Event_Delete_Request extends AppCompatActivity {
     }
 
     public void canclemethod(){
-        handler.removeCallbacks(myRunnable);
         Intent intent1 = new Intent(Event_Delete_Request.this, DetailedEventActivity.class);
         intent1.putExtra("eventID",fetchID);
         startActivity(intent1);    }
@@ -140,7 +118,6 @@ public class Event_Delete_Request extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(Event_Delete_Request.this, DetailedEventActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -152,66 +129,47 @@ public class Event_Delete_Request extends AppCompatActivity {
         ok.show();
     }
 
-    private Timer inactivityTimer;
-    private boolean isUserActive = true;
+    private static final long SESSION_TIMEOUT_DURATION = 2 * 60 * 1000; // 2 minutes
+    private Timer sessionTimer;
 
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        resetInactivityTimer();
-        isUserActive = true;
-        Log.v("onUserInteraction()","inside");
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
+        startSessionTimer();
     }
-
-    private void resetInactivityTimer() {
-        if (inactivityTimer != null) {
-            inactivityTimer.cancel();
-        }
-        inactivityTimer = new Timer();
-        inactivityTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                logoutUserAndReturnToLogin();
-            }
-        }, 2 * 60 * 1000); // 2 minutes in milliseconds
-    }
-
-    private void logoutUserAndReturnToLogin() {
-        // logging out of Parse
-        ParseUser.logOutInBackground(e -> {
-            if (e == null){
-                handler.removeCallbacks(myRunnable);
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (isUserActive) {
-            resetInactivityTimer();
-        }
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onResume", "inside");
+        startSessionTimer();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
-        if (inactivityTimer != null) {
-            inactivityTimer.cancel();
+        stopSessionTimer();
+    }
+    private void startSessionTimer() {
+        stopSessionTimer(); // stop any existing timer
+
+        sessionTimer = new Timer();
+        sessionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ParseUser.logOutInBackground(e -> {
+                    if (e == null){
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }, SESSION_TIMEOUT_DURATION);
+    }
+
+    private void stopSessionTimer() {
+        if (sessionTimer != null) {
+            sessionTimer.cancel();
+            sessionTimer = null;
         }
-        isUserActive = false;
-
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onPause", "inside");
-
     }
 }
 

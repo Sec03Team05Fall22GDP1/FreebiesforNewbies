@@ -51,24 +51,6 @@ public class ItemHomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView=null;
     private ItemAdapter adapter = null;
     private GestureDetectorCompat detector = null;
-    private Handler handler = new Handler();
-    private Runnable myRunnable = new Runnable() {
-        @Override
-        public void run() {
-            // logging out of Parse
-            ParseUser.logOutInBackground(e -> {
-                if (e == null){
-                    if (!isUserActive) {
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        moveTaskToBack(true);
-                    }
-                }
-            });
-            Log.d("MyApp", "Performing operation after 2 minutes in background");
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +58,6 @@ public class ItemHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_home);
         getSupportActionBar().hide();
 
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
 
         progressDialog = new ProgressDialog(ItemHomeActivity.this);
         getSupportActionBar().hide();
@@ -88,7 +69,6 @@ public class ItemHomeActivity extends AppCompatActivity {
         //date button set up
 
         createItemBtn.setOnClickListener(v -> {
-            handler.removeCallbacks(myRunnable);
             startActivity(new Intent(ItemHomeActivity.this, CreateFreeitemActivity.class));
         });
 
@@ -140,37 +120,31 @@ public class ItemHomeActivity extends AppCompatActivity {
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_switch_admin:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Switching to Admin...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, AdminHomeActivity.class));
                         break;
                     case R.id.nav_event_home:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Event Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, HomeActivity.class));
                         break;
                     case R.id.nav_add_event:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Add Event is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, CreateEventActivity.class));
                         break;
                     case R.id.nav_items_home:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Items Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, ItemHomeActivity.class));
                         break;
                     case R.id.nav_add_items:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Item add is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(ItemHomeActivity.this, CreateFreeitemActivity.class));
                         break;
                     case R.id.nav_logout:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(ItemHomeActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -311,7 +285,6 @@ public class ItemHomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(ItemHomeActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -333,7 +306,6 @@ public class ItemHomeActivity extends AppCompatActivity {
                     // handle single tap
                     String sItemId= freeItemModel.itemsList.get(position).itemID;
                     Log.v("Selected ItemID: ",sItemId);
-                    handler.removeCallbacks(myRunnable);
                     Intent intent = new Intent(ItemHomeActivity.this, FreeItemDetailedActivity.class);
                     intent.putExtra("itemID",sItemId);
                     startActivity(intent);
@@ -344,64 +316,46 @@ public class ItemHomeActivity extends AppCompatActivity {
         }
     }
 
-    private Timer inactivityTimer;
-    private boolean isUserActive = true;
+    private static final long SESSION_TIMEOUT_DURATION = 2 * 60 * 1000; // 2 minutes
+    private Timer sessionTimer;
 
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        resetInactivityTimer();
-        isUserActive = true;
-        Log.v("onUserInteraction()","inside");
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
+        startSessionTimer();
     }
-
-    private void resetInactivityTimer() {
-        if (inactivityTimer != null) {
-            inactivityTimer.cancel();
-        }
-        inactivityTimer = new Timer();
-        inactivityTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                logoutUserAndReturnToLogin();
-            }
-        }, 2 * 60 * 1000); // 2 minutes in milliseconds
-    }
-
-    private void logoutUserAndReturnToLogin() {
-        // logging out of Parse
-        ParseUser.logOutInBackground(e -> {
-            if (e == null){
-                handler.removeCallbacks(myRunnable);
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (isUserActive) {
-            resetInactivityTimer();
-        }
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onResume", "inside");
+        startSessionTimer();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
-        if (inactivityTimer != null) {
-            inactivityTimer.cancel();
-        }
-        isUserActive = false;
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onPause", "inside");
+        stopSessionTimer();
+    }
+    private void startSessionTimer() {
+        stopSessionTimer(); // stop any existing timer
 
+        sessionTimer = new Timer();
+        sessionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ParseUser.logOutInBackground(e -> {
+                    if (e == null){
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }, SESSION_TIMEOUT_DURATION);
+    }
+
+    private void stopSessionTimer() {
+        if (sessionTimer != null) {
+            sessionTimer.cancel();
+            sessionTimer = null;
+        }
     }
 }

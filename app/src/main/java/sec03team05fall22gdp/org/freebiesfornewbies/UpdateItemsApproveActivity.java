@@ -50,32 +50,11 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
     private ItemUpdateRequestAdapter adapter = null;
     private GestureDetectorCompat detector = null;
 
-    private Handler handler = new Handler();
-    private Runnable myRunnable = new Runnable() {
-        @Override
-        public void run() {
-            // logging out of Parse
-            ParseUser.logOutInBackground(e -> {
-                if (e == null){
-                    if (!isUserActive) {
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        moveTaskToBack(true);
-                    }
-                }
-            });
-            Log.d("MyApp", "Performing operation after 2 minutes in background");
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_items_approve);
         getSupportActionBar().hide();
-
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
 
         myIModel = ItemUpdateRequestModel.getSingleton();
 
@@ -120,19 +99,16 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                 Log.v("Inside:","onNavigationItemSelected");
                 switch (id){
                     case R.id.nav_admin_home:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(UpdateItemsApproveActivity.this, "Admin Home is Clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(UpdateItemsApproveActivity.this, AdminHomeActivity.class));
                         break;
                     case R.id.admin_nav_switch_user:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(UpdateItemsApproveActivity.this, "Switching to user...", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(UpdateItemsApproveActivity.this, HomeActivity.class));
                         break;
                     case R.id.admin_nav_logout:
-                        handler.removeCallbacks(myRunnable);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         Toast.makeText(UpdateItemsApproveActivity.this, "Logout is Clicked", Toast.LENGTH_SHORT).show();
                         progressDialog.show();
@@ -165,7 +141,6 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        handler.removeCallbacks(myRunnable);
                         // don't forget to change the line below with the names of your Activities
                         Intent intent = new Intent(UpdateItemsApproveActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -318,7 +293,6 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                                                                                 public void done(ParseException e) {
                                                                                     if (e == null) {
                                                                                         //code here
-                                                                                        handler.removeCallbacks(myRunnable);
                                                                                         Intent intent = new Intent(UpdateItemsApproveActivity.this, UpdateItemsApproveActivity.class);
                                                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                                         startActivity(intent);
@@ -371,7 +345,6 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
                                                         if (e == null) {
                                                             // Success
                                                             Toast.makeText(UpdateItemsApproveActivity.this, "Item Removed in database...!", Toast.LENGTH_LONG).show();
-                                                            handler.removeCallbacks(myRunnable);
                                                             // don't forget to change the line below with the names of your Activities
                                                             Intent intent = new Intent(UpdateItemsApproveActivity.this, UpdateItemsApproveActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -406,65 +379,47 @@ public class UpdateItemsApproveActivity extends AppCompatActivity {
             return false;
         }
     }
-    private Timer inactivityTimer;
-    private boolean isUserActive = true;
+    private static final long SESSION_TIMEOUT_DURATION = 2 * 60 * 1000; // 2 minutes
+    private Timer sessionTimer;
 
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        resetInactivityTimer();
-        isUserActive = true;
-        Log.v("onUserInteraction()","inside");
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
+        startSessionTimer();
     }
-
-    private void resetInactivityTimer() {
-        if (inactivityTimer != null) {
-            inactivityTimer.cancel();
-        }
-        inactivityTimer = new Timer();
-        inactivityTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                logoutUserAndReturnToLogin();
-            }
-        }, 2 * 60 * 1000); // 2 minutes in milliseconds
-    }
-
-    private void logoutUserAndReturnToLogin() {
-        // logging out of Parse
-        ParseUser.logOutInBackground(e -> {
-            if (e == null){
-                handler.removeCallbacks(myRunnable);
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (isUserActive) {
-            resetInactivityTimer();
-        }
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onResume", "inside");
+        startSessionTimer();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
-        if (inactivityTimer != null) {
-            inactivityTimer.cancel();
-        }
-        isUserActive = false;
-        handler.removeCallbacks(myRunnable);
-        handler.postDelayed(myRunnable, 2 * 60 * 1000);
-        Log.d("onPause", "inside");
+        stopSessionTimer();
+    }
+    private void startSessionTimer() {
+        stopSessionTimer(); // stop any existing timer
 
+        sessionTimer = new Timer();
+        sessionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ParseUser.logOutInBackground(e -> {
+                    if (e == null){
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }, SESSION_TIMEOUT_DURATION);
+    }
+
+    private void stopSessionTimer() {
+        if (sessionTimer != null) {
+            sessionTimer.cancel();
+            sessionTimer = null;
+        }
     }
 
 }
